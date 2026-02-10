@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-media-base="">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Founder + Creative Director | Maison Magnolia</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main site CSS -->
+  <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+
+<body class="frannie-page">
+
+  <!-- NAVBAR (REUSED, REQUIRED) -->
+  <header id="siteHeader">
+<nav class="nav">
+  <a href="../?skipIntro=1#introduction" data-label="Intro">Intro</a>
+  <a href="../?skipIntro=1#gallery" data-label="Explore">Explore</a>
+  <a href="../?skipIntro=1#about" data-label="About">About</a>
+  <a href="../?skipIntro=1#projects" data-label="Collaborations">Collaborations</a>
+  <a href="../?skipIntro=1#team" data-label="Experts">Experts</a>
+        <a class="igFixed"
+   href="https://www.instagram.com/maisonmagnoliagroup/?hl=en"
+   target="_blank"
+   rel="noopener"
+   aria-label="Instagram">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm9 2h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4Zm-4.5 4.2A3.8 3.8 0 1 1 8.2 12 3.81 3.81 0 0 1 12 8.2Zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2ZM17.7 6.6a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9Z"/>
+  </svg>
+</a>
+
+</nav>
+  </header>
+
+  <!-- BIO LAYOUT -->
+  <main class="frannie-bio">
+
+    <!-- LEFT: TEXT (NO SCROLL, FULLY VISIBLE) -->
+    <section class="frannie-bio-text">
+
+      <div class="frannie-role">
+        Founder + Creative Director
+      </div>
+
+      <div class="frannie-copy">
+        <p>Frannie Petok is the founder of Maison Magnolia, a creative house born from a simple but urgent realization: the luxury industry needed to learn how to speak social — fluently, natively, and with cultural relevance.</p>
+
+        <p>In today’s landscape, social media is not a channel, it is a language. And Frannie speaks it.</p>
+
+        <p>Born and raised in Los Angeles and now based in Paris, Frannie operates at the intersection of American cultural instinct and European luxury heritage. Her career has been built inside the world’s most rarefied brands, where she has helped translate legacy houses into modern, social-first storytellers without sacrificing their DNA.</p>
+
+        <p>She has worked across fashion, jewelry, hospitality, and lifestyle with brands including Prada, LVMH, TUMI, Pandora Jewelry, Breitling, and others.</p>
+
+        <p>Frannie is known for her ability to see brands the way audiences see them and rebuild their digital presence accordingly, blending creative direction with strategic clarity.</p>
+
+        <p>Her work focuses on social-first brand strategy, campaign ideation, luxury storytelling, and building content ecosystems that feel aspirational, modern, and culturally fluent.</p>
+
+        <p>Through Maison Magnolia, Frannie develops bespoke creative systems that build desire, relevance, and long-term brand equity.</p>
+
+        <p>When she’s not shaping digital narratives for global brands, she is focused on the future of media, taste-making, and how luxury must evolve in a culture-first world.</p>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: PHONE (DUPLICATED FORMAT) -->
+<section class="frannie-bio-media">
+
+  <div class="frannie-phone video-container" id="franniePhone">
+    <a class="slide" href="../#projects" aria-label="Back to Collaborations">
+      <video autoplay muted playsinline loop preload="metadata">
+        <!-- Replace this src with your FIRST collaborations media URL when ready -->
+<source src="../assets/media/videos/client01.mp4" type="video/mp4">
+      </video>
+
+      <div class="overlay" aria-hidden="true">
+        <div class="overlay-title"></div>
+        <div class="overlay-meta"></div>
+      </div>
+    </a>
+
+    <!-- SVG overlay gets injected here -->
+    <div class="phoneFrameOverlay" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    (function injectFranniePhoneOverlay(){
+      const container = document.getElementById("franniePhone");
+      if (!container) return;
+
+      const overlay = container.querySelector(".phoneFrameOverlay");
+      if (!overlay) return;
+
+      const SVG_URL = "../assets/media/phone-frame.svg";
+
+      fetch(SVG_URL)
+        .then(r => r.text())
+        .then(svg => { overlay.innerHTML = svg; })
+        .catch(() => {});
+    })();
+  </script>
+
+  <script src="assets/js/mm-media.js" defer></script>
+<script src="assets/js/main.js"></script>
+
+
+</section>
+
+  </main>
+
+</body>
+</html>

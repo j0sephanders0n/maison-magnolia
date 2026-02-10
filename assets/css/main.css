@@ -1,0 +1,2666 @@
+:root{
+  --bg: #ffffff;
+  --text: rgba(10,10,10,.92);
+  --accent: #e864ba;
+  --home-color: #19a84b;
+
+  --pad: 40px;
+
+  /* Logo */
+  --logo-size: 80px;
+  --logo-track: 0.12em;
+  --logo-weight: 800;
+
+  /* Nav */
+  --nav-size: 16px;
+
+  /* 3D feel */
+  --perspective: 900px;
+
+  /* Explore grid */
+  --grid-gap: 14px;
+
+  /* Projects phone */
+  --phone-w: 320px;
+  --phone-h: 568px;
+}
+
+*{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  overflow-y: hidden; /* unlocked after intro finishes */
+  font-family: "Montserrat", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Prevent any flash before JS decides whether to play intro */
+body.preload #logoBtn,
+body.preload #siteHeader{
+  opacity: 0 !important;
+}
+
+/* PAGE GRID */
+#page{
+  display: grid;
+  grid-template-rows: 100vh auto auto auto auto auto auto;
+}
+
+/* Landing spacer */
+#landing{ grid-row: 1; }
+
+/* LOGO BUTTON */
+#logoBtn{
+  position: fixed;
+  left: var(--pad);
+  bottom: var(--pad);
+  z-index: 10;
+  text-decoration: none;
+  color: var(--text);
+  will-change: transform;
+}
+
+/* Logo text */
+.logoText{
+  display: inline-block;
+  white-space: nowrap;
+  font-size: var(--logo-size);
+  font-weight: var(--logo-weight);
+  letter-spacing: var(--logo-track);
+  line-height: 1;
+
+  perspective: var(--perspective);
+  transform-style: preserve-3d;
+
+  transition: color 700ms ease;
+}
+
+/* Logo stays solid green once home */
+#logoBtn.is-home .logoText{ color: var(--home-color); }
+
+.char{
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: pre;
+  overflow: hidden;
+  will-change: width, opacity, transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform-origin: 50% 50%;
+}
+
+/* =========================
+   NAV (CENTERED + STICKY + DIFFERENCE)
+   ========================= */
+
+#siteHeader{
+  grid-row: 1;
+  align-self: center;
+
+  position: sticky;
+  top: 18px;
+  z-index: 5;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  mix-blend-mode: difference;
+  isolation: isolate;
+}
+
+
+
+.nav{
+  display: flex;
+  gap: 28px;
+  font-size: var(--nav-size);
+  font-weight: 400;
+}
+
+.nav a{
+  display: inline-block;
+  color: #ffffff;      /* base for blend-mode */
+  text-decoration: none;
+  opacity: 0.92;
+
+  font-weight: 400;
+  transition: opacity 140ms ease;
+
+  min-width: 0;
+}
+
+/* Invisible bold clone reserves width */
+.nav a::after{
+  content: attr(data-label);
+  font-weight: 800;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: block;
+}
+
+/* Hover becomes bold but does not move neighbors */
+.nav a:hover{
+  font-weight: 800;
+  opacity: 1;
+}
+
+/* Active section = GREEN */
+.nav a.is-active{
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* =========================
+   INTRODUCTION
+   ========================= */
+
+#introduction{
+  grid-row: 2;
+
+  padding-top: 110px;
+  padding-bottom: 130px;
+
+  scroll-margin-top: 60px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.intro-wrap{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+}
+
+/* Keep your existing centered content in the middle column */
+#introduction .intro-wrap{
+  grid-column: 2;
+}
+
+/* Right-side sticky title that scrolls away when section ends */
+#introduction .section-side-title{
+  grid-column: 3;
+  justify-self: end;
+
+  position: sticky;
+  top: 50vh;
+  transform: translateY(-50%);
+
+  margin-right: var(--pad);
+
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  font-weight: 800;
+
+  /* informational only */
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.intro-title{
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.intro-copy{
+  width: min(840px, 100%);
+  margin: 0 auto;          /* centers the block itself */
+  text-align: center;      /* centers the text inside */
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+
+.intro-copy p{ margin: 0 0 14px 0; }
+/* Intro: green highlight words (informational only, no hover, no click) */
+.intro-copy .intro-highlight{
+  color: var(--home-color);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+
+/* =========================
+   EXPLORE (9 tiles, vertical 5x7)
+   ========================= */
+
+#gallery{
+  grid-row: 3;
+
+  padding-top: 20px;
+  padding-bottom: 80px;
+
+  scroll-margin-top: 40px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.grid{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+.tile{
+  width: 100%;
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+
+  aspect-ratio: 5 / 7;
+  transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.tile:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.16);
+}
+
+/* =========================
+   ABOUT (INTEGRATED)
+   ========================= */
+
+#about{
+  grid-row: 4;
+
+  padding-top: 140px;
+  padding-bottom: 320px; /* BIG GAP before Projects (safe) */
+
+  scroll-margin-top: 60px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.about-wrap{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+}
+
+.three-col{
+  width: min(980px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 68px;
+}
+
+.col-title{
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.col p{
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.bottom-statement{
+  width: min(820px, 100%);
+  margin: 130px auto 0;
+  text-align: center;
+}
+
+.statement-line{
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.statement-line strong{ font-weight: 800; }
+
+/* =========================
+   PROJECTS (SCOPED)
+   ========================= */
+
+/* keep your good landing behavior */
+#projects{
+  grid-row: 5;
+
+  scroll-margin-top: calc((100vh - var(--phone-h)) / 2);
+  padding-top: 0;
+  padding-bottom: 160px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.projects-wrap{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+  padding-top: 0;
+  margin-bottom: -80px; 
+}
+
+#projects{ padding-bottom: 0px; }
+
+.projects-layout{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 34px;
+  align-items: start;
+}
+
+/* Sticky phone column (sticks ONLY within #projects) */
+#projects .projects-left{
+  position: sticky;
+  top: 0;
+  height: 75vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
+/* Phone container */
+#projects .video-container{
+  width: var(--phone-w);
+  height: var(--phone-h);
+  background: #ffffff;
+  /* border-radius: 15px; */
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  --slide-h: var(--phone-h);
+}
+
+#projects .video-track{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  transform: translateY(0);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Phone SVG overlay (no layout changes) */
+#projects .video-container{
+  position: relative; /* needed so overlay can absolute-position */
+}
+
+/* --- SCREEN WINDOW (clip the video so it can't bleed under the bezel) --- */
+#projects .video-container{
+  --screen-top: 22px;
+  --screen-right: 26px;
+  --screen-bottom: 22px;
+  --screen-left: 26px;
+  --screen-radius: 38px;
+}
+
+/* clip the moving video stack */
+
+
+#projects .phoneFrameOverlay{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 999;
+  display: block;
+}
+
+/* ensures SVG scales perfectly inside container */
+#projects .phoneFrameOverlay svg{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Force SVG to fully cover the container */
+#projects .phoneFrameOverlay svg{
+  width: 395%;
+  height: 395%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  pointer-events: none;
+}
+
+#projects .phoneFrameOverlay svg{
+  backface-visibility: hidden;
+  transform: translate(-50%, -50%) translateZ(0);
+}
+
+#projects .phoneFrameOverlay{
+  overflow: visible;
+}
+
+@media (max-width: 900px){
+  #projects .phoneFrameOverlay{
+    display: none;
+  }
+}
+
+
+
+
+
+/* Each slide exactly one phone screen tall */
+#projects .slide{
+  position: relative;
+  width: 100%;
+  height: var(--slide-h);
+  flex: 0 0 var(--slide-h);
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+#projects .slide video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay pinned to bottom */
+#projects .overlay{
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  pointer-events: none;
+}
+
+#projects .overlay::before{
+  content: "";
+  position: absolute;
+  left: -18px;
+  right: -18px;
+  bottom: -18px;
+  height: 160px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  z-index: 0;
+}
+
+#projects .overlay-title,
+#projects .overlay-meta{
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+}
+
+/* Right list column */
+#projects .projects-right{
+  display: block;
+}
+
+#projects .client-list{
+  width: var(--phone-w);
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+
+  transform: translateY( -15px);
+}
+
+#projects .projects-left{
+  top: 80px;
+}
+
+
+#projects .client{
+  font-size: 16px;     /* smaller text */
+  line-height: 1.35;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+#projects .client:hover{ transform: scale(1.06); }
+#projects .client.is-active{ transform: scale(1.06); }
+
+
+/* =========================
+   CLIENT LIST — SPACING + SCALE + HOVER COLOR
+   ========================= */
+
+
+#projects .client{
+  font-size: 22px;           /* larger type */
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  font-weight: 800;
+
+  color: rgba(10,10,10,.88);
+  transition:
+    transform 0.18s ease,
+    color 0.18s ease,
+    letter-spacing 0.18s ease;
+}
+
+/* Hover state */
+#projects .client:hover{
+  color: var(--home-color);  /* your green */
+  letter-spacing: 0.06em;
+  transform: scale(1.08);
+}
+
+/* Active (synced to phone) */
+#projects .client.is-active{
+  color: var(--home-color);
+  letter-spacing: 0.06em;
+  transform: scale(1.08);
+}
+
+/* =========================
+   TEAM (INTEGRATED)
+   ========================= */
+
+#team{
+  grid-row: 6;
+
+  padding-top: 280px;     /* keep the top breathing room */
+  padding-bottom: 0px;  /* MUCH tighter so contact bar appears sooner */
+
+  scroll-margin-top: -100px;
+
+  display: flex;
+  justify-content: center;
+}
+
+
+.team-wrap{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+}
+
+.bio{
+  width: min(860px, 100%);
+  margin: 0 auto;
+}
+
+.bio-name{
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  margin-bottom: 18px;
+}
+
+.bio-copy{
+  font-size: 12px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  color: rgba(10,10,10,.78);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 980px){
+  .three-col{
+    width: min(760px, 100%);
+    gap: 46px;
+  }
+}
+
+@media (max-width: 900px){
+  :root{
+    --pad: 22px;
+    --nav-size: 15px;
+    --grid-gap: 12px;
+  }
+
+  #introduction{
+    padding-top: 92px;
+    padding-bottom: 110px;
+  }
+
+  .grid{
+    width: min(760px, calc(100% - (var(--pad) * 2)));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #about{
+    padding-top: 120px;
+    padding-bottom: 240px;
+  }
+
+  #projects{
+    padding-bottom: 140px;
+  }
+
+  .projects-layout{
+    grid-template-columns: 1fr;
+    row-gap: 48px;
+  }
+
+  #projects .projects-left{
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 0;
+  }
+
+  #projects .projects-right{
+    min-height: auto;
+  }
+
+}
+
+
+@media (max-width: 820px){
+  .three-col{
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .bottom-statement{
+    margin-top: 80px;
+    text-align: left;
+  }
+
+  .statement-line{ font-size: 16px; }
+}
+
+@media (max-width: 520px){
+  :root{
+    --pad: 18px;
+    --logo-size: clamp(28px, 7.2vw, 44px);
+    --logo-track: 0.10em;
+    --nav-size: 14px;
+    --grid-gap: 10px;
+
+    --phone-w: 300px;
+    --phone-h: 532px;
+  }
+
+  .nav{ gap: 20px; }
+
+  .grid{
+    width: min(420px, calc(100% - (var(--pad) * 2)));
+    grid-template-columns: 1fr;
+  }
+
+  #projects .client{
+    font-size: 15px;
+  }
+}
+
+/* --- PHONE SCREEN WINDOW (tune these to match your SVG opening) --- */
+#projects .video-container{
+  --screen-top: 22px;
+  --screen-right: 26px;
+  --screen-bottom: 22px;
+  --screen-left: 26px;
+
+  --screen-radius: 38px;  /* roundness of the screen opening */
+}
+
+/* Clip ONLY the video to the screen opening */
+#projects .slide video{
+  /* keep your existing absolute inset */
+  inset: var(--screen-top) var(--screen-right) var(--screen-bottom) var(--screen-left);
+  width: calc(100% - (var(--screen-left) + var(--screen-right)));
+  height: calc(100% - (var(--screen-top) + var(--screen-bottom)));
+  /* border-radius: var(--screen-radius); */
+  overflow: hidden;
+  object-fit: cover;
+}
+
+/* Make sure the slide itself doesn't clip the overlay */
+/* Keep each slide clipped (prevents “original div flash” during switch) */
+#projects .slide{
+  overflow: hidden;
+}
+
+/* Make sure overlays always render above video */
+#projects .overlay{
+  z-index: 30;
+}
+
+/* Force the whole phone stack to composite consistently */
+#projects .video-container{
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+#projects .video-track{
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Keep overlay inside the screen area (so it looks "in the phone") */
+#projects .overlay{
+  left: calc(var(--screen-left) + 14px);
+  right: calc(var(--screen-right) + 14px);
+  bottom: calc(var(--screen-bottom) + 14px);
+}
+
+/* Optional: keep the gradient from bleeding outside the screen */
+#projects .overlay::before{
+  left: calc(-1 * (var(--screen-left) + 14px));
+  right: calc(-1 * (var(--screen-right) + 14px));
+  bottom: calc(-1 * (var(--screen-bottom) + 14px));
+}
+
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  body{ overflow-y: auto; }
+  #siteHeader{ opacity: 1; pointer-events: auto; }
+}
+
+/* =========================================
+   RIGHT-SIDE STICKY SECTION TITLE (global)
+   - visibility controlled by existing active-section logic in JS
+   ========================================= */
+.sideTitle{
+  position: fixed;
+/* center within the right "gutter" (halfway between content edge and viewport edge) */
+right: calc(
+  var(--pad) +
+  (
+    (100vw - min(1100px, calc(100% - (var(--pad) * 2)))) / 4
+  )
+);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  font-weight: 800;
+  color: var(--text);
+
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+
+  transition: opacity 160ms ease;
+
+  /* Anchor to the content's right edge, then push into the right margin */
+left: calc(
+  50% + (min(1100px, calc(100% - (var(--pad) * 2))) / 2) + 24px
+);
+right: auto;
+
+/* Keep it from spilling into content on narrower viewports */
+max-width: min(220px, calc((100vw - min(1100px, calc(100% - (var(--pad) * 2)))) / 2 - 24px));
+text-align: center;
+
+}
+
+@media (max-width: 900px){
+  .sideTitle{
+    left: auto;
+    right: var(--pad);
+    max-width: 200px;
+    text-align: right; /* optional: tighter on small screens */
+  }
+}
+
+
+.sideTitle.is-visible{
+  opacity: 1;
+}
+
+/* Side title text animation (swap: old goes up/out, new comes from below) */
+.sideTitle .sideTitleText{
+  display: inline-block;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+  will-change: transform, opacity;
+}
+
+/* animate old word up and out */
+.sideTitle.is-exiting .sideTitleText{
+  transform: translateY(-28px);
+  opacity: 0;
+}
+
+/* start position for new word (below) */
+.sideTitle.is-enter-prep .sideTitleText{
+  transform: translateY(28px);
+  opacity: 0;
+    transition: none;
+}
+
+/* animate new word into place */
+.sideTitle.is-entering .sideTitleText{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+/* Hide scrollbars */
+::-webkit-scrollbar{ width: 0px; height: 0px; }
+*{ scrollbar-width: none; }
+
+.char{
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+.teamcredits{
+  max-width: 1100px;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+/* Main paragraph block */
+.teamcreditLine{
+  font-size: clamp(20px, 2.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Small role labels */
+.teamrole{
+  font-size: 0.55em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+/* Names stand out */
+.teamname{
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Mobile tuning */
+@media (max-width: 640px){
+  .teamcreditLine{
+    font-size: 18px;
+    line-height: 1.25;
+  }
+}
+
+/* =========================
+   TEAM (INTEGRATED)
+   ========================= */
+
+#team{
+  grid-row: 7;
+  padding-top: 320px;
+  padding-bottom: 320px;
+
+  /* leave this if you liked how it triggers */
+  scroll-margin-top: -100px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.team-wrap{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+}
+
+.bio{
+  width: min(860px, 100%);
+  margin: 0 auto;
+}
+
+.bio-name{
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  margin-bottom: 18px;
+}
+
+.bio-copy{
+  font-size: 12px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  color: rgba(10,10,10,.78);
+}
+
+
+#team{
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+#team .team-wrap{
+  width: min(1100px, 92vw);
+  padding: 40px 24px;
+  text-align: center;
+}
+
+#team .team-credits{
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: clamp(18px, 2.2vw, 32px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #000;
+}
+
+#team .team-credits .role{
+  font-size: 0.55em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 4px;
+  color: #000;
+  opacity: 1;
+}
+
+#team .team-credits .name{
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #000;
+}
+
+@media (max-width: 640px){
+  #team .team-credits{
+    font-size: 18px;
+    line-height: 1.25;
+  }
+}
+
+/* =========================
+   EXPERTS LIST
+   ========================= */
+
+.experts-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: center;
+}
+
+.expert{
+  text-align: center;
+  font-size: clamp(18px, 2.2vw, 28px);
+  line-height: 1.15;
+}
+
+.expert-name{
+  display: block;
+  font-weight: 800;
+}
+
+.expert-meta{
+  display: block;
+  margin-top: 6px;
+
+  font-size: 0.55em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: rgba(10,10,10,.7);
+}
+
+.expert-meta a{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Frannie special */
+.expert-featured .expert-link{
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.expert-name-accent{
+  color: var(--home-color);
+}
+
+/* Hover (Frannie only) */
+.expert-featured .expert-link:hover{
+  opacity: 0.85;
+}
+
+
+/* --- SCREEN WINDOW (match SVG opening) --- */
+#projects .video-container{
+  --screen-top: 22px;
+  --screen-right: 26px;
+  --screen-bottom: 22px;
+  --screen-left: 26px;
+  --screen-radius: 38px;
+}
+
+/* Clip ONLY the video */
+#projects .slide video{
+  position: absolute;
+
+  top: var(--screen-top);
+  left: var(--screen-left);
+  right: var(--screen-right);
+  bottom: var(--screen-bottom);
+
+  width: auto;
+  height: auto;
+
+  border-radius: var(--screen-radius);
+  /* overflow: hidden; */
+  object-fit: cover;
+}
+
+/* Overlay stays inside the “screen safe area” */
+#projects .overlay{
+  left: calc(var(--screen-left) + 14px);
+  right: calc(var(--screen-right) + 14px);
+  bottom: calc(var(--screen-bottom) + 14px);
+}
+
+/* Gradient should only live inside the screen too (no weird bleed) */
+#projects .overlay::before{
+  left: calc(-1 * (14px));
+  right: calc(-1 * (14px));
+  bottom: calc(-1 * (14px));
+  top:  (14px);
+
+  /* border-radius: calc(var(--screen-radius) - 6px); */
+}
+
+
+/* =========================================================
+   PHONE SCREEN MASK + TEXT SAFE AREA (stable)
+   ========================================================= */
+
+/* 1) Define the screen window once */
+#projects .video-container{
+  position: relative;
+
+  /* TUNE THESE to match your SVG screen opening */
+  --screen-top: 7px;
+  --screen-right: 26px;
+  --screen-bottom: 7px;
+  --screen-left: 26px;
+
+  --screen-radius: 38px;
+  --screen-safe: 14px; /* padding inside screen for text */
+}
+
+/* 2) Ensure slides are stable (prevents flash) */
+#projects .slide{
+  position: relative;
+  overflow: hidden;
+}
+
+/* 3) Clip ONLY the video using inset + radius */
+#projects .slide video{
+  position: absolute;
+  top: var(--screen-top);
+  right: var(--screen-right);
+  bottom: var(--screen-bottom);
+  left: var(--screen-left);
+
+  width: calc(100% - (var(--screen-left) + var(--screen-right)));
+  height: calc(100% - (var(--screen-top) + var(--screen-bottom)));
+
+  /* border-radius: var(--screen-radius); */
+  object-fit: cover;
+  display: block;
+}
+
+/* 4) Put overlay text INSIDE the screen window (not clipped by the video mask) */
+#projects .overlay{
+  position: absolute;
+  left: calc(var(--screen-left) + var(--screen-safe));
+  right: calc(var(--screen-right) + var(--screen-safe));
+  bottom: calc(var(--screen-bottom) + var(--screen-safe));
+  z-index: 20;              /* above video */
+  pointer-events: none;
+}
+
+/* Gradient only behind text (inside screen area) */
+#projects .overlay::before{
+  content: "";
+  position: absolute;
+
+  left: calc(-1 * var(--screen-safe));
+  right: calc(-1 * var(--screen-safe));
+  bottom: calc(-1 * var(--screen-safe));
+
+  height: 160px;
+  /* border-radius: calc(var(--screen-radius) - 6px); */
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  z-index: 0;
+}
+
+#projects .overlay-title,
+#projects .overlay-meta{
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+/* 5) Keep SVG bezel ALWAYS on top */
+#projects .phoneFrameOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* if you're scaling the SVG huge, keep it centered */
+#projects .phoneFrameOverlay svg{
+  width: 395%;
+  height: 395%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(0);
+  display: block;
+  pointer-events: none;
+}
+
+/* 6) Stability / no flash during translateY */
+#projects .video-container,
+#projects .video-track{
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* =========================================================
+   FIX: REMOVE WHITE FLASH BETWEEN SLIDES
+   ========================================================= */
+
+/* The “phone body” behind the screen window */
+#projects .video-container{
+  background: #000 !important; /* was #fff */
+}
+
+/* The moving stack itself */
+#projects .video-track{
+  background: #000;
+}
+
+/* Each slide also black as a fallback */
+#projects .slide{
+  background: #000;
+}
+
+/* =========================================================
+   OVERLAY TEXT FADE DURING SLIDE TRANSITION
+   ========================================================= */
+
+/* Default: hide overlay */
+#projects .slide .overlay{
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
+/* Only the active slide shows text */
+#projects .slide.is-active .overlay{
+  opacity: 1;
+}
+
+/* =========================
+   BOTTOM CONTACT BAR (UPDATED)
+   ========================= */
+
+.contactBar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: #000;
+  color: #fff;
+
+  /* behind logo (logo is z-index: 10) */
+  z-index: 9;
+
+  /* taller: frames the home logo nicely */
+  min-height: clamp(150px, 22vh, 240px);
+
+  display: flex;
+  align-items: center;
+
+  padding: 28px var(--pad);
+
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+}
+
+.contactBar.is-visible{
+  transform: translateY(0%);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contactBar-inner{
+  width: min(1100px, calc(100% - (var(--pad) * 2)));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  column-gap: 34px;
+}
+
+/* LEFT */
+.contactBig{
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+
+  /* big + bold */
+  font-size: clamp(22px, 2.6vw, 36px);
+}
+
+.contactLabel{
+  font-weight: 800;
+}
+
+.contactEmail{
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(255,255,255,0.35);
+  padding-bottom: 2px;
+}
+
+.contactEmail:hover{
+  border-bottom-color: rgba(255,255,255,0.85);
+}
+
+/* RIGHT */
+.contactRight{
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.65;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  opacity: 0.92;
+}
+
+.addrTitle{
+  font-weight: 800;
+  opacity: 1;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 700px){
+  .contactBar-inner{
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+  .contactRight{
+    text-align: left;
+  }
+}
+/* =========================================================
+   CONTACT BAR – TYPOGRAPHY REFINEMENT
+   ========================================================= */
+
+/* Smaller, more editorial scale */
+.contactBig{
+  font-size: clamp(14px, 1.6vw, 20px);
+  letter-spacing: 0.12em;
+  gap: 18px;
+}
+
+/* Remove underline entirely */
+.contactEmail{
+  border-bottom: none !important;
+  padding-bottom: 0;
+}
+
+/* Optional: slightly softer hover instead of underline */
+/* .contactEmail:hover{
+  opacity: 0.7;
+} */
+
+/* =========================================================
+   CONTACT BAR – INTERACTION + POSITION TUNING
+   ========================================================= */
+
+/* Make the whole contact block behave like a button */
+.contactBig{
+  display: inline-flex;
+  align-items: baseline;
+  gap: 18px;
+
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+
+  /* push it toward center (away from logo) */
+  margin-left: clamp(120px, 14vw, 220px);
+}
+
+/* Green hover for both label + email */
+.contactBig:hover{
+  color: var(--home-color);
+}
+
+/* Keep typography tight + clean */
+.contactLabel{
+  text-transform: lowercase;
+}
+
+/* Kill any inherited underline just in case */
+.contactBig,
+.contactBig *{
+  text-decoration: none !important;
+}
+
+.intro-cta{
+  margin-top: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.intro-email{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(10,10,10,0.35);
+  padding-bottom: 2px;
+}
+.intro-email:hover{
+  border-bottom-color: rgba(10,10,10,0.85);
+}
+
+
+#introduction .intro-title{ display: none; }
+
+
+.sideTitle.is-entering .sideTitleText{
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.sideTitle .sideTitleText{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.sideTitle{ text-align: center !important; }
+.sideTitle .sideTitleText{ width: 100%; text-align: center !important; }
+
+
+.sideTitle .sideTitleText{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+
+  transform: translateY(0);
+  opacity: 1;
+
+  transition:
+    transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 120ms ease;
+
+  will-change: transform, opacity;
+}
+
+/* EXITING */
+.sideTitle.exit-up .sideTitleText{
+  transform: translateY(-20px);
+  opacity: 0;
+}
+.sideTitle.exit-down .sideTitleText{
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+/* PREP (no animation) */
+.sideTitle.enter-from-bottom .sideTitleText{
+  transform: translateY(20px);
+  opacity: 0;
+  transition: none;
+}
+.sideTitle.enter-from-top .sideTitleText{
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: none;
+}
+
+/* ENTERING */
+.sideTitle.entering .sideTitleText{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* =========================================================
+   SIDE TITLE – FINAL OVERRIDE (PASTE AT BOTTOM)
+   ========================================================= */
+
+.sideTitle{
+  /* positioning stays as you already placed it */
+  width: 220px;                 /* fixed column = consistent alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sideTitle .sideTitleText{
+  display: block;
+  width: 100%;
+  text-align: center;
+
+  /* animation base */
+  transform: translateY(0);
+  opacity: 1;
+
+  will-change: transform, opacity;
+  transition:
+    transform 120ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 100ms ease;
+
+  /* paint stability */
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* ===== EXIT STATES ===== */
+.sideTitle.exit-up .sideTitleText{
+  transform: translateY(-18px);
+  opacity: 0;
+}
+
+.sideTitle.exit-down .sideTitleText{
+  transform: translateY(18px);
+  opacity: 0;
+}
+
+/* ===== PREP STATES (NO TRANSITION, HIDDEN) ===== */
+.sideTitle.enter-from-bottom .sideTitleText{
+  transform: translateY(18px);
+  opacity: 0;
+  transition: none;
+}
+
+.sideTitle.enter-from-top .sideTitleText{
+  transform: translateY(-18px);
+  opacity: 0;
+  transition: none;
+}
+
+/* ===== ENTER ===== */
+.sideTitle.entering .sideTitleText{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ===== HARD SAFETY: NO FLASH FRAMES ===== */
+.sideTitle.exit-up .sideTitleText,
+.sideTitle.exit-down .sideTitleText,
+.sideTitle.enter-from-top .sideTitleText,
+.sideTitle.enter-from-bottom .sideTitleText{
+  opacity: 0;
+}
+
+/* =========================================================
+   EXPERTS – SINGLE-LINE FINAL OVERRIDE
+   ========================================================= */
+
+/* List spacing */
+.experts-list{
+  gap: 14px;
+}
+
+/* Each expert is ONE LINE */
+.expert{
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Name */
+.expert-name{
+  font-weight: 800;
+  font-size: clamp(18px, 2.2vw, 28px);
+  line-height: 1.1;
+}
+
+/* Meta (role + handle/site) */
+.expert-meta{
+  font-size: 0.55em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(10,10,10,.65);
+}
+
+/* Links inside meta */
+.expert-meta a{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== Frannie special ===== */
+.expert-featured .expert-name{
+  color: var(--home-color);
+}
+
+.expert-featured .expert-link{
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===== Responsive safety ===== */
+@media (max-width: 520px){
+  .expert{
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+}
+
+/* =========================================================
+   FRANNIE BIO PAGE – FINAL LAYOUT
+   ========================================================= */
+
+.frannie-bio{
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 140px 80px 80px;
+  gap: 60px;
+  overflow: hidden; /* no page scroll */
+}
+
+/* LEFT */
+.frannie-bio-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.frannie-role{
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.frannie-copy{
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.frannie-copy p{
+  margin: 0 0 14px;
+}
+
+/* RIGHT – PHONE DUPLICATION */
+.frannie-bio-media{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* reuse your existing phone styles */
+.frannie-bio-media .phone{
+  width: var(--phone-w);
+  height: var(--phone-h);
+}
+
+.frannie-bio-media .phoneScreen video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   FRANNIE PAGE – FORCE NAV VISIBLE (bio page has no intro JS)
+   ========================================================= */
+
+body.frannie-page #siteHeader{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+
+  /* keep it clean on white pages */
+  mix-blend-mode: normal;
+  isolation: auto;
+}
+
+/* =========================================================
+   FRANNIE PAGE – LAYOUT + PHONE (FINAL OVERRIDE)
+   ========================================================= */
+
+body.frannie-page{
+  overflow-y: hidden; /* page should fit, no scroll */
+}
+
+/* Full-height, vertically centered layout */
+body.frannie-page .frannie-bio{
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+
+  /* remove the big top gap */
+  padding: 0 var(--pad);
+
+  align-items: center;   /* vertical centering */
+  overflow: hidden;
+}
+
+/* LEFT text column */
+body.frannie-page .frannie-bio-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ensures no top gap */
+}
+
+body.frannie-page .frannie-role{
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 22px 0;
+}
+
+body.frannie-page .frannie-copy{
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+body.frannie-page .frannie-copy p{
+  margin: 0 0 14px 0;
+}
+
+/* RIGHT phone column */
+body.frannie-page .frannie-bio-media{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Phone container: visible (black) + same size as site */
+body.frannie-page .frannie-phone.video-container{
+  width: var(--phone-w);
+  height: var(--phone-h);
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Make the single slide fill */
+body.frannie-page .frannie-phone .slide{
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+body.frannie-page .frannie-phone .slide video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay on top (kept minimal / empty) */
+body.frannie-page .frannie-phone .overlay{
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* SVG overlay on top (same behavior as Projects) */
+body.frannie-page .frannie-phone .phoneFrameOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+body.frannie-page .frannie-phone .phoneFrameOverlay svg{
+  width: 395%;
+  height: 395%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(0);
+  display: block;
+  pointer-events: none;
+}
+
+/* Small screens: stack if needed */
+@media (max-width: 900px){
+  body.frannie-page .frannie-bio{
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 0 var(--pad);
+  }
+}
+
+/* =========================================================
+   FRANNIE PAGE – NAV FORCE VISIBLE + READABLE
+   ========================================================= */
+
+body.frannie-page #siteHeader{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+
+  /* kill the landing blend-mode behavior on this page */
+  mix-blend-mode: normal !important;
+  isolation: auto !important;
+}
+
+body.frannie-page #siteHeader .nav a{
+  color: var(--text) !important;
+  opacity: 0.92 !important;
+}
+
+body.frannie-page #siteHeader .nav a:hover{
+  opacity: 1 !important;
+}
+
+/* =========================================================
+   FRANNIE PAGE – TEXT INSET + SMALLER TYPE
+   ========================================================= */
+
+body.frannie-page .frannie-bio{
+  /* more comfortable inset on the left */
+  padding-left: calc(var(--pad) + 48px) !important;
+  padding-right: var(--pad) !important;
+}
+
+body.frannie-page .frannie-role{
+  font-size: 13px !important;
+  margin-bottom: 18px !important;
+}
+
+body.frannie-page .frannie-copy{
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+body.frannie-page .frannie-copy p{
+  margin-bottom: 12px !important;
+}
+
+/* =========================================================
+   BRAND / PROJECT PAGES (scaffold)
+   ========================================================= */
+
+body.brand-page{
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+/* Ensure header is visible on standalone pages */
+body.brand-page #siteHeader{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  mix-blend-mode: normal !important;
+}
+
+body.brand-page #siteHeader .nav a{
+  color: var(--text) !important;
+  opacity: 0.92;
+}
+
+/* Layout */
+.brand-wrap{
+  width: min(1200px, calc(100% - (var(--pad) * 2)));
+  margin: 0 auto;
+  padding: 150px 0 160px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 42px;
+}
+
+/* Top-left brand title */
+.brand-title{
+  grid-column: 1 / -1;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 18px;
+}
+
+/* Left nav */
+.brand-side{
+  position: sticky;
+  top: 140px;
+  align-self: start;
+}
+
+.brand-side-nav{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brand-side-link{
+  text-decoration: none;
+  color: var(--text);
+  opacity: 0.72;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.brand-side-link:hover{
+  opacity: 0.95;
+}
+
+.brand-side-link.is-active{
+  opacity: 1;
+  font-weight: 800;
+  color: var(--home-color);
+}
+
+/* Anchors + section titles */
+.brand-anchor{
+  scroll-margin-top: 140px;
+}
+
+.brand-section-title{
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 36px 0 16px;
+  opacity: 0.7;
+}
+
+/* Organic 3-col grid */
+.brand-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.brand-item{
+  margin: 0;
+  border: 0;
+  overflow: hidden;
+}
+
+.brand-item img,
+.brand-item video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ratio helpers */
+.brand-item.r-4-5{ aspect-ratio: 4 / 5; }
+.brand-item.r-1-1{ aspect-ratio: 1 / 1; }
+.brand-item.r-16-9{ aspect-ratio: 16 / 9; }
+
+.brand-sentinel{
+  height: 1px;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .brand-wrap{
+    grid-template-columns: 180px 1fr;
+  }
+  .brand-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px){
+  .brand-wrap{
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .brand-side{
+    position: relative;
+    top: auto;
+  }
+  .brand-side-nav{
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .brand-side-link{
+    white-space: nowrap;
+  }
+  .brand-grid{
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================================
+   BRAND PAGE – FINAL STRUCTURAL PASS
+   ========================================================= */
+
+body.brand-page{
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+/* NAV stays exactly like main site */
+body.brand-page #siteHeader{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* =========================
+   BRAND TITLE (PANDORA)
+   ========================= */
+body.brand-page .brand-corner{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  height: var(--logo-size); /* aligns with navbar band */
+  display: flex;
+  align-items: center;
+
+  padding-left: var(--pad);
+
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  pointer-events: none;
+}
+
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+
+/* Center the feed under the nav */
+body.brand-page .brand-layout{
+  width: min(1200px, calc(100% - (var(--pad) * 2)));
+  margin: 0 auto;
+
+  padding: calc(var(--logo-size) + 60px) 0 160px;
+  display: grid;
+  grid-template-columns: 1fr; /* feed is centered */
+}
+
+/* =========================
+   LEFT LIST (PINNED HARD LEFT)
+   ========================= */
+body.brand-page .brand-left{
+  position: fixed;
+  top: calc(var(--logo-size) + 60px);
+  left: 0;
+
+  height: calc(100vh - (var(--logo-size) + 120px));
+  width: 200px;
+
+  padding-left: var(--pad);
+  z-index: 5;
+}
+
+body.brand-page .brand-left-nav{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Force BLACK links */
+body.brand-page .brand-left-link{
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+body.brand-page .brand-left-link:hover{
+  opacity: 1;
+}
+
+body.brand-page .brand-left-link.is-active{
+  color: var(--home-color);
+  font-weight: 800;
+  opacity: 1;
+}
+
+/* =========================
+   FEED / GRID
+   ========================= */
+body.brand-page .brand-right{
+  /* keep the feed centered in the viewport */
+  width: min(1200px, calc(100% - (var(--pad) * 2)));
+  margin: 0 auto;
+
+  /* reserve space INSIDE the centered feed for the left list */
+  padding-left: 220px;
+  box-sizing: border-box;
+}
+
+/* Correct anchor snapping */
+body.brand-page .brand-anchor{
+  scroll-margin-top: calc(var(--logo-size) + 80px);
+}
+
+/* Section titles */
+body.brand-page .brand-section-title{
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 26px 0 14px;
+  opacity: 0.7;
+}
+
+/* Explore-like grid */
+body.brand-page .brand-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+/* Tiles – slightly LESS rounded */
+body.brand-page .brand-tile{
+  background: #000;
+  border-radius: 12px; /* reduced from 18px */
+  overflow: hidden;
+}
+
+/* Ratios */
+body.brand-page .brand-tile.r-9-16{ aspect-ratio: 9 / 16; }
+body.brand-page .brand-tile.r-16-9{ aspect-ratio: 16 / 9; }
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 980px){
+  body.brand-page .brand-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px){
+  body.brand-page .brand-left{
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    padding-left: 0;
+    margin-bottom: 24px;
+  }
+
+  body.brand-page .brand-left-nav{
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 16px;
+    overflow-x: auto;
+  }
+
+  body.brand-page .brand-right{
+    margin-left: 0;
+  }
+
+  body.brand-page .brand-grid{
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================================
+   BRAND PAGE – NAV REACTIVE BLEND (MODE CHANGE)
+   ========================================================= */
+
+body.brand-page #siteHeader{
+  mix-blend-mode: normal;
+}
+
+body.brand-page.is-blend #siteHeader{
+  mix-blend-mode: difference;
+}
+
+body.brand-page .brand-corner{
+  mix-blend-mode: normal;
+}
+
+body.brand-page.is-blend .brand-corner{
+  mix-blend-mode: difference;
+}
+
+
+body.brand-page #siteHeader{
+  background: transparent !important;
+}
+
+body.brand-page #siteHeader,
+body.brand-page #siteHeader .nav,
+body.brand-page #siteHeader .nav a{
+  mix-blend-mode: difference !important;
+}
+
+body.brand-page #siteHeader .nav a{
+  color: #fff !important;
+  opacity: 1 !important;
+  text-decoration: none !important;
+}
+
+/* =========================================================
+   BRAND PAGE – ADD RIGHT PEOPLE COLUMN + CENTER GRID
+   Paste at bottom of main.css
+   ========================================================= */
+
+/* Right column mirrors left */
+body.brand-page .brand-people{
+  position: fixed;
+  top: calc(var(--logo-size) + 0px);
+  right: 0;
+
+  height: calc(100vh - (var(--logo-size) + 120px));
+  width: 220px;
+
+  padding-right: var(--pad);
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.brand-page .brand-people-title{
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Make the right list visually match your Experts style but constrained */
+body.brand-page .brand-people-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+body.brand-page .brand-people-list .expert{
+  display: block; /* not the one-line roster style here */
+  white-space: normal;
+}
+
+body.brand-page .brand-people-list .expert-name{
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+body.brand-page .brand-people-list .expert-meta{
+  display: block;
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* TRUE CENTERING: carve equal gutters for left + right columns */
+body.brand-page .brand-right{
+  width: min(1200px, calc(100% - (var(--pad) * 2)));
+  margin: 0 auto;
+  padding-left: 220px;
+  padding-right: 220px;
+  box-sizing: border-box;
+}
+
+/* Mobile: remove fixed side columns */
+@media (max-width: 900px){
+  body.brand-page .brand-people{
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    height: auto;
+    padding-right: 0;
+    margin-top: 22px;
+  }
+
+  body.brand-page .brand-right{
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* =========================================================
+   BRAND PAGE – PEOPLE LIST FADE
+   ========================================================= */
+
+body.brand-page .brand-people-list{
+  transition: opacity 140ms ease;
+  opacity: 1;
+}
+
+body.brand-page .brand-people-list.is-fading{
+  opacity: 0;
+}
+
+/* Lift the first grid closer to the navbar */
+body.brand-page .brand-section-title{
+  margin-top: 6px;
+}
+
+body.brand-page .brand-grid{
+  margin-top: 0;
+}
+
+/* =========================================================
+   BRAND PAGE – LIGHTBOX CAROUSEL
+   ========================================================= */
+
+body.brand-page.mmLightbox-open{
+  overflow: hidden;
+}
+
+/* dim + blur the page behind */
+/* body.brand-page.mmLightbox-open main,
+body.brand-page.mmLightbox-open header,
+body.brand-page.mmLightbox-open .brand-corner,
+body.brand-page.mmLightbox-open .brand-left,
+body.brand-page.mmLightbox-open .brand-people{
+  filter: blur(6px);
+  opacity: 0.25;
+  transition: opacity 140ms ease, filter 180ms ease;
+} */
+
+/* overlay */
+.mmLightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: none;
+}
+
+.mmLightbox.is-open{
+  display: block;
+}
+
+.mmLightbox-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.02);
+}
+
+/* UI */
+.mmLightbox-ui{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  padding: 0 32px;
+  pointer-events: none;
+}
+
+.mmLightbox-stage{
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Frame: matches your rounded tiles vibe */
+.mmLightbox-frame{
+  width: min(520px, 82vw);
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border-radius: 12px; /* matches your current tile radius vibe */
+  overflow: hidden;
+}
+
+/* (for future) img/video inside frame */
+.mmLightbox-frame img,
+.mmLightbox-frame video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* arrows */
+.mmLightbox-nav{
+  pointer-events: auto;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  user-select: none;
+}
+
+.mmLightbox-nav:hover{
+  opacity: 0.95;
+}
+
+.mmLightbox-prev{ justify-self: start; }
+.mmLightbox-next{ justify-self: end; }
+
+/* close */
+.mmLightbox-close{
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  pointer-events: auto;
+  border: 0;
+  background: transparent;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.mmLightbox-close:hover{
+  opacity: 0.95;
+}
+
+/* =========================================================
+   LIGHTBOX – CONSTRAIN SIZE + ADD BREATHING ROOM
+   ========================================================= */
+
+/* Give the UI vertical padding so it never feels edge-to-edge */
+.mmLightbox-ui{
+  padding: 64px 48px;
+}
+
+/* Constrain the media frame */
+.mmLightbox-frame{
+  width: min(420px, 70vw);
+  max-height: 70vh;
+  aspect-ratio: 9 / 16;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure nothing spills */
+.mmLightbox-frame > *{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Slightly soften the arrows so they feel secondary */
+.mmLightbox-nav{
+  margin-top: 0;
+}
+
+/* Mobile: still generous but safe */
+@media (max-width: 640px){
+  .mmLightbox-ui{
+    padding: 48px 20px;
+  }
+
+  .mmLightbox-frame{
+    width: min(320px, 90vw);
+    max-height: 75vh;
+  }
+}
+
+/* =========================================================
+   LIGHTBOX – FORCE TRUE 16:9
+   ========================================================= */
+
+.mmLightbox-frame{
+  aspect-ratio: 9 / 16 !important;
+  width: min(860px, 78vw) !important;
+  max-height: 70vh !important;
+  height: auto !important;
+}
+
+/* keep content contained */
+.mmLightbox-frame img,
+.mmLightbox-frame video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   LIGHTBOX – FORCE TRUE VERTICAL 9:16 (NO SQUASH)
+   ========================================================= */
+
+.mmLightbox-frame{
+  aspect-ratio: 9 / 16 !important;
+
+  /* Height-driven sizing for vertical media */
+  height: min(72vh, 820px) !important;
+  width: auto !important;
+
+  max-width: 86vw;
+  max-height: 72vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure inner media respects the frame */
+.mmLightbox-frame img,
+.mmLightbox-frame video,
+.mmLightbox-frame > div{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   IG icon: appears with header, pinned top-right always
+   ========================================================= */
+
+#siteHeader .igFixed{
+  position: fixed;
+  top: 22px;
+  right: var(--pad);
+  z-index: 9999;
+
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+
+  /* text-decoration: none;
+  color: black;
+  opacity: 1;
+}
+
+#siteHeader .igFixed:hover{
+  opacity: 1;
+}
+
+#siteHeader .igFixed svg{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* avoid blue/visited */
+/* #siteHeader .igFixed:visited{
+  color: currentColor; */ 
+
+
+/* #siteHeader .igFixed{
+  color: #000 !important;
+} */
+
+/* IG icon must stay solid black (no blend) */
+/* /* #siteHeader .igFixed{ 
+  color: #000 !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+  z-index: 99999 !important;
+}
+/* ABOUT — centered blurb above buckets */
+#about .about-blurb{
+  width: min(760px, 100%);
+  margin: 0 auto 120px;
+  text-align: center;
+}
+
+#about .about-blurb p{
+  margin: 0 0 14px 0;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+#about .about-blurb strong{
+  font-weight: 800;
+}
+
+
+/* =========================================
+   ABOUT (editorial override)
+   ========================================= */
+
+#about{
+  padding-top: 120px;
+}
+
+#about .about-wrap{
+  width: min(1180px, calc(100% - (var(--pad) * 2)));
+}
+
+#about .about-blurb{
+  width: min(920px, 100%);
+  margin: 0 auto 90px;
+  text-align: center;
+}
+
+#about .about-blurb p{
+  margin: 0 0 18px 0;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+#about .about-blurb strong{
+  font-weight: 800;
+}
+
+#about .three-col{
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  gap: 52px;
+
+  padding-top: 26px;
+  border-top: 1px solid rgba(10,10,10,.12);
+}
+
+#about .col{
+  padding-top: 6px;
+}
+
+#about .col:not(:first-child){
+  border-left: 1px solid rgba(10,10,10,.10);
+  padding-left: 34px;
+}
+
+#about .col-title{
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  opacity: .9;
+}
+
+#about .col p{
+  font-size: 13px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  opacity: .92;
+}
+
+@media (max-width: 820px){
+  #about .about-blurb{
+    text-align: left;
+    margin-bottom: 60px;
+  }
+
+  #about .three-col{
+    border-top: 1px solid rgba(10,10,10,.12);
+    padding-top: 18px;
+  }
+
+  #about .col:not(:first-child){
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+/* BRAND PAGES: force header visible + clickable */
+body.brand-page #siteHeader{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  mix-blend-mode: normal !important;
+  isolation: auto !important;
+}
