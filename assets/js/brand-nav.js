@@ -440,6 +440,7 @@ expertsTab.innerHTML = "<span>Experts</span>";
 
     e.preventDefault();
     openTestLightbox();
+    
   });
 
   // Close controls
