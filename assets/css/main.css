@@ -2664,3 +2664,78 @@ body.brand-page #siteHeader{
   mix-blend-mode: normal !important;
   isolation: auto !important;
 }
+
+/* ============================================================
+   HIDE RIGHT-SIDE SECTION INDICATOR ON TABLET + MOBILE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  #sideTitle,
+  .sideTitle,
+  .section-indicator,
+  .scroll-indicator {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+/* ============================================================
+   LOCK HORIZONTAL SCROLL ON MOBILE + TABLET
+   ============================================================ */
+
+@media (max-width: 1024px) {
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+  }
+
+  /* Safety net: prevent rogue elements from exceeding viewport */
+  body * {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+}
+
+/* ============================================================
+   MOBILE: MAKE FEATURED EXPERT (FRANNIE LINK) STACK LIKE OTHERS
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* The linked featured expert should stack name over meta */
+  .expert.expert-featured > a.expert-link{
+    display: block !important;          /* overrides flex/inline-flex if present */
+    text-align: center;
+  }
+
+  .expert.expert-featured > a.expert-link .expert-name{
+    display: block;
+    white-space: nowrap;                /* keep "Frannie Petok" on one line */
+  }
+
+  .expert.expert-featured > a.expert-link .expert-meta{
+    display: block;
+    margin-top: 6px;
+    white-space: normal;                /* allow meta to wrap like others */
+  }
+
+}
+/* ============================================================
+   MOBILE: KEEP FRANNIE META ON ONE LINE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  .expert.expert-featured > a.expert-link .expert-meta,
+  .expert.expert-featured > a.expert-link .expert-meta * {
+    display: inline;
+    white-space: nowrap;
+  }
+
+}
