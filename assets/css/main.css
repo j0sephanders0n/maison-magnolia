@@ -258,12 +258,21 @@ body.preload #siteHeader{
 
 .tile{
   width: 100%;
-  background: #000;
+  background: transparent;     /* was #000 */
   border-radius: 3px;
   overflow: hidden;
 
   aspect-ratio: 5 / 7;
   transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+/* make sure the video fills the tile */
+.tile video{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  background: transparent;
 }
 
 .tile:hover{
@@ -2703,3 +2712,39 @@ body.frannie-page .mm-logo{
     background: rgba(255, 0, 0, 0.95) !important;
   }
 }
+
+.tile video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* --- GRID VIDEO TILES: enforce 9:16 and make media behave --- */
+#gallery .grid .tile{
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 9 / 16; /* true vertical */
+  background: #000;     /* looks intentional if letterboxed */
+}
+
+/* Make videos/images fill the tile box */
+#gallery .grid .tile video,
+#gallery .grid .tile img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* CHOOSE ONE: contain (no crop) OR cover (cropped) */
+
+/* Option A: show full frame (no cropping) */
+#gallery .grid .tile video,
+#gallery .grid .tile img{
+  object-fit: contain;
+}
+
+/* Option B: fill the tile (will crop) */
+/*
+#gallery .grid .tile video,
+#gallery .grid .tile img{
+  object-fit: cover;
+}
+*/
