@@ -533,7 +533,7 @@ body.preload #siteHeader{
 
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  gap: 50px;
 
   transform: translateY( -15px);
 }
@@ -567,7 +567,11 @@ body.preload #siteHeader{
   letter-spacing: 0.04em;
   font-weight: 800;
 
-  color: rgba(10,10,10,.88);
+  white-space: nowrap;       /* keep brand names on one line */
+  overflow-wrap: normal;
+  word-break: normal;
+
+  color: rgba(10,10,10,88);
   transition:
     transform 0.18s ease,
     color 0.18s ease,
