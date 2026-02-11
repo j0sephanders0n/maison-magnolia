@@ -493,6 +493,110 @@ setTimeout(() => {
   })();
 
   // ============================================================
+// HOME: MOBILE HAMBURGER (brand-nav style) + show only after nav scrolls away
+// - Reuses your "bulletproof summary toggle" approach
+// - Outside click closes
+// - ESC closes
+// - Shows only when nav area is offscreen (via #navSentinel)
+// ============================================================
+// ============================================================
+// HOME: MOBILE HAMBURGER (brand-nav style) + show only after header scrolls off
+// ============================================================
+(function initHomeHamburger(){
+  const detailsWrap = document.querySelector("details.homeMenuWrap");
+  const menuBtn = document.querySelector("#siteHeader .homeMenuBtn"); // summary
+  const menu = document.querySelector("#siteHeader .homeMenu");
+  const header = document.getElementById("siteHeader");
+
+  if (!detailsWrap || !menuBtn || !menu || !header) return;
+
+  const mq = window.matchMedia("(max-width: 900px)");
+
+  const setMenuOpen = (open) => {
+    detailsWrap.open = !!open;
+    menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    menu.setAttribute("aria-hidden", open ? "false" : "true");
+  };
+
+  const isMenuOpen = () => !!detailsWrap.open;
+
+  // init aria
+  menuBtn.setAttribute("aria-expanded", isMenuOpen() ? "true" : "false");
+  menu.setAttribute("aria-hidden", isMenuOpen() ? "false" : "true");
+
+  // Bulletproof summary toggle (capture)
+  menuBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMenuOpen(!isMenuOpen());
+  }, true);
+
+  // Backdrop (matches brand behavior)
+  const syncMenuBackdrop = () => {
+    const open = isMenuOpen();
+    let bd = document.querySelector(".mmMenuBackdrop.home");
+    if (open && !bd) {
+      bd = document.createElement("div");
+      bd.className = "mmMenuBackdrop home";
+      document.body.appendChild(bd);
+      bd.addEventListener("click", () => setMenuOpen(false));
+    }
+    if (!open && bd) bd.remove();
+  };
+
+  detailsWrap.addEventListener("toggle", syncMenuBackdrop);
+  syncMenuBackdrop();
+
+  // Close on outside click (capture)
+  document.addEventListener("click", (e) => {
+    if (!isMenuOpen()) return;
+    if (detailsWrap.contains(e.target)) return;
+    setMenuOpen(false);
+  }, true);
+
+  // ESC closes
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setMenuOpen(false);
+  });
+
+  // Tap a link closes
+  menu.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a) return;
+    setMenuOpen(false);
+  });
+
+  // Show hamburger EXACTLY when header is offscreen
+  const setOff = (off) => {
+    if (!mq.matches) off = false;
+    document.body.classList.toggle("mmNavOff", !!off);
+    if (!off) setMenuOpen(false);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(([entry]) => {
+      // immediate + precise: header is "off" when its bottom is above viewport top
+      const off = entry.boundingClientRect.bottom <= 0;
+      setOff(off);
+    }, { root: null, threshold: 0, rootMargin: "0px" });
+
+    io.observe(header);
+
+    mq.addEventListener?.("change", () => setOff(false));
+    setOff(false);
+    return;
+  }
+
+  // Fallback (no IO): scroll check
+  const onScroll = () => {
+    const r = header.getBoundingClientRect();
+    setOff(r.bottom <= 0);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+
+  // ============================================================
   // PROJECTS CONTROLLER
   // - NO wheel hijacking
   // - hover/click on the list updates the phone
