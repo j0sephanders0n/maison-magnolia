@@ -2845,3 +2845,55 @@ body.brand-page #siteHeader{
 
 }
   #projects .client-list{ padding-right: 350px; }
+
+.mm-logo{
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 999;
+
+  display: flex;
+  align-items: flex-end;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+
+  color: #fff;
+  text-decoration: none;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.mm-logo span{
+  display: inline-block;
+  transform-origin: bottom left;
+  transform: rotate(-4deg);
+}
+
+.mm-logo span:nth-child(odd){
+  transform: rotate(-3deg);
+}
+.mm-logo span:nth-child(even){
+  transform: rotate(-5deg);
+}
+
+body.intro-done .mm-logo{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* FRANNIE PAGE — logo must be visible + clickable + bold (no intro on this page) */
+body.frannie-page .mm-logo{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+
+  font-weight: 800 !important; /* overrides .nav a */
+  text-decoration: none !important;
+}

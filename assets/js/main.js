@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
       header.style.pointerEvents = "auto";
     }
     document.body.style.overflowY = "auto";
-    document.body.classList.remove("preload");
+document.body.classList.remove("preload");
+document.body.classList.add("intro-done");
   };
 
   // ============================================================
@@ -357,7 +358,7 @@ const setCaptionClampAndMore = (slide, isActive) => {
               header.style.pointerEvents = "auto";
               document.body.style.overflowY = "auto";
               logoBtn.classList.add("is-home");
-
+              document.body.classList.add("intro-done");
               // ✅ warm projects AFTER intro is done (prevents glitch)
               if (projectsPreload?.warmStart) projectsPreload.warmStart();
             }, moveDuration);
