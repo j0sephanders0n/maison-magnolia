@@ -348,9 +348,20 @@ expertsTab.innerHTML = "<span>Experts</span>";
   ensureExpertsTab();
   mqExperts.addEventListener?.("change", ensureExpertsTab);
 
-  /* =========================================================
-     LIGHTBOX CAROUSEL
-     ========================================================= */
+
+});
+
+/* =========================================================
+   LIGHTBOX v3 — Step 1 (RED TEST ONLY)
+   - Creates overlay DOM once
+   - Click any .brand-tile -> opens lightbox with a red test block
+   - Close via X, backdrop, Escape
+   ========================================================= */
+
+(() => {
+  // Only run on brand pages
+  if (!document.body.classList.contains("brand-page")) return;
+
   const ensureLightbox = () => {
     let lb = document.querySelector(".mmLightbox");
     if (lb) return lb;
@@ -358,189 +369,68 @@ expertsTab.innerHTML = "<span>Experts</span>";
     lb = document.createElement("div");
     lb.className = "mmLightbox";
     lb.innerHTML = `
-      <div class="mmLightbox-backdrop" data-close="1" aria-hidden="true"></div>
+      <div class="mmLightbox-backdrop" aria-hidden="true"></div>
+
       <div class="mmLightbox-ui" role="dialog" aria-modal="true" aria-label="Media viewer">
         <button class="mmLightbox-nav mmLightbox-prev" type="button" aria-label="Previous">‹</button>
+
         <div class="mmLightbox-stage">
           <div class="mmLightbox-frame" aria-live="polite"></div>
         </div>
+
         <button class="mmLightbox-nav mmLightbox-next" type="button" aria-label="Next">›</button>
       </div>
+
       <button class="mmLightbox-close" type="button" aria-label="Close">×</button>
     `;
+
     document.body.appendChild(lb);
     return lb;
   };
 
-const isPhone = () => false; // force desktop/tablet lightbox behavior on all devices
-
-  const parseRatio = (tile) => {
-    const ds = tile?.dataset?.ratio ? String(tile.dataset.ratio) : "";
-    if (ds && ds.includes("/")) return ds.trim();
-
-    if (tile.classList.contains("r-9-16")) return "9 / 16";
-    if (tile.classList.contains("r-16-9")) return "16 / 9";
-    if (tile.classList.contains("r-1-1")) return "1 / 1";
-    if (tile.classList.contains("r-4-5")) return "4 / 5";
-    if (tile.classList.contains("r-5-7")) return "5 / 7";
-    return "9 / 16";
-  };
-
-  const getTileMedia = (tile) => {
-    const ratio = parseRatio(tile);
-
-    const dsSrc = tile?.dataset?.src ? String(tile.dataset.src) : "";
-    const dsType = tile?.dataset?.type ? String(tile.dataset.type) : "";
-
-    if (dsSrc) {
-      const type = dsType || (/\.(mp4|webm|mov)(\?|#|$)/i.test(dsSrc) ? "video" : "image");
-      return { type, src: dsSrc, ratio };
-    }
-
-    const img = tile.querySelector("img");
-    if (img && (img.currentSrc || img.src)) return { type: "image", src: img.currentSrc || img.src, ratio };
-
-    const vid = tile.querySelector("video");
-    if (vid) {
-      const src =
-        vid.currentSrc ||
-        vid.src ||
-        (vid.querySelector("source") && vid.querySelector("source").src) ||
-        "";
-      return { type: "video", src, ratio };
-    }
-
-    return { type: "empty", src: "", ratio };
-  };
-
-  let lbState = { isOpen: false, tiles: [], index: 0 };
-
-  const closeLightbox = () => {
-    const lb = document.querySelector(".mmLightbox");
-    if (!lb) return;
-    lb.classList.remove("is-open");
-    body.classList.remove("mmLightbox-open");
-
-    const frame = lb.querySelector(".mmLightbox-frame");
-    if (frame) frame.innerHTML = "";
-
-    lbState.isOpen = false;
-  };
-
-  const stepLightbox = (dir) => {
-    if (!lbState.isOpen || !lbState.tiles.length) return;
-    const n = lbState.tiles.length;
-    lbState.index = (lbState.index + dir + n) % n;
-    renderLightbox();
-  };
-
-  const renderPhoneScroller = (frame) => {
-    frame.classList.add("mmPhoneScroller");
-
-    frame.innerHTML = lbState.tiles
-      .map((tile, i) => {
-        const { type, src } = getTileMedia(tile);
-        if (type === "image") {
-          return `<div class="mmPhoneItem" data-i="${i}"><img alt="" src="${src}"></div>`;
-        }
-        if (type === "video") {
-          return `<div class="mmPhoneItem" data-i="${i}"><video playsinline controls preload="metadata"><source src="${src}"></video></div>`;
-        }
-        return `<div class="mmPhoneItem" data-i="${i}"></div>`;
-      })
-      .join("");
-
-    // Scroll to selected index
-    requestAnimationFrame(() => {
-      const target = frame.querySelector(`.mmPhoneItem[data-i="${lbState.index}"]`);
-      if (target) target.scrollIntoView({ block: "start", behavior: "instant" });
-    });
-
-    // Update index on scroll (snap)
-    let ticking = false;
-    frame.addEventListener(
-      "scroll",
-      () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          ticking = false;
-          const items = Array.from(frame.querySelectorAll(".mmPhoneItem"));
-          let bestI = lbState.index;
-          let bestDist = Infinity;
-          for (const el of items) {
-            const r = el.getBoundingClientRect();
-            const dist = Math.abs(r.top);
-            if (dist < bestDist) {
-              bestDist = dist;
-              bestI = parseInt(el.getAttribute("data-i") || "0", 10);
-            }
-          }
-          lbState.index = bestI;
-        });
-      },
-      { passive: true }
-    );
-  };
-
-  const renderLightbox = () => {
-    const lb = document.querySelector(".mmLightbox");
-    if (!lb) return;
-    const frame = lb.querySelector(".mmLightbox-frame");
-    if (!frame) return;
-
-    // Phone: vertical scroller TikTok style
-    // if (isPhone()) {
-    //   frame.style.aspectRatio = "";
-    //   frame.classList.remove("is-contain");
-    //   renderPhoneScroller(frame);
-    //   return;
-    // }
-
-    // Desktop/tablet: single item with arrows
-    frame.classList.remove("mmPhoneScroller");
-
-    const tile = lbState.tiles[lbState.index];
-    const { type, src, ratio } = getTileMedia(tile);
-
-    frame.style.aspectRatio = ratio;
-
-    const isPortrait916 = ratio.replace(/\s/g, "") === "9/16";
-    frame.classList.toggle("is-contain", !isPortrait916);
-
-    if (type === "image") {
-      frame.innerHTML = `<img alt="" src="${src}">`;
-      const img = frame.querySelector("img");
-      if (img) img.style.objectFit = isPortrait916 ? "cover" : "contain";
-    } else if (type === "video") {
-      frame.innerHTML = `
-        <video playsinline controls preload="metadata">
-          ${src ? `<source src="${src}">` : ""}
-        </video>`;
-      const v = frame.querySelector("video");
-      if (v) v.style.objectFit = isPortrait916 ? "cover" : "contain";
-    } else {
-      frame.innerHTML = ``;
-    }
-  };
-
-  const openLightboxFor = (gridEl, clickedTile) => {
+  const openTestLightbox = () => {
     const lb = ensureLightbox();
     const frame = lb.querySelector(".mmLightbox-frame");
     if (!frame) return;
 
-    const tiles = Array.from(gridEl.querySelectorAll(".brand-tile"));
-    const index = Math.max(0, tiles.indexOf(clickedTile));
+    // Force a known ratio for the test (you can change this)
+    frame.style.setProperty("--lb-ar", "9 / 16");
 
-    lbState = { isOpen: true, tiles, index };
+    // RED TEST BLOCK
+    frame.innerHTML = `
+      <div style="
+        width: 100%;
+        height: 100%;
+        background: red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 14px;
+      ">
+        Lightbox Test
+      </div>
+    `;
 
-    body.classList.add("mmLightbox-open");
+    document.body.classList.add("mmLightbox-open");
     lb.classList.add("is-open");
-
-    renderLightbox();
   };
 
-  // Delegate: click tile opens lightbox
+  const closeLightbox = () => {
+    const lb = document.querySelector(".mmLightbox");
+    if (!lb) return;
+
+    lb.classList.remove("is-open");
+    document.body.classList.remove("mmLightbox-open");
+
+    const frame = lb.querySelector(".mmLightbox-frame");
+    if (frame) frame.innerHTML = "";
+  };
+
+  // Click any tile -> open test
   document.addEventListener("click", (e) => {
     const tile = e.target.closest(".brand-tile");
     if (!tile) return;
@@ -548,66 +438,22 @@ const isPhone = () => false; // force desktop/tablet lightbox behavior on all de
     const grid = tile.closest(".brand-grid");
     if (!grid) return;
 
-    if (tile.dataset && tile.dataset.lightbox === "0") return;
-
     e.preventDefault();
-    openLightboxFor(grid, tile);
+    openTestLightbox();
   });
 
-  // Bind lightbox controls (once)
-  const bindLightboxControls = () => {
-    const lb = ensureLightbox();
-    const prev = lb.querySelector(".mmLightbox-prev");
-    const next = lb.querySelector(".mmLightbox-next");
-    const close = lb.querySelector(".mmLightbox-close");
-    const backdrop = lb.querySelector(".mmLightbox-backdrop");
+  // Close controls
+  document.addEventListener("click", (e) => {
+    if (!document.body.classList.contains("mmLightbox-open")) return;
 
-    if (prev) prev.addEventListener("click", () => stepLightbox(-1));
-    if (next) next.addEventListener("click", () => stepLightbox(1));
-    if (close) close.addEventListener("click", closeLightbox);
-    if (backdrop) backdrop.addEventListener("click", closeLightbox);
+    if (e.target.closest(".mmLightbox-close")) closeLightbox();
+    if (e.target.closest(".mmLightbox-backdrop")) closeLightbox();
+  });
 
-    document.addEventListener("keydown", (e) => {
-      if (!lbState.isOpen) return;
-      if (e.key === "Escape") closeLightbox();
-      if (!isPhone() && e.key === "ArrowLeft") stepLightbox(-1);
-      if (!isPhone() && e.key === "ArrowRight") stepLightbox(1);
-    });
+  document.addEventListener("keydown", (e) => {
+    if (!document.body.classList.contains("mmLightbox-open")) return;
+    if (e.key === "Escape") closeLightbox();
+  });
 
-    // Phone: swipe down to close (optional)
-    const stage = lb.querySelector(".mmLightbox-stage");
-    if (stage) {
-      let sx = 0, sy = 0, active = false;
-      stage.addEventListener(
-        "touchstart",
-        (e) => {
-          if (!lbState.isOpen || !isPhone()) return;
-          const t = e.touches && e.touches[0];
-          if (!t) return;
-          sx = t.clientX;
-          sy = t.clientY;
-          active = true;
-        },
-        { passive: true }
-      );
-      stage.addEventListener(
-        "touchmove",
-        (e) => {
-          if (!active || !lbState.isOpen || !isPhone()) return;
-          const t = e.touches && e.touches[0];
-          if (!t) return;
-          const dx = t.clientX - sx;
-          const dy = t.clientY - sy;
-          if (dy > 90 && Math.abs(dx) < 60) {
-            active = false;
-            closeLightbox();
-          }
-        },
-        { passive: true }
-      );
-      stage.addEventListener("touchend", () => (active = false), { passive: true });
-    }
-  };
-
-  bindLightboxControls();
-});
+  // NOTE: arrows do nothing yet on purpose (Step 3)
+})();

@@ -548,115 +548,6 @@ body.brand-page .brand-tile.r-16-9{ aspect-ratio: 16 / 9; }
   
 }
 
-/* -------------------------
-   Lightbox carousel (if brand-nav.js uses it)
-   ------------------------- */
-body.brand-page.mmLightbox-open{ overflow: hidden; }
-
-/* dim + blur the page behind */
-body.brand-page.mmLightbox-open main,
-body.brand-page.mmLightbox-open header,
-body.brand-page.mmLightbox-open .brand-corner,
-body.brand-page.mmLightbox-open .brand-left,
-body.brand-page.mmLightbox-open .brand-people{
-  filter: blur(6px);
-  opacity: 0.25;
-  transition: opacity 140ms ease, filter 180ms ease;
-}
-
-.mmLightbox{
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  display: none;
-}
-.mmLightbox.is-open{ display: block; }
-
-.mmLightbox-backdrop{
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.02);
-}
-
-.mmLightbox-ui{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 70px 1fr 70px;
-  align-items: center;
-  padding: 64px 48px;
-  pointer-events: none;
-}
-
-.mmLightbox-stage{
-  pointer-events: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Frame: vertical 9:16 sizing (height-driven) */
-.mmLightbox-frame{
-  aspect-ratio: 9 / 16 !important;
-
-  height: min(72vh, 820px) !important;
-  width: auto !important;
-
-  max-width: 86vw;
-  max-height: 72vh;
-
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* keep content contained */
-.mmLightbox-frame img,
-.mmLightbox-frame video,
-.mmLightbox-frame > div{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.mmLightbox-nav{
-  pointer-events: auto;
-  border: 0;
-  background: transparent;
-  font-family: inherit;
-  font-size: 42px;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0.55;
-  user-select: none;
-}
-.mmLightbox-nav:hover{ opacity: 0.95; }
-
-.mmLightbox-prev{ justify-self: start; }
-.mmLightbox-next{ justify-self: end; }
-
-.mmLightbox-close{
-  position: absolute;
-  top: 22px;
-  right: 26px;
-  pointer-events: auto;
-  border: 0;
-  background: transparent;
-  font-size: 30px;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0.55;
-}
-.mmLightbox-close:hover{ opacity: 0.95; }
-
-@media (max-width: 640px){
-  .mmLightbox-ui{ padding: 48px 20px; }
-}
 
 body.brand-page .brand-anchor{
   height: 1px;
@@ -995,477 +886,6 @@ body.brand-page .brandNavList a{
   }
 
 }
-/* ==========================================
-   LIGHTBOX: make iPad + phone behave like desktop
-   and fit the chosen media ratio
-   Paste at very bottom of CSS
-   ========================================== */
-
-/* Frame should NOT be hard-locked to 9:16 on small devices */
-.mmLightbox-frame{
-  aspect-ratio: var(--lb-ar, 9 / 16) !important; /* default 9:16, JS can override */
-  height: min(74dvh, 820px) !important;
-  width: auto !important;
-  max-width: min(86vw, 920px) !important;
-  max-height: 74dvh !important;
-}
-
-/* Keep backdrop subtle (no black takeover) */
-.mmLightbox-backdrop{
-  background: rgba(255,255,255,0.02) !important;
-}
-
-/* iPad/tablet: tighten UI padding + arrow columns so stage stays centered */
-@media (max-width: 1100px){
-  .mmLightbox-ui{
-    padding: 44px 22px !important;
-    grid-template-columns: 52px 1fr 52px !important;
-  }
-
-  .mmLightbox-nav{
-    font-size: 36px !important;
-    opacity: 0.55;
-  }
-
-  .mmLightbox-frame{
-    height: min(78dvh, 860px) !important;
-    max-width: calc(100vw - 140px) !important; /* prevents “off center” feel */
-    max-height: 78dvh !important;
-  }
-}
-
-/* Phone: still desktop-style, just tighter */
-@media (max-width: 640px){
-  .mmLightbox-ui{
-    padding: 28px 14px !important;
-    grid-template-columns: 44px 1fr 44px !important;
-  }
-
-  .mmLightbox-nav{
-    display: inline-flex !important;
-    font-size: 34px !important;
-    padding: 10px !important; /* tap target */
-  }
-
-  .mmLightbox-close{
-    top: 14px !important;
-    right: 14px !important;
-  }
-
-  .mmLightbox-frame{
-    height: min(76dvh, 720px) !important;
-    max-width: calc(100vw - 110px) !important;
-    max-height: 76dvh !important;
-    border-radius: 12px !important;
-    background: #000 !important; /* keep media framed cleanly */
-  }
-}
-
-/* ==========================================
-   LIGHTBOX: force web-style behavior on all sizes
-   ========================================== */
-
-@media (max-width: 1100px){
-  .mmLightbox-ui{
-    grid-template-columns: 52px 1fr 52px !important;
-    padding: 44px 22px !important;
-  }
-  .mmLightbox-nav{ display: inline-flex !important; }
-}
-
-@media (max-width: 640px){
-  .mmLightbox-ui{
-    grid-template-columns: 44px 1fr 44px !important;
-    padding: 28px 14px !important;
-  }
-  .mmLightbox-nav{
-    display: inline-flex !important;
-    padding: 10px !important;
-  }
-  .mmLightbox-frame{
-    height: min(76dvh, 720px) !important;
-    max-width: calc(100vw - 110px) !important;
-    border-radius: 12px !important;
-  }
-}
-
-/* =========================================================
-   LIGHTBOX RESPONSIVE FIX (iPad + phone)
-   - keeps web-style lightbox
-   - centers properly
-   - frame scales to viewport
-   ========================================================= */
-
-/* Always keep the stage truly centered */
-.mmLightbox-ui{
-  align-items: center !important;
-}
-.mmLightbox-stage{
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-/* Tablet + down: reduce padding + arrow columns so center stays center */
-@media (max-width: 1100px){
-  .mmLightbox-ui{
-    padding: 28px 18px !important;
-    grid-template-columns: 44px 1fr 44px !important;
-  }
-
-  .mmLightbox-frame{
-    /* scale by viewport, not desktop */
-    height: min(78dvh, 860px) !important;
-    max-height: 78dvh !important;
-    max-width: calc(100vw - 120px) !important; /* 44+44 columns + padding */
-  }
-
-  .mmLightbox-nav{
-    font-size: 34px !important;
-    padding: 10px !important; /* tap target */
-  }
-}
-
-/* Phone: tighter still (prevents the “bottom-right” drift) */
-@media (max-width: 640px){
-  .mmLightbox-ui{
-    padding: 18px 12px !important;
-    grid-template-columns: 40px 1fr 40px !important;
-  }
-
-  .mmLightbox-frame{
-    height: min(74dvh, 720px) !important;
-    max-height: 74dvh !important;
-    max-width: calc(100vw - 96px) !important;
-    border-radius: 12px !important;
-  }
-
-  .mmLightbox-close{
-    top: 12px !important;
-    right: 12px !important;
-  }
-}
-/* =========================================================
-   LIGHTBOX: FORCE true viewport overlay (fix iPad/phone drift)
-   ========================================================= */
-
-.mmLightbox{
-  position: fixed !important;
-  inset: 0 !important;
-  left: 0 !important;
-  top: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  transform: none !important;
-}
-
-.mmLightbox-ui{
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  transform: none !important;
-  margin: 0 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  padding: 56px 56px !important; /* desktop feel */
-  box-sizing: border-box !important;
-}
-
-/* Keep arrows as overlays instead of grid columns */
-.mmLightbox-nav{
-  position: absolute !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 3 !important;
-}
-
-.mmLightbox-prev{ left: 18px !important; }
-.mmLightbox-next{ right: 18px !important; }
-
-.mmLightbox-stage{
-  width: 100% !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.mmLightbox-frame{
-  max-width: min(86vw, 980px) !important;
-  max-height: 78vh !important;
-  height: auto !important;
-  width: auto !important;
-}
-
-/* tighter padding on tablet/phone */
-@media (max-width: 1100px){
-  .mmLightbox-ui{ padding: 44px 22px !important; }
-  .mmLightbox-prev{ left: 10px !important; }
-  .mmLightbox-next{ right: 10px !important; }
-  .mmLightbox-frame{ max-width: calc(100vw - 100px) !important; max-height: 80vh !important; }
-}
-
-@media (max-width: 640px){
-  .mmLightbox-ui{ padding: 30px 12px !important; }
-  .mmLightbox-frame{ max-width: calc(100vw - 84px) !important; max-height: 78vh !important; }
-}
-/* =========================================================
-   LIGHTBOX — hard viewport centering fix (all devices)
-   Paste at VERY BOTTOM of brand-nav.css
-   ========================================================= */
-
-/* Make overlay always sit on top and ignore any page layout */
-.mmLightbox{
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 999999 !important;
-}
-
-/* Remove the desktop grid + padding that causes “shift” on iPad/phone */
-.mmLightbox-ui{
-  position: absolute !important;
-  inset: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 !important;
-  pointer-events: none !important;
-}
-
-/* Center stage in viewport */
-.mmLightbox-stage{
-  pointer-events: auto !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Frame stays centered and scales to viewport */
-.mmLightbox-frame{
-  height: min(74vh, 820px) !important;
-  width: auto !important;
-  max-width: min(86vw, 980px) !important;
-  max-height: 74vh !important;
-
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  background: #000 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Default: cover for 9:16; contain for other ratios (your JS toggles .is-contain) */
-.mmLightbox-frame img,
-.mmLightbox-frame video{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.mmLightbox-frame.is-contain img,
-.mmLightbox-frame.is-contain video{
-  object-fit: contain !important;
-}
-
-/* Put arrows on the sides of the viewport (not in a grid column) */
-.mmLightbox-nav{
-  position: fixed !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 1000000 !important;
-
-  pointer-events: auto !important;
-  border: 0 !important;
-  background: transparent !important;
-  font-size: 42px !important;
-  line-height: 1 !important;
-  cursor: pointer !important;
-  opacity: 0.55 !important;
-  user-select: none !important;
-}
-
-.mmLightbox-prev{ left: 18px !important; }
-.mmLightbox-next{ right: 18px !important; }
-.mmLightbox-nav:hover{ opacity: 0.95 !important; }
-
-/* Close button stays top-right of viewport */
-.mmLightbox-close{
-  position: fixed !important;
-  top: 18px !important;
-  right: 18px !important;
-  z-index: 1000001 !important;
-
-  pointer-events: auto !important;
-  border: 0 !important;
-  background: transparent !important;
-  font-size: 30px !important;
-  line-height: 1 !important;
-  cursor: pointer !important;
-  opacity: 0.6 !important;
-}
-
-.mmLightbox-close:hover{ opacity: 0.95 !important; }
-
-/* IMPORTANT: kill your old phone-only “black full bleed” overrides */
-@media (max-width: 640px){
-  .mmLightbox-backdrop{ background: rgba(255,255,255,0.02) !important; }
-  .mmLightbox-frame{
-    height: min(74vh, 720px) !important;
-    max-height: 74vh !important;
-    max-width: 90vw !important;
-    border-radius: 12px !important;
-  }
-  .mmLightbox-nav{ font-size: 38px !important; }
-}
-
-/* =========================================================
-   LIGHTBOX — viewport-sized + smaller on iPad/phone
-   Paste at VERY BOTTOM of brand-nav.css
-   ========================================================= */
-
-/* Full-screen overlay (always true viewport) */
-.mmLightbox{
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 999999 !important;
-}
-
-/* Kill the desktop grid columns + padding that cause overflow */
-.mmLightbox-ui{
-  position: absolute !important;
-  inset: 0 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-
-  pointer-events: none !important;
-}
-
-/* Center the stage */
-.mmLightbox-stage{
-  pointer-events: auto !important;
-  width: 100% !important;
-  height: 100% !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Frame scales to viewport (this is the “too big” fix) */
-.mmLightbox-frame{
-  width: auto !important;
-  height: auto !important;
-
-  max-width: min(86vw, 920px) !important;
-  max-height: 78vh !important;
-
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  background: #000 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Media sizing inside frame */
-.mmLightbox-frame img,
-.mmLightbox-frame video{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-}
-
-/* Your JS toggles .is-contain for non-9:16 — respect it */
-.mmLightbox-frame.is-contain img,
-.mmLightbox-frame.is-contain video{
-  object-fit: contain !important;
-}
-
-/* Put arrows on viewport sides (always visible) */
-.mmLightbox-nav{
-  position: fixed !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-
-  z-index: 1000000 !important;
-  pointer-events: auto !important;
-
-  border: 0 !important;
-  background: transparent !important;
-
-  font-family: inherit !important;
-  font-size: 42px !important;
-  line-height: 1 !important;
-
-  cursor: pointer !important;
-  opacity: 0.55 !important;
-  user-select: none !important;
-}
-
-.mmLightbox-prev{ left: 16px !important; }
-.mmLightbox-next{ right: 16px !important; }
-.mmLightbox-nav:hover{ opacity: 0.95 !important; }
-
-/* Close button fixed in viewport top-right (always visible) */
-.mmLightbox-close{
-  position: fixed !important;
-  top: 16px !important;
-  right: 16px !important;
-
-  z-index: 1000001 !important;
-  pointer-events: auto !important;
-
-  border: 0 !important;
-  background: transparent !important;
-
-  font-size: 30px !important;
-  line-height: 1 !important;
-
-  cursor: pointer !important;
-  opacity: 0.6 !important;
-}
-.mmLightbox-close:hover{ opacity: 0.95 !important; }
-
-/* Keep backdrop subtle (no black takeover) */
-.mmLightbox-backdrop{
-  background: rgba(255,255,255,0.02) !important;
-}
-
-/* Tablet: a little tighter */
-@media (max-width: 1100px){
-  .mmLightbox-frame{
-    max-width: calc(100vw - 120px) !important; /* room for arrows */
-    max-height: 76vh !important;
-  }
-  .mmLightbox-prev{ left: 10px !important; }
-  .mmLightbox-next{ right: 10px !important; }
-}
-
-/* Phone: tighter still */
-@media (max-width: 640px){
-  .mmLightbox-frame{
-    max-width: calc(100vw - 96px) !important;
-    max-height: 72vh !important;
-  }
-  .mmLightbox-nav{ font-size: 38px !important; }
-  .mmLightbox-close{ top: 12px !important; right: 12px !important; }
-}
 
 .mm-logo{
   position: fixed;
@@ -1580,4 +1000,167 @@ body.brand-page .mm-logo{
     top: 1px !important;
   }
 
+}
+
+
+
+/* =========================================================
+   LIGHTBOX v3 (responsive-first)
+   Desktop + iPad + Phone in ONE module
+   ========================================================= */
+
+/* Lock page scroll when lightbox is open */
+body.brand-page.mmLightbox-open{
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+}
+
+/* Overlay root */
+.mmLightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: none;
+}
+.mmLightbox.is-open{ display: block; }
+
+/* Backdrop */
+.mmLightbox-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+}
+
+/* X always top-right */
+.mmLightbox-close{
+  position: fixed;
+  top: 18px;
+  right: var(--pad);
+  z-index: 20002;
+
+  border: 0;
+  background: transparent;
+  color: #fff;
+
+  font: inherit;
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+  opacity: 0.8;
+}
+.mmLightbox-close:hover{ opacity: 1; }
+
+/* Centering stage */
+.mmLightbox-ui{
+  position: absolute;
+  inset: 0;
+  z-index: 20001;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 36px;
+  pointer-events: none;
+}
+
+/* Arrows pinned to viewport sides, vertically centered */
+.mmLightbox-nav{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20002;
+
+  pointer-events: auto;
+
+  width: 44px;
+  height: 44px;
+
+  border: 0;
+  background: transparent;
+  color: #fff;
+
+  font: inherit;
+  font-size: 36px;
+  line-height: 1;
+
+  cursor: pointer;
+  opacity: 0.7;
+  user-select: none;
+}
+.mmLightbox-nav:hover{ opacity: 1; }
+.mmLightbox-prev{ left: 18px; }
+.mmLightbox-next{ right: 18px; }
+
+/* Frame: width-bounded + ratio preserved */
+.mmLightbox-stage{
+  pointer-events: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mmLightbox-frame{
+  --lb-ar: 9 / 16;
+
+  aspect-ratio: var(--lb-ar);
+  width: min(70vw, 920px);
+  max-height: 80vh;
+
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media inside frame */
+.mmLightbox-frame img,
+.mmLightbox-frame video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* iPad / Tablet */
+@media (max-width: 1100px){
+  .mmLightbox-ui{ padding: 24px; }
+  .mmLightbox-frame{
+    width: 78vw;
+    max-height: 78vh;
+    border-radius: 10px;
+  }
+  .mmLightbox-prev{ left: 14px; }
+  .mmLightbox-next{ right: 14px; }
+}
+
+/* Phone */
+@media (max-width: 640px){
+  .mmLightbox-ui{ padding: 18px; }
+
+  .mmLightbox-frame{
+    width: min(70vw, 550px);
+    max-height: 72vh;
+    border-radius: 10px;
+  }
+
+  .mmLightbox-nav{
+    width: 40px;
+    height: 40px;
+    font-size: 32px;
+  }
+
+  .mmLightbox-prev{ left: 10px; }
+  .mmLightbox-next{ right: 10px; }
+
+  .mmLightbox-close{
+    top: 14px;
+    right: 14px;
+  }
 }
