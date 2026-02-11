@@ -725,7 +725,7 @@ setActiveClient(rawIndex, i);
 });
 // Mobile: horizontal thumb scroll updates the active slide
 const listEl = root.querySelector(".client-list");
-const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
+const isMobile = () => window.matchMedia("(max-width: 520px)").matches;
 
 let raf = 0;
 const onThumbScroll = () => {
