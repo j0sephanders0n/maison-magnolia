@@ -1467,3 +1467,117 @@ body.brand-page .brandNavList a{
   .mmLightbox-close{ top: 12px !important; right: 12px !important; }
 }
 
+.mm-logo{
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 999;
+
+  display: flex;
+  align-items: flex-end;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+
+  color: #000;
+  text-decoration: none;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.mm-logo span{
+  display: inline-block;
+  transform-origin: bottom left;
+  transform: rotate(-4deg);
+}
+
+.mm-logo span:nth-child(odd){
+  transform: rotate(-3deg);
+}
+.mm-logo span:nth-child(even){
+  transform: rotate(-5deg);
+}
+
+body.intro-done .mm-logo{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* TOP-LEFT HOME LOGO (brand pages) */
+body.brand-page .mm-logo{
+  position: fixed !important;
+  top: 18px !important;
+  left: var(--pad) !important;
+  z-index: 10110 !important;
+
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+
+  /* keep your “difference” vibe even though header is mix-blend-mode: normal */
+  color: #fff !important;
+  mix-blend-mode: difference !important;
+  -webkit-text-fill-color: currentColor !important;
+
+  font-size: 14px !important;
+  letter-spacing: 0.14em !important;
+}
+/* BRAND PAGES — PHONE: show only "MM" logo */
+@media (max-width: 520px){
+
+  body.brand-page .mm-logo{
+    font-size: 13px;
+    letter-spacing: 0.18em;
+  }
+
+  /* hide all letters by default */
+  body.brand-page .mm-logo span{
+    display: none;
+  }
+
+  /* show the first M (MAISON) */
+  body.brand-page .mm-logo span:nth-child(1){
+    display: inline-block;
+  }
+
+  /* show the M of MAGNOLIA (after "MAISON " = 7 chars, so this is #8) */
+  body.brand-page .mm-logo span:nth-child(8){
+    display: inline-block;
+  }
+
+}
+
+/* =========================================================
+   FINAL PHONE OVERRIDES (Brand pages)
+   - Mobile MM: NOT angled
+   - Brand label row: nudge DOWN to align with MM + icons
+   Paste at VERY BOTTOM of brand-nav.css
+   ========================================================= */
+
+@media (max-width: 520px){
+
+  /* 1) MM on phone should be straight (override your rotate rules) */
+  body.brand-page .mm-logo span{
+    transform: none !important;
+  }
+
+  /* keep your current "MM only" logic (you already have it) —
+     this just ensures the two visible letters are not rotated */
+
+  /* 2) Nudge the Pandora label row DOWN a bit */
+  body.brand-page .brandNav{
+    padding-top: 26px !important;  /* was 22px */
+  }
+
+  /* optional tiny settle so text feels exactly baseline-aligned */
+  body.brand-page .brandNavList{
+    top: 1px !important;
+  }
+
+}
