@@ -741,6 +741,7 @@ body.preload #siteHeader{
   }
 }
 
+@media (max-width: 520px){
 /* --- PHONE SCREEN WINDOW (tune these to match your SVG opening) --- */
 #projects .video-container{
   width: calc(100vw - 24px);
@@ -800,6 +801,9 @@ body.preload #siteHeader{
   bottom: calc(-1 * (var(--screen-bottom) + 14px));
 }
 
+
+
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
@@ -3264,6 +3268,7 @@ nav.homeMenu{
     padding-top: 0;
   }
 }
+@media (max-width: 520px){
 /* =========================================
    MOBILE: CLIENT LIST OVERLAY (MASKED ON VIDEO)
    ========================================= */
@@ -3331,6 +3336,9 @@ nav.homeMenu{
 /* Hide scrollbar without changing behavior */
 #projects .clientOverlay .client-list::-webkit-scrollbar{ height: 0; }
 #projects .clientOverlay .client-list{ scrollbar-width: none; }
+
+}
+
 /* ============================================================
    MOBILE CLIENT BAR (inside video-container) — BOTTOM + BLEND + NO ROUNDING
    ============================================================ */
