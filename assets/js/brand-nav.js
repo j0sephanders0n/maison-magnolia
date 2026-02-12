@@ -352,15 +352,17 @@ expertsTab.innerHTML = "<span>Experts</span>";
 });
 
 /* =========================================================
-   LIGHTBOX v3 — Step 1 (RED TEST ONLY)
-   - Creates overlay DOM once
-   - Click any .brand-tile -> opens lightbox with a red test block
-   - Close via X, backdrop, Escape
+   LIGHTBOX v4 — Carousel (REAL MEDIA + REAL RATIO)
+   - Click tile opens lightbox
+   - Prev/Next arrows work
+   - Auto-ratio from actual video metadata (videoWidth/videoHeight)
+   - Autoplay on open (muted for iOS), controls visible
    ========================================================= */
 
 (() => {
-  // Only run on brand pages
   if (!document.body.classList.contains("brand-page")) return;
+
+  const body = document.body;
 
   const ensureLightbox = () => {
     let lb = document.querySelector(".mmLightbox");
@@ -383,56 +385,96 @@ expertsTab.innerHTML = "<span>Experts</span>";
 
       <button class="mmLightbox-close" type="button" aria-label="Close">×</button>
     `;
-
     document.body.appendChild(lb);
     return lb;
   };
 
-  const openLightboxForTile = (tile) => {
-  const lb = ensureLightbox();
-  const frame = lb.querySelector(".mmLightbox-frame");
-  if (!frame) return;
+  const getTileSrc = (tile) => {
+    const srcEl = tile.querySelector("video source");
+    const src = srcEl ? srcEl.getAttribute("src") : "";
+    return src || "";
+  };
 
-  // Grab the video src from inside the clicked tile
-  const srcEl = tile.querySelector("video source");
-  const src = srcEl ? srcEl.getAttribute("src") : "";
-  if (!src) return;
+  let lbState = { isOpen: false, tiles: [], index: 0 };
 
-  // Keep using 9:16 for now (matches your grid). Later we can read data-lb-ratio.
-  frame.style.setProperty("--lb-ar", "9 / 16");
+  const render = () => {
+    const lb = document.querySelector(".mmLightbox");
+    if (!lb) return;
 
-  // Clear any prior content
-  frame.innerHTML = "";
+    const frame = lb.querySelector(".mmLightbox-frame");
+    if (!frame) return;
 
-  // Build the lightbox video
-  const v = document.createElement("video");
-  v.setAttribute("playsinline", "");
-  v.setAttribute("controls", "");
-  v.setAttribute("preload", "metadata");
-  v.src = src;
+    const tile = lbState.tiles[lbState.index];
+    if (!tile) return;
 
-  // Fill the frame (CSS controls object-fit)
-  v.style.width = "100%";
-  v.style.height = "100%";
+    const src = getTileSrc(tile);
+    frame.innerHTML = "";
+    if (!src) return;
 
-  frame.appendChild(v);
+    // Default ratio while metadata loads (prevents jump)
+    frame.style.setProperty("--lb-ar", "9 / 16");
 
-  document.body.classList.add("mmLightbox-open");
-  lb.classList.add("is-open");
-};
+    const v = document.createElement("video");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("controls", "");
+    v.setAttribute("preload", "metadata");
 
-  const closeLightbox = () => {
+    // Autoplay rules: iPhone requires muted to autoplay
+    v.autoplay = true;
+    v.muted = true;
+
+    // Optional: loop in lightbox too
+    v.loop = true;
+
+    v.src = src;
+
+    v.addEventListener("loadedmetadata", () => {
+      const w = v.videoWidth || 0;
+      const h = v.videoHeight || 0;
+      if (w > 0 && h > 0) {
+        frame.style.setProperty("--lb-ar", `${w} / ${h}`);
+      }
+    });
+
+    frame.appendChild(v);
+
+    const p = v.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  };
+
+  const openFor = (gridEl, clickedTile) => {
+    const tiles = Array.from(gridEl.querySelectorAll(".brand-tile"));
+    const index = Math.max(0, tiles.indexOf(clickedTile));
+
+    lbState = { isOpen: true, tiles, index };
+
+    const lb = ensureLightbox();
+    body.classList.add("mmLightbox-open");
+    lb.classList.add("is-open");
+
+    render();
+  };
+
+  const close = () => {
     const lb = document.querySelector(".mmLightbox");
     if (!lb) return;
 
     lb.classList.remove("is-open");
-    document.body.classList.remove("mmLightbox-open");
+    body.classList.remove("mmLightbox-open");
 
     const frame = lb.querySelector(".mmLightbox-frame");
     if (frame) frame.innerHTML = "";
+
+    lbState.isOpen = false;
   };
 
-  // Click any tile -> open test
+  const step = (dir) => {
+    if (!lbState.isOpen || !lbState.tiles.length) return;
+    const n = lbState.tiles.length;
+    lbState.index = (lbState.index + dir + n) % n;
+    render();
+  };
+
   document.addEventListener("click", (e) => {
     const tile = e.target.closest(".brand-tile");
     if (!tile) return;
@@ -441,22 +483,99 @@ expertsTab.innerHTML = "<span>Experts</span>";
     if (!grid) return;
 
     e.preventDefault();
-openLightboxForTile(tile);
-    
+    openFor(grid, tile);
   });
 
-  // Close controls
-  document.addEventListener("click", (e) => {
-    if (!document.body.classList.contains("mmLightbox-open")) return;
+  const bindControls = () => {
+    const lb = ensureLightbox();
+    const prev = lb.querySelector(".mmLightbox-prev");
+    const next = lb.querySelector(".mmLightbox-next");
 
-    if (e.target.closest(".mmLightbox-close")) closeLightbox();
-    if (e.target.closest(".mmLightbox-backdrop")) closeLightbox();
-  });
+    if (prev) prev.addEventListener("click", () => step(-1));
+    if (next) next.addEventListener("click", () => step(1));
 
-  document.addEventListener("keydown", (e) => {
-    if (!document.body.classList.contains("mmLightbox-open")) return;
-    if (e.key === "Escape") closeLightbox();
-  });
+    lb.addEventListener("click", (e) => {
+      if (e.target.closest(".mmLightbox-close")) close();
+      if (e.target.closest(".mmLightbox-backdrop")) close();
+    });
 
-  // NOTE: arrows do nothing yet on purpose (Step 3)
+    document.addEventListener("keydown", (e) => {
+      if (!lbState.isOpen) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
+    });
+  };
+
+  bindControls();
+})();
+/* =========================================================
+   SEQUENTIAL TILE LOADER (cascading media load)
+   - Loads brand grid videos in DOM order (top → bottom)
+   - Requires: <source data-src="..."> + video preload="none"
+   ========================================================= */
+(() => {
+  if (!document.body.classList.contains("brand-page")) return;
+
+  const videos = Array.from(document.querySelectorAll(".brand-grid video"));
+  if (!videos.length) return;
+
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const loadOne = async (v) => {
+    const source = v.querySelector("source[data-src]");
+    if (!source) return;
+
+    // If already hydrated (mm-media.js or prior run), skip
+    if (source.getAttribute("src")) return;
+
+    // Hydrate: data-src → src
+    source.setAttribute("src", source.getAttribute("data-src"));
+
+    // Kick off fetch
+    try { v.load(); } catch (_) {}
+
+    // Try to wait for “first frame available” (or give it a short head start)
+    await new Promise((resolve) => {
+      let done = false;
+
+      const finish = () => {
+        if (done) return;
+        done = true;
+        cleanup();
+        resolve();
+      };
+
+      const cleanup = () => {
+        v.removeEventListener("loadeddata", finish);
+        v.removeEventListener("canplay", finish);
+        v.removeEventListener("error", finish);
+      };
+
+      v.addEventListener("loadeddata", finish, { once: true });
+      v.addEventListener("canplay", finish, { once: true });
+      v.addEventListener("error", finish, { once: true });
+
+      // Failsafe: don’t stall the chain forever
+      setTimeout(finish, 700);
+    });
+
+    // Small spacing makes the cascade feel intentional
+    await wait(80);
+  };
+
+  (async () => {
+    for (const v of videos) {
+      // Optional: skip offscreen for faster initial paint (comment out if you truly want ALL in order)
+      // if (v.getBoundingClientRect().top > window.innerHeight * 1.25) break;
+
+      await loadOne(v);
+
+      // Keep your autoplay vibe
+      try {
+        const p = v.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } catch (_) {}
+    }
+  })();
 })();

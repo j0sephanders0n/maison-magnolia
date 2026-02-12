@@ -1,13 +1,12 @@
 /* =========================================================
-   BRAND NAV CSS (standalone)
-   Use on brand/project pages WITHOUT linking main.css
-   Built by migrating the brand-page styles + variables that
-   pandora.html depends on.
+   brand-nav.css (CLEANED)
+   Standalone CSS for brand/project pages (no main.css)
+   Goal: same current behavior, but remove competing overrides.
    ========================================================= */
 
-/* -------------------------
-   Core tokens + base reset
-   ------------------------- */
+/* =========================================================
+   1) Core tokens + base reset
+   ========================================================= */
 :root{
   --bg: #ffffff;
   --text: rgba(10,10,10,.92);
@@ -36,24 +35,24 @@ body{
 ::-webkit-scrollbar{ width: 0px; height: 0px; }
 *{ scrollbar-width: none; }
 
-/* -------------------------
-   Brand page scaffold
-   ------------------------- */
+/* =========================================================
+   2) Brand page scaffold + header behavior
+   ========================================================= */
 body.brand-page{
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
 
-/* Header exists only to hold the top-right controls on brand pages */
+/* Header exists only to hold top-right controls on brand pages */
 body.brand-page #siteHeader{
   opacity: 1 !important;
-  pointer-events: none;      /* children re-enable */
+  pointer-events: none; /* children re-enable */
   background: transparent !important;
   mix-blend-mode: normal !important;
   isolation: auto !important;
 }
 
-/* If the main nav exists in markup, kill it on brand pages */
+/* If main nav exists in markup, kill it on brand pages */
 body.brand-page #siteHeader .nav{ display: none !important; }
 
 /* Ensure header content can receive clicks */
@@ -62,18 +61,18 @@ body.brand-page #siteHeader *{
   pointer-events: auto !important;
 }
 
-/* -------------------------
-   Top-right: Instagram + Hamburger + Menu
-   ------------------------- */
+/* =========================================================
+   3) Top-right: Instagram + Hamburger + Menu
+   ========================================================= */
 
 /* Instagram (top-right, always black) */
 body.brand-page a.igFixed{
   position: fixed !important;
   top: 18px !important;
   right: var(--pad) !important;
-  z-index: 10050 !important;
+  z-index: 10120 !important;
 
-  width: 16px !important;     /* visually “thinner” */
+  width: 16px !important; /* visually “thinner” */
   height: 16px !important;
 
   display: flex;
@@ -105,13 +104,9 @@ body.brand-page details.brandMenuWrap{
   pointer-events: auto !important;
 }
 
-/* hide default disclosure marker */
-body.brand-page details.brandMenuWrap > summary{
-  list-style: none;
-}
-body.brand-page details.brandMenuWrap > summary::-webkit-details-marker{
-  display: none;
-}
+/* Hide default disclosure marker */
+body.brand-page details.brandMenuWrap > summary{ list-style: none; }
+body.brand-page details.brandMenuWrap > summary::-webkit-details-marker{ display: none; }
 
 /* Hamburger button (left of IG) */
 body.brand-page summary.brandMenuBtn{
@@ -133,7 +128,7 @@ body.brand-page summary.brandMenuBtn{
   cursor: pointer !important;
   user-select: none !important;
 
-  z-index: 10051 !important;
+  z-index: 10120 !important;
 
   color: #000 !important;
   opacity: 1 !important;
@@ -150,10 +145,10 @@ body.brand-page summary.brandMenuBtn svg{
   stroke: currentColor !important;
 }
 
-/* Horizontal menu that expands LEFT from the hamburger */
+/* Menu links baseline (desktop: horizontal row that expands left) */
 body.brand-page nav.brandMenu{
   position: fixed !important;
-  top: 20px !important; /* +2px so it sits slightly lower than the hamburger */
+  top: 20px !important; /* sits slightly lower than hamburger */
   right: calc(var(--pad) + 34px + 18px + 12px) !important;
 
   display: none;
@@ -171,11 +166,9 @@ body.brand-page nav.brandMenu{
 }
 
 /* Show when open */
-body.brand-page details.brandMenuWrap[open] nav.brandMenu{
-  display: flex !important;
-}
+body.brand-page details.brandMenuWrap[open] nav.brandMenu{ display: flex !important; }
 
-/* Menu links: no underline, no layout shift */
+/* Menu links: no underline, no layout shift (desktop animation) */
 body.brand-page nav.brandMenu a{
   font-size: 13px;
   font-weight: 400 !important;
@@ -190,17 +183,18 @@ body.brand-page nav.brandMenu a{
   display: inline-block !important;
   cursor: pointer !important;
 
-  /* hidden state for slide-out */
   transform: translateX(10px) !important;
   opacity: 0 !important;
+
   transition:
     opacity 220ms ease,
     transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
     color 140ms ease !important;
+
   will-change: transform, opacity;
 }
 
-/* invisible bold clone reserves width (prevents hover “jump”) */
+/* Invisible bold clone reserves width (prevents hover “jump”) */
 body.brand-page nav.brandMenu a::after{
   content: attr(data-label);
   font-weight: 800;
@@ -210,13 +204,13 @@ body.brand-page nav.brandMenu a::after{
   display: block;
 }
 
-/* visible state when open */
+/* Visible state when open */
 body.brand-page details.brandMenuWrap[open] nav.brandMenu a{
   opacity: 1 !important;
   transform: translateX(0) !important;
 }
 
-/* cascade timing */
+/* Cascade timing */
 body.brand-page details.brandMenuWrap[open] nav.brandMenu a:nth-child(1){ transition-delay: 0ms !important; }
 body.brand-page details.brandMenuWrap[open] nav.brandMenu a:nth-child(2){ transition-delay: 35ms !important; }
 body.brand-page details.brandMenuWrap[open] nav.brandMenu a:nth-child(3){ transition-delay: 70ms !important; }
@@ -230,18 +224,19 @@ body.brand-page nav.brandMenu a:hover{
   opacity: 1 !important;
 }
 
-/* -------------------------
-   Center brand rolodex row
-   ------------------------- */
+/* =========================================================
+   4) Center brand rolodex row (arrows + current label)
+   ========================================================= */
 body.brand-page .brandNav{
   position: fixed;
   left: 0;
   right: 0;
   top: 0 !important;
 
-  /* remove big “band”, align to icon baseline */
   height: 0 !important;
-  padding-top: 22px !important;
+
+  /* Current “winning” alignment baseline */
+  padding-top: 25px !important;
 
   z-index: 10000;
 
@@ -267,7 +262,6 @@ body.brand-page .brandNavArrow{
   font-size: 26px;
   line-height: 1;
 
-  color: #000;
   opacity: 0.55;
 
   margin: 0 !important;
@@ -284,6 +278,7 @@ body.brand-page .brandNavArrow:hover{ opacity: 1; }
 
 body.brand-page .brandNavList{
   min-width: 220px;
+
   margin: 0 !important;
   padding: 0 !important;
   transform: none !important;
@@ -295,7 +290,7 @@ body.brand-page .brandNavList{
   justify-content: center !important;
 }
 
-/* show ONLY current brand */
+/* Show ONLY current brand */
 body.brand-page .brandNavList a{
   display: none;
   font-weight: 800;
@@ -303,47 +298,33 @@ body.brand-page .brandNavList a{
   font-size: 14px;
   line-height: 1 !important;
 
-  color: #000;
   text-decoration: none;
 }
 body.brand-page .brandNavList a.is-current{ display: inline-block; }
 
-/* -------------------------
-   Top-left brand label
-   ------------------------- */
-body.brand-page .brand-corner{
-  position: fixed;
-  left: 0;
-  top: 22px !important;
-  z-index: 9;
-
-  padding-left: var(--pad);
-
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  line-height: 1 !important;
-
-  pointer-events: none;
-  mix-blend-mode: normal !important;
+/* Force brand rolodex to always use DIFFERENCE */
+body.brand-page .brandNav,
+body.brand-page .brandNavArrow,
+body.brand-page .brandNavList,
+body.brand-page .brandNavList a{
+  mix-blend-mode: difference !important;
+  color: #fff !important; /* makes difference reliable */
+  -webkit-text-fill-color: currentColor !important;
 }
 
-/* -------------------------
-   Main layout (left list, feed, right experts)
-   ------------------------- */
+/* =========================================================
+   5) Main layout (left list, feed, right experts)
+   ========================================================= */
 body.brand-page .brand-layout{
   width: min(1200px, calc(100% - (var(--pad) * 2)));
   margin: 0 auto;
 
-  /* reduced top spacing */
   padding: calc(var(--logo-size) + 5px) 0 160px;
-
   display: grid;
   grid-template-columns: 1fr;
 }
 
-/* LEFT LIST (pinned hard left) */
+/* LEFT LIST (desktop pinned hard left) */
 body.brand-page .brand-left{
   position: fixed;
   top: calc(var(--logo-size) + 60px);
@@ -378,7 +359,7 @@ body.brand-page .brand-left-link.is-active{
   opacity: 1;
 }
 
-/* RIGHT PEOPLE COLUMN (experts) */
+/* RIGHT PEOPLE COLUMN (desktop base; tablet/phone becomes drawer via media query) */
 body.brand-page .brand-people{
   position: fixed;
   top: calc(var(--logo-size) + 0px);
@@ -390,12 +371,13 @@ body.brand-page .brand-people{
   padding-right: var(--pad);
   z-index: 5;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
 }
 
-/* Base experts list (so it works without main.css) */
+/* Base experts list */
 .experts-list{
   list-style: none;
   padding: 0;
@@ -428,14 +410,18 @@ body.brand-page .brand-people-list{
   align-items: flex-start;
   text-align: left;
 
-  /* allow long lists (30+ names) */
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-right: 6px;
-
   transition: opacity 140ms ease;
   opacity: 1;
+
+  /* Final “winning” scroll behavior */
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  max-height: none !important;
+
+  /* Final spacing for drawer version */
+  margin-top: 150px !important;
+  padding-right: 6px;
 }
 body.brand-page .brand-people-list.is-fading{ opacity: 0; }
 
@@ -448,9 +434,7 @@ body.brand-page .brand-people-list .expert-name{
   font-size: 14px;
   line-height: 1.1;
 }
-body.brand-page .brand-people-list .expert-meta{
-  font-size: 10px;
-}
+body.brand-page .brand-people-list .expert-meta{ font-size: 10px; }
 
 /* FEED / GRID (true centering: equal gutters for left + right) */
 body.brand-page .brand-right{
@@ -462,9 +446,10 @@ body.brand-page .brand-right{
   box-sizing: border-box;
 }
 
-/* Correct anchor snapping */
+/* Anchor snapping + scrollspy visibility */
 body.brand-page .brand-anchor{
   scroll-margin-top: calc(var(--logo-size) + 80px);
+  height: 1px;
 }
 
 /* Section titles */
@@ -472,7 +457,7 @@ body.brand-page .brand-section-title{
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin: 6px 0 14px; /* lifted closer to navbar */
+  margin: 6px 0 14px;
   opacity: 0.7;
 }
 
@@ -484,98 +469,52 @@ body.brand-page .brand-grid{
   margin: 0 0 32px 0;
 }
 
-/* Tiles */
+/* Tiles (feed preview stays “cover”) */
 body.brand-page .brand-tile{
-  background: #000;
+  background: #fff !important;
   border-radius: 12px;
   overflow: hidden;
 }
-
 body.brand-page .brand-tile video{
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
+  background: transparent;
 }
-
 
 /* Ratios */
 body.brand-page .brand-tile.r-9-16{ aspect-ratio: 9 / 16; }
 body.brand-page .brand-tile.r-16-9{ aspect-ratio: 16 / 9; }
 
-/* -------------------------
-   Responsive
-   ------------------------- */
-@media (max-width: 980px){
-  body.brand-page .brand-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 1100px){
-  body.brand-page .brand-people{
-    position: relative;
-    top: auto;
-    right: auto;
-    width: 100%;
-    height: auto;
-    padding-right: 0;
-    margin-top: 22px;
-  }
-
-  
-
-  body.brand-page .brand-right{
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-@media (max-width: 640px){
-  body.brand-page .brand-left{
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    height: auto;
-    padding-left: 0;
-    margin-bottom: 24px;
-    
-  }
-
-  body.brand-page .brand-left-nav{
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 16px;
-    overflow-x: auto;
-  }
-
-  body.brand-page .brand-grid{
-    grid-template-columns: 1fr;
-  }
-  
-}
-
-
-body.brand-page .brand-anchor{
-  height: 1px;
-}
-
-
-
 /* =========================================================
-   LUX RESPONSIVE + DRAWERS OVERRIDES (FINAL)
-   Paste-ready full replaceable file includes this at bottom.
+   6) Responsive: Tablet + Phone (<=1100px)
    ========================================================= */
 
-/* ---------- Safety: anchors observable for scrollspy ---------- */
-body.brand-page .brand-anchor{ height: 1px; }
-
-/* ---------- Experts tab: NEVER on desktop ---------- */
+/* Experts tab: NEVER on desktop (JS inserts it only on <=1100) */
 body.brand-page .expertsTab{ display: none; }
 
-/* ---------- Tablet: left list becomes horizontal so nothing gets cut off ---------- */
 @media (max-width: 1100px){
+  :root{
+    --pad: 22px;
+    --logo-size: 56px;
+  }
+
+  /* Reflow layout to avoid overlap */
+  body.brand-page .brand-layout{
+    display: block !important;
+    width: min(980px, calc(100% - (var(--pad) * 2))) !important;
+    margin: 0 auto !important;
+    padding: calc(var(--logo-size) + 44px) 0 96px !important;
+  }
+
+  body.brand-page .brand-right{
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Left list becomes horizontal (text-only) */
   body.brand-page .brand-left{
     position: relative !important;
     top: auto !important;
@@ -600,38 +539,7 @@ body.brand-page .expertsTab{ display: none; }
 
   body.brand-page .brand-left-link{
     white-space: nowrap !important;
-  }
 
-  /* Keep 3-up grid on iPad */
-  body.brand-page .brand-grid{
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
-}
-
-/* ---------- Tablet + Phone (<=900): single flow + drawers ---------- */
-@media (max-width: 1100px){
-  :root{
-    --pad: 22px;
-    --logo-size: 56px;
-  }
-
-  /* Reflow layout to avoid overlap */
-  body.brand-page .brand-layout{
-    display: block !important;
-    width: min(980px, calc(100% - (var(--pad) * 2))) !important;
-    margin: 0 auto !important;
-    padding: calc(var(--logo-size) + 44px) 0 96px !important;
-  }
-
-  body.brand-page .brand-right{
-    width: 100% !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* Text-only horizontal collab list (no pill background) */
-  body.brand-page .brand-left-link{
     padding: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -644,15 +552,23 @@ body.brand-page .expertsTab{ display: none; }
     font-weight: 800 !important;
   }
 
+  /* Keep 3-up grid */
+  body.brand-page .brand-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
   /* Experts becomes right drawer (tab always visible) */
   body.brand-page .brand-people{
     position: fixed !important;
-    top: 0 !important;
     right: 0 !important;
-    height: 100vh !important;
 
-    width: min(420px, 34vw) !important;     /* iPad: right third */
-    padding: 86px var(--pad) 28px !important;
+    /* Final winning fill rules */
+    top: -24px !important;
+    height: 100dvh !important;
+
+    width: min(420px, 34vw) !important; /* iPad: right third */
+    padding: 0 var(--pad) 28px !important;
 
     background: rgba(255,255,255,0.88) !important;
     backdrop-filter: blur(14px);
@@ -673,11 +589,10 @@ body.brand-page .expertsTab{ display: none; }
     display: flex !important;
     position: absolute !important;
 
-top: 30dvh !important;
+    top: 30dvh !important;
     left: -36px !important;
 
-    /* perfect vertical centering + readable orientation */
-transform: translateY(-50%);
+    transform: translateY(-50%);
     transform-origin: center !important;
 
     width: 36px !important;
@@ -687,7 +602,6 @@ transform: translateY(-50%);
     text-transform: uppercase !important;
     letter-spacing: 0.18em !important;
 
-    /* center the label inside the tab */
     align-items: center !important;
     justify-content: center !important;
 
@@ -706,31 +620,13 @@ transform: translateY(-50%);
     color: rgba(0,0,0,0.9) !important;
     cursor: pointer !important;
   }
-body.brand-page .expertsTab span{
-  display:inline-block;
-  transform: rotate(180deg);
-}
-
-  body.brand-page .brand-people-list{
-    max-height: calc(100vh - 140px) !important;
-    overflow-y: auto !important;
-    padding-right: 6px !important;
+  body.brand-page .expertsTab span{
+    display: inline-block;
+    transform: rotate(180deg);
   }
-
-  /* Blur page when experts drawer open */
-  /* body.brand-page.mmExperts-open main,
-  body.brand-page.mmExperts-open .brand-left,
-  body.brand-page.mmExperts-open .brand-corner,
-  body.brand-page.mmExperts-open .brandNav,
-  body.brand-page.mmExperts-open #siteHeader{
-    filter: blur(6px);
-    opacity: 0.25;
-    transition: opacity 140ms ease, filter 180ms ease;
-  } */
 
   /* Mobile/Tablet hamburger menu becomes a right drawer */
   body.brand-page nav.brandMenu{
-    position: fixed !important;
     top: 0 !important;
     right: 0 !important;
     height: 100vh !important;
@@ -763,25 +659,16 @@ body.brand-page .expertsTab span{
     transform: none !important;
     opacity: 0.92 !important;
   }
+}
 
-  /* Optional menu backdrop (created by JS) */
-  /* body.brand-page .mmMenuBackdrop{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.18);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    z-index: 10069;
-  } */
-
-  /* Keep 3-up grid */
-  body.brand-page .brand-grid{
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 8px !important;
+/* iPad: center collaboration horizontal list */
+@media (min-width: 641px) and (max-width: 1100px){
+  body.brand-page .brand-left-nav{
+    justify-content: center !important;
   }
 }
 
-/* ---------- Phone (<=640): 3-up tighter + experts drawer wider ---------- */
+/* Phone: tighten padding + drawer width */
 @media (max-width: 640px){
   :root{ --pad: 16px; }
 
@@ -794,50 +681,14 @@ body.brand-page .expertsTab span{
     width: 86vw !important;
     max-width: none !important;
     min-width: 0 !important;
-    padding-top: 88px !important;
     transform: translateX(calc(100% - .1px)) !important;
   }
-}
-
-/* Keep IG + hamburger above the opened menu drawer */
-body.brand-page a.igFixed,
-body.brand-page summary.brandMenuBtn{
-  position: fixed;
-  z-index: 10120 !important; /* higher than nav.brandMenu */
-}
-
-/* Drawer content should start at top, not be vertically centered */
-body.brand-page .brand-people{
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  align-items: stretch !important;
-}
-
-/* Long expert lists: always scroll inside the drawer */
-body.brand-page .brand-people-list{
-  flex: 1 1 auto !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
-  max-height: none !important;
-}
-
-/* ================================
-   PHONE BRAND NAV SPACING FIX
-   Paste at very bottom of CSS
-   ================================ */
-
-@media (max-width: 640px){
 
   /* Pull arrows closer to brand name */
-  body.brand-page .brandNav{
-    gap: 30px !important;
-  }
+  body.brand-page .brandNav{ gap: 30px !important; }
 
   /* Remove forced width that spreads arrows apart */
-  body.brand-page .brandNavList{
-    min-width: 0 !important;
-  }
+  body.brand-page .brandNavList{ min-width: 0 !important; }
 
   /* Slightly shrink arrows + keep tap target */
   body.brand-page .brandNavArrow{
@@ -850,51 +701,11 @@ body.brand-page .brand-people-list{
     font-size: 12px !important;
     letter-spacing: 0.12em !important;
   }
-
 }
 
-/* ====================================
-   FIX EXPERT DRAWER FULL HEIGHT BACKGROUND
-   ==================================== */
-
-body.brand-page .brand-people{
-
-  /* Ensure drawer truly fills viewport */
-  top: -24px !important;
-  height: 100dvh !important;
-
-  /* Move spacing from outer container to inner content */
-  padding-top: 0 !important;
-}
-
-/* Re-apply visual spacing INSIDE drawer instead */
-body.brand-page .brand-people-list{
-  margin-top: 150px !important;
-}
-
-
-/* FORCE brand rolodex to always use DIFFERENCE */
-body.brand-page .brandNav,
-body.brand-page .brandNavArrow,
-body.brand-page .brandNavList,
-body.brand-page .brandNavList a{
-  mix-blend-mode: difference !important;
-  color: #fff !important; /* makes difference reliable */
-  -webkit-text-fill-color: currentColor !important;
-}
-
-/* ==========================================
-   iPad: center collaboration horizontal list
-   ========================================== */
-
-@media (min-width: 641px) and (max-width: 1100px){
-
-  body.brand-page .brand-left-nav{
-    justify-content: center !important;
-  }
-
-}
-
+/* =========================================================
+   7) MM logo (top-left home)
+   ========================================================= */
 .mm-logo{
   position: fixed;
   top: 22px;
@@ -904,7 +715,7 @@ body.brand-page .brandNavList a{
   display: flex;
   align-items: flex-end;
 
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 15px;
   letter-spacing: 0.08em;
@@ -923,13 +734,8 @@ body.brand-page .brandNavList a{
   transform-origin: bottom left;
   transform: rotate(-4deg);
 }
-
-.mm-logo span:nth-child(odd){
-  transform: rotate(-3deg);
-}
-.mm-logo span:nth-child(even){
-  transform: rotate(-5deg);
-}
+.mm-logo span:nth-child(odd){ transform: rotate(-3deg); }
+.mm-logo span:nth-child(even){ transform: rotate(-5deg); }
 
 body.intro-done .mm-logo{
   opacity: 1;
@@ -937,7 +743,7 @@ body.intro-done .mm-logo{
   transform: translateY(0);
 }
 
-/* TOP-LEFT HOME LOGO (brand pages) */
+/* Brand pages: fixed + difference */
 body.brand-page .mm-logo{
   position: fixed !important;
   top: 18px !important;
@@ -948,7 +754,6 @@ body.brand-page .mm-logo{
   pointer-events: auto !important;
   transform: translateY(0) !important;
 
-  /* keep your “difference” vibe even though header is mix-blend-mode: normal */
   color: #fff !important;
   mix-blend-mode: difference !important;
   -webkit-text-fill-color: currentColor !important;
@@ -956,65 +761,33 @@ body.brand-page .mm-logo{
   font-size: 14px !important;
   letter-spacing: 0.14em !important;
 }
-/* BRAND PAGES — PHONE: show only "MM" logo */
-@media (max-width: 520px){
 
+/* Phone: show only “MM” */
+@media (max-width: 520px){
   body.brand-page .mm-logo{
     font-size: 13px;
     letter-spacing: 0.18em;
   }
 
   /* hide all letters by default */
-  body.brand-page .mm-logo span{
-    display: none;
-  }
+  body.brand-page .mm-logo span{ display: none; }
 
-  /* show the first M (MAISON) */
-  body.brand-page .mm-logo span:nth-child(1){
-    display: inline-block;
-  }
+  /* show M (MAISON) */
+  body.brand-page .mm-logo span:nth-child(1){ display: inline-block; }
 
-  /* show the M of MAGNOLIA (after "MAISON " = 7 chars, so this is #8) */
-  body.brand-page .mm-logo span:nth-child(8){
-    display: inline-block;
-  }
+  /* show M (MAGNOLIA) */
+  body.brand-page .mm-logo span:nth-child(8){ display: inline-block; }
 
+  /* MM should be straight on phone */
+  body.brand-page .mm-logo span{ transform: none !important; }
+
+  /* Nudge brand label row DOWN a bit on phone */
+  body.brand-page .brandNav{ padding-top: 26px !important; }
+  body.brand-page .brandNavList{ top: 1px !important; }
 }
 
 /* =========================================================
-   FINAL PHONE OVERRIDES (Brand pages)
-   - Mobile MM: NOT angled
-   - Brand label row: nudge DOWN to align with MM + icons
-   Paste at VERY BOTTOM of brand-nav.css
-   ========================================================= */
-
-@media (max-width: 520px){
-
-  /* 1) MM on phone should be straight (override your rotate rules) */
-  body.brand-page .mm-logo span{
-    transform: none !important;
-  }
-
-  /* keep your current "MM only" logic (you already have it) —
-     this just ensures the two visible letters are not rotated */
-
-  /* 2) Nudge the Pandora label row DOWN a bit */
-  body.brand-page .brandNav{
-    padding-top: 26px !important;  /* was 22px */
-  }
-
-  /* optional tiny settle so text feels exactly baseline-aligned */
-  body.brand-page .brandNavList{
-    top: 1px !important;
-  }
-
-}
-
-
-
-/* =========================================================
-   LIGHTBOX v3 (responsive-first)
-   Desktop + iPad + Phone in ONE module
+   8) Lightbox (final: white backdrop, black icons, no shadow)
    ========================================================= */
 
 /* Lock page scroll when lightbox is open */
@@ -1033,34 +806,14 @@ body.brand-page.mmLightbox-open{
 }
 .mmLightbox.is-open{ display: block; }
 
-/* Backdrop */
+/* Backdrop (FINAL) */
 .mmLightbox-backdrop{
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.72);
+  background: rgba(255,255,255,0.80) !important;
 }
 
-/* X always top-right */
-.mmLightbox-close{
-  position: fixed;
-  top: 18px;
-  right: var(--pad);
-  z-index: 20002;
-
-  border: 0;
-  background: transparent;
-  color: #fff;
-
-  font: inherit;
-  font-size: 28px;
-  line-height: 1;
-
-  cursor: pointer;
-  opacity: 0.8;
-}
-.mmLightbox-close:hover{ opacity: 1; }
-
-/* Centering stage */
+/* UI stage */
 .mmLightbox-ui{
   position: absolute;
   inset: 0;
@@ -1072,7 +825,31 @@ body.brand-page.mmLightbox-open{
 
   padding: 36px;
   pointer-events: none;
+
+  box-shadow: none !important;
 }
+
+/* X always top-right */
+.mmLightbox-close{
+  position: fixed;
+  top: 18px;
+  right: var(--pad);
+  z-index: 20002;
+
+  border: 0;
+  background: transparent;
+
+  font: inherit;
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+  opacity: 0.8;
+
+  color: #000 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.mmLightbox-close:hover{ opacity: 1; }
 
 /* Arrows pinned to viewport sides, vertically centered */
 .mmLightbox-nav{
@@ -1088,7 +865,6 @@ body.brand-page.mmLightbox-open{
 
   border: 0;
   background: transparent;
-  color: #fff;
 
   font: inherit;
   font-size: 36px;
@@ -1097,12 +873,15 @@ body.brand-page.mmLightbox-open{
   cursor: pointer;
   opacity: 0.7;
   user-select: none;
+
+  color: #000 !important;
+  -webkit-text-fill-color: currentColor !important;
 }
 .mmLightbox-nav:hover{ opacity: 1; }
 .mmLightbox-prev{ left: 18px; }
 .mmLightbox-next{ right: 18px; }
 
-/* Frame: width-bounded + ratio preserved */
+/* Centering stage */
 .mmLightbox-stage{
   pointer-events: auto;
   width: 100%;
@@ -1111,39 +890,45 @@ body.brand-page.mmLightbox-open{
   justify-content: center;
 }
 
+/* Frame: width-bounded + ratio preserved (FINAL) */
 .mmLightbox-frame{
   --lb-ar: 9 / 16;
 
-  aspect-ratio: var(--lb-ar);
+  aspect-ratio: var(--lb-ar, 9 / 16);
   width: min(70vw, 920px);
   max-height: 80vh;
 
-  background: #000;
+  background: #fff !important;
   border-radius: 12px;
   overflow: hidden;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  box-shadow: none !important;
 }
 
 /* Media inside frame */
 .mmLightbox-frame img,
 .mmLightbox-frame video{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+  background: #fff !important;
 }
 
 /* iPad / Tablet */
 @media (max-width: 1100px){
   .mmLightbox-ui{ padding: 24px; }
+
   .mmLightbox-frame{
     width: 78vw;
     max-height: 78vh;
     border-radius: 10px;
   }
+
   .mmLightbox-prev{ left: 14px; }
   .mmLightbox-next{ right: 14px; }
 }
@@ -1171,10 +956,4 @@ body.brand-page.mmLightbox-open{
     top: 14px;
     right: 14px;
   }
-}
-body.brand-page .brand-tile video{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
 }
