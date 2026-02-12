@@ -189,12 +189,34 @@ const setCaptionClampAndMore = (slide, isActive) => {
     const warmCount = 3;
 
     function applyLightDefaults() {
-      videos.forEach((v) => {
-        v.muted = true;
-        v.loop = true;
-        v.playsInline = true;
-        v.preload = "metadata";
-      });
+const isPhone = () => window.matchMedia("(max-width: 520px)").matches;
+
+videos.forEach((v) => {
+  // Make iOS/Safari behave consistently
+  v.muted = true;
+  v.loop = true;
+  v.playsInline = true;
+
+  // Ensure the ATTRIBUTES exist too (Safari can be picky)
+  v.setAttribute("muted", "");
+  v.setAttribute("playsinline", "");
+  v.setAttribute("webkit-playsinline", "");
+  v.setAttribute("autoplay", "");
+
+  // Default: metadata
+  v.preload = v.preload || "metadata";
+});
+
+// PHONE ONLY: aggressively preload so you don't see black frames between swipes
+const warmAllVideosOnPhone = () => {
+  if (!isPhone()) return;
+  videos.forEach((v) => {
+    v.preload = "auto";
+    try { v.load(); } catch {}
+  });
+};
+warmAllVideosOnPhone();
+window.addEventListener("resize", warmAllVideosOnPhone);
     }
 
     function warmStart() {
@@ -767,26 +789,37 @@ const setCaptionClampAndMore = (slide, isActive) => {
       }
     }
 
-    function primeAround(i) {
-      const idxs = [i - 1, i, i + 1].filter((n) => n >= 0 && n < videos.length);
+function primeAround(i) {
+  const idxs = [i - 2, i - 1, i, i + 1, i + 2].filter((n) => n >= 0 && n < videos.length);
 
-      idxs.forEach((n) => {
-        const v = videos[n];
-        v.preload = "auto";
-        try { v.load(); } catch {}
-      });
+  // ensure current + nearby vids have frames ready
+  idxs.forEach((n) => {
+    const v = videos[n];
+    v.preload = "auto";
+    try { v.load(); } catch {}
+  });
 
-      videos.forEach((v, n) => {
-        if (!idxs.includes(n) && !v.paused) {
-          try { v.pause(); } catch {}
-        }
-      });
+  // Desktop/iPad: pause non-neighbors for performance
+  // Phone: DON'T aggressively pause during scrubs (prevents black gaps)
+  if (!isPhone()) {
+    videos.forEach((v, n) => {
+      if (!idxs.includes(n) && !v.paused) {
+        try { v.pause(); } catch {}
+      }
+    });
+  }
 
-      tryPlay(videos[i]);
-    }
+  tryPlay(videos[i]);
+}
 
     // unlock autoplay on first gesture
-    const unlockOnce = () => primeAround(activeIndex);
+const unlockOnce = () => {
+  warmAllVideosOnPhone();
+  primeAround(activeIndex);
+
+  // iOS: force a real play call on the active video after gesture
+  tryPlay(videos[activeIndex]);
+};
     window.addEventListener("pointerdown", unlockOnce, { once: true });
     window.addEventListener("keydown", unlockOnce, { once: true });
     window.addEventListener("touchstart", unlockOnce, { once: true });
@@ -934,3 +967,4 @@ window.addEventListener("resize", () => goTo(activeIndex));
       // fail silently — doesn't break layout
     });
 })();
+
