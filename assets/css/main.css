@@ -665,8 +665,9 @@ body.preload #siteHeader{
   }
 
   .grid{
-    width: min(760px, calc(100% - (var(--pad) * 2)));
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(900px, calc(100% - (var(--pad) * 2)));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px; /* keeps it tighter on iPad */
   }
 
   #about{
@@ -702,6 +703,8 @@ body.preload #siteHeader{
     grid-template-columns: 1fr;
     gap: 36px;
   }
+
+  
 
   .bottom-statement{
     margin-top: 80px;

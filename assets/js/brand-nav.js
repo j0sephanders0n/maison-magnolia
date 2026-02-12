@@ -388,36 +388,38 @@ expertsTab.innerHTML = "<span>Experts</span>";
     return lb;
   };
 
-  const openTestLightbox = () => {
-    const lb = ensureLightbox();
-    const frame = lb.querySelector(".mmLightbox-frame");
-    if (!frame) return;
+  const openLightboxForTile = (tile) => {
+  const lb = ensureLightbox();
+  const frame = lb.querySelector(".mmLightbox-frame");
+  if (!frame) return;
 
-    // Force a known ratio for the test (you can change this)
-    frame.style.setProperty("--lb-ar", "9 / 16");
+  // Grab the video src from inside the clicked tile
+  const srcEl = tile.querySelector("video source");
+  const src = srcEl ? srcEl.getAttribute("src") : "";
+  if (!src) return;
 
-    // RED TEST BLOCK
-    frame.innerHTML = `
-      <div style="
-        width: 100%;
-        height: 100%;
-        background: red;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-size: 14px;
-      ">
-        Lightbox Test
-      </div>
-    `;
+  // Keep using 9:16 for now (matches your grid). Later we can read data-lb-ratio.
+  frame.style.setProperty("--lb-ar", "9 / 16");
 
-    document.body.classList.add("mmLightbox-open");
-    lb.classList.add("is-open");
-  };
+  // Clear any prior content
+  frame.innerHTML = "";
+
+  // Build the lightbox video
+  const v = document.createElement("video");
+  v.setAttribute("playsinline", "");
+  v.setAttribute("controls", "");
+  v.setAttribute("preload", "metadata");
+  v.src = src;
+
+  // Fill the frame (CSS controls object-fit)
+  v.style.width = "100%";
+  v.style.height = "100%";
+
+  frame.appendChild(v);
+
+  document.body.classList.add("mmLightbox-open");
+  lb.classList.add("is-open");
+};
 
   const closeLightbox = () => {
     const lb = document.querySelector(".mmLightbox");
@@ -439,7 +441,7 @@ expertsTab.innerHTML = "<span>Experts</span>";
     if (!grid) return;
 
     e.preventDefault();
-    openTestLightbox();
+openLightboxForTile(tile);
     
   });
 

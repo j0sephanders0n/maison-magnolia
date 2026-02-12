@@ -491,6 +491,14 @@ body.brand-page .brand-tile{
   overflow: hidden;
 }
 
+body.brand-page .brand-tile video{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+
 /* Ratios */
 body.brand-page .brand-tile.r-9-16{ aspect-ratio: 9 / 16; }
 body.brand-page .brand-tile.r-16-9{ aspect-ratio: 16 / 9; }
@@ -1163,4 +1171,10 @@ body.brand-page.mmLightbox-open{
     top: 14px;
     right: 14px;
   }
+}
+body.brand-page .brand-tile video{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
