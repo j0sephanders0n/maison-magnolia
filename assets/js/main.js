@@ -8,6 +8,44 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => window.scrollTo(0, 0), 0);
 
   // ============================================================
+  // MOBILE ONLY: FORCE AUTOPLAY FOR ALL VIDEOS (iOS SAFE)
+  // - Required for real iPhone Safari (DevTools is misleading)
+  // - Index.html only (this main.js is only used by homepage)
+  // ============================================================
+  (function forceMobileAutoplay() {
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    if (!isMobile) return;
+
+    const videos = Array.from(document.querySelectorAll("video"));
+    if (!videos.length) return;
+
+    const tryPlay = (v) => {
+      // iOS/Safari requirements
+      v.muted = true;
+      v.playsInline = true;
+
+      // Ensure attributes exist too
+      v.setAttribute("muted", "");
+      v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+      v.setAttribute("autoplay", "");
+
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+
+    // Initial attempt
+    videos.forEach(tryPlay);
+
+    // Retry once after page becomes interactive (Safari quirk)
+    setTimeout(() => { videos.forEach(tryPlay); }, 300);
+
+    // Final fallback: first user touch unlocks playback on stricter devices
+    const unlock = () => { videos.forEach(tryPlay); };
+    window.addEventListener("touchstart", unlock, { once: true, passive: true });
+  })();
+
+  // ============================================================
   // INTRO ANIMATION (keeps your existing behavior, but smoother)
   // - adds a SMALL DELAY before the logo starts moving
   // - avoids heavy work competing with the animation
