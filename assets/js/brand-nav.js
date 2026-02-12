@@ -15,17 +15,107 @@
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   if (!body || !body.classList.contains("brand-page")) return;
+  // ============================================================
+// BRAND PAGES — AUTOPLAY ONLY WHEN VISIBLE (lightweight)
+// - Plays videos that are in view
+// - Pauses videos that leave view
+// - Prevents 20+ videos decoding at once
+// ============================================================
+(function initInViewAutoplayVideos(){
+  const videos = Array.from(document.querySelectorAll("video"));
+  if (!videos.length) return;
+
+  const playSafe = (v) => {
+    try {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    } catch {}
+  };
+
+  const pauseSafe = (v) => {
+    try { v.pause(); } catch {}
+  };
+
+  // baseline: keep the vibe but don’t autoplay everything
+  videos.forEach((v) => {
+    v.setAttribute("playsinline", "");
+v.setAttribute("webkit-playsinline", "");
+
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+
+    // don’t force-load everything
+    v.preload = v.getAttribute("preload") || "metadata";
+
+    // important: stop HTML autoplay from kicking in globally
+    v.autoplay = false;
+    v.removeAttribute("autoplay");
+
+    pauseSafe(v);
+  });
+
+  // Pause everything when tab is hidden (big perf win)
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) videos.forEach(pauseSafe);
+  });
+
+  // IntersectionObserver: play only in-view videos
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const v = entry.target;
+      if (entry.isIntersecting) {
+        playSafe(v);
+      } else {
+        pauseSafe(v);
+      }
+    });
+  }, {
+    root: null,
+    // start playing slightly before it’s fully visible
+    rootMargin: "200px 0px 200px 0px",
+    // you can tune: 0.15 is a good “in view” threshold
+    threshold: 0.15
+  });
+
+  videos.forEach((v) => io.observe(v));
+})();
+
+
 
   /* -------------------------
      CONFIG: brand list
      ------------------------- */
   const BRANDS = [
-    { name: "Pandora", href: "./pandora.html" },
-    { name: "Kilian", href: "./kilian.html" },
-    { name: "Frederic Malle", href: "./frederic-malle.html" },
-    { name: "Rabanne", href: "./rabanne.html" },
-    { name: "Too Faced", href: "./too-faced.html" }
-    // add more...
+    { name: "ASOS", href: "./asos.html" },
+    { name: "AMI", href: "./ami.html" },
+    { name: "BALMAIN", href: "./balmain.html" },
+    { name: "BMW", href: "./bmw.html" },
+    { name: "BOSS", href: "./boss.html" },
+    { name: "BREITLING", href: "./breitling.html" },
+    { name: "DAVID YURMAN", href: "./david-yurman.html" },
+    { name: "GIVENCHY", href: "./givenchy.html" },
+    { name: "GOOGLE PIXEL", href: "./google-pixel.html" },
+    { name: "HERMES", href: "./hermes.html" },
+    { name: "HUGO", href: "./hugo.html" },
+    { name: "H&M", href: "./hm.html" },
+    { name: "JIMMY CHOO", href: "./jimmy-choo.html" },
+    { name: "LORO PIANA", href: "./loro-piana.html" },
+    { name: "LOUIS VUITTON", href: "./louis-vuitton.html" },
+    { name: "MARC JACOBS", href: "./marc-jacobs.html" },
+{ name: "MARKS & SPENCER", href: "./marks-spencers.html" },
+    { name: "MESHKI", href: "./meshki.html" },
+    { name: "MICHAEL KORS", href: "./michael-kors.html" },
+    { name: "MIU MIU", href: "./miumiu.html" },
+    { name: "MOSCHINO", href: "./moschino.html" },
+    { name: "PRADA", href: "./prada.html" },
+    { name: "PRADA BEAUTY", href: "./prada-beauty.html" },
+    { name: "RABANNE", href: "./rabanne.html" },
+    { name: "RENT THE RUNWAY", href: "./rent-the-runway.html" },
+    { name: "SANDRO", href: "./sandro.html" },
+    { name: "TUMI", href: "./tumi.html" },
+    { name: "VERONICA BEARD", href: "./veronica-beard.html" },
+    { name: "PANDORA", href: "./pandora.html" }
   ];
 
   /* =========================================================
@@ -110,8 +200,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return BRANDS[0]?.name || "";
   };
 
-  const currentName = getCurrentBrandName();
-  let currentIndex = Math.max(0, BRANDS.findIndex((b) => b.name === currentName));
+  const currentPath = (location.pathname.split("/").pop() || "").toLowerCase();
+  let currentIndex = BRANDS.findIndex(
+    (b) => String(b.href || "").toLowerCase().endsWith(currentPath)
+  );
+  if (currentIndex < 0) currentIndex = 0;
 
   const renderBrandNav = () => {
     if (!navList) return;
