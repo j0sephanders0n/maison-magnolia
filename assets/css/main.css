@@ -354,6 +354,8 @@ body.preload #siteHeader{
   justify-content: center;
 }
 
+
+
 .projects-wrap{
   width: min(1100px, calc(100% - (var(--pad) * 2)));
   padding-top: 0;
@@ -722,8 +724,9 @@ body.preload #siteHeader{
     --nav-size: 14px;
     --grid-gap: 10px;
 
-    --phone-w: 300px;
-    --phone-h: 532px;
+    /* ✅ TRUE 9:16 */
+    --phone-w: min(360px, calc(100vw - 24px));
+    --phone-h: calc(var(--phone-w) * 16 / 9);
   }
 
   .nav{ gap: 20px; }
@@ -740,25 +743,27 @@ body.preload #siteHeader{
 
 /* --- PHONE SCREEN WINDOW (tune these to match your SVG opening) --- */
 #projects .video-container{
-  --screen-top: 22px;
-  --screen-right: 26px;
-  --screen-bottom: 22px;
-  --screen-left: 26px;
+  width: calc(100vw - 24px);
+  height: calc(100vh - 32px);
 
-  --screen-radius: 38px;  /* roundness of the screen opening */
+  margin: 16px auto;
+
+  border-radius: 20px; /* subtle, premium */
+  overflow: hidden;
+  background: #000;
+
+  position: relative;
+  isolation: isolate;
 }
 
 /* Clip ONLY the video to the screen opening */
 #projects .slide video{
-  /* keep your existing absolute inset */
-  inset: var(--screen-top) var(--screen-right) var(--screen-bottom) var(--screen-left);
-  width: calc(100% - (var(--screen-left) + var(--screen-right)));
-  height: calc(100% - (var(--screen-top) + var(--screen-bottom)));
-  /* border-radius: var(--screen-radius); */
-  overflow: hidden;
+  inset: 0 !important;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  border-radius: 20px;
 }
-
 /* Make sure the slide itself doesn't clip the overlay */
 /* Keep each slide clipped (prevents “original div flash” during switch) */
 #projects .slide{
@@ -1167,6 +1172,24 @@ text-align: center;
   bottom: calc(var(--screen-bottom) + var(--screen-safe));
   z-index: 20;              /* above video */
   pointer-events: none;
+
+  /* ✅ CENTER THE CAPTION CONTENT */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#projects .overlay-title{
+  width: 100%;
+  text-align: center;
+  font-weight: 800;
+}
+
+@media (max-width: 520px){
+  #projects .overlay{
+    display: none !important;
+  }
 }
 
 /* Gradient only behind text (inside screen area) */
@@ -2576,67 +2599,70 @@ body.brand-page #siteHeader{
 }
 
 /* ============================================================
-   COLLABORATIONS (#projects) PHONE ONLY UI
-   - remove SVG phone overlay look
-   - round the media container
-   - make client list horizontal scroll
+   COLLABORATIONS (#projects) PHONE ONLY UI — FULL BLEED + BOTTOM CLIENT BAR
    ============================================================ */
 
 @media (max-width: 520px){
 
-  /* almost full bleed but not quite */
-  #projects .projects-wrap{
-    width: calc(100% - 24px);
+  /* Make anchor jump align correctly (no "centered phone" offset) */
+  #projects{
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  /* remove the phone frame overlay on PHONE only */
+  /* Full width wrap */
+  #projects .projects-wrap{
+    width: 100%;
+  }
+
+  /* Phone column becomes full-viewport */
+  #projects .projects-left{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  /* Kill the SVG phone overlay on mobile */
   #projects .phoneFrameOverlay{
     display: none !important;
   }
 
-  /* make the media feel like a rounded card (no "phone screen" inset clip) */
+  /* FULL BLEED VIDEO CONTAINER (no rounded card) */
   #projects .video-container{
-    width: 100% !important;
-    max-width: 520px;
-    height: min(76vh, 620px);
-    border-radius: 22px;
+    width: 100vw !important;
+    max-width: none;
+    height: 100vh;
+    border-radius: 0;
     overflow: hidden;
-    background: #fff;
+    background: #000;
+    isolation: isolate; /* helps blend-mode behave predictably */
   }
 
-  /* undo the screen-window clipping that was made to match the SVG */
+  /* Make the video truly fill */
   #projects .slide video{
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    border-radius: 22px;
+    border-radius: 0 !important;
+    object-fit: cover;
   }
 
-  /* CLIENT LIST -> horizontal scroll */
-  #projects .client-list{
-    display: flex;
-    flex-direction: row;
-    gap: 18px;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-
-    padding: 2px 2px 10px 2px;
-    scroll-snap-type: x mandatory;
+  /* Hide the caption overlays on mobile */
+  #projects .overlay{
+    display: none !important;
   }
 
-  #projects .client{
-    flex: 0 0 auto;
-    scroll-snap-align: center;
+  /* RIGHT COLUMN can collapse on mobile */
+  #projects .projects-right{
+    display: none;
   }
 
-  /* optional: hide scrollbar without changing behavior */
-  #projects .client-list::-webkit-scrollbar{ height: 0; }
-  #projects .client-list{ scrollbar-width: none; }
-
+  /* If you have any old "center snap" padding hacks, kill them */
+  #projects .client-list{ padding-right: 0 !important; }
 }
 
 @media (max-width: 520px){
@@ -2656,6 +2682,20 @@ body.brand-page #siteHeader{
   }
 
 }
+
+/* CLIENT LIST LINKS — no underline / no link styling */
+#projects .client,
+#projects .client:visited{
+  text-decoration: none;
+  color: inherit;
+}
+
+#projects .client:hover,
+#projects .client:focus{
+  text-decoration: none;
+  color: var(--home-color);
+}
+
   #projects .client-list{ padding-right: 350px; }
 
 .mm-logo{
@@ -3187,3 +3227,330 @@ nav.homeMenu{
   z-index: 90030 !important;
 }
 
+/* =========================
+   MOBILE: CENTERED BRAND CAPTION
+   ========================= */
+
+@media (max-width: 520px){
+  #projects .overlay{
+    left: 50%;
+    right: auto;
+    bottom: calc(var(--screen-bottom) + 18px);
+    transform: translateX(-50%);
+    align-items: center;
+    text-align: center;
+  }
+
+  #projects .overlay::before{
+    left: -120px;
+    right: -120px;
+  }
+
+  #projects .overlay-title{
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+}
+/* MOBILE — pull client list up to overlap the video */
+@media (max-width: 520px){
+  #projects .projects-right{
+    position: relative;
+    z-index: 60;
+    margin-top: -88px; /* adjust: -60px to -120px depending on taste */
+  }
+
+  #projects .client-list{
+    padding-top: 0;
+  }
+}
+/* =========================================
+   MOBILE: CLIENT LIST OVERLAY (MASKED ON VIDEO)
+   ========================================= */
+
+#projects .client,
+#projects .client:visited{
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Overlay wrapper that will sit inside .video-container on mobile */
+#projects .clientOverlay{
+  position: absolute;
+  z-index: 60;             /* above video */
+  pointer-events: none;    /* wrapper ignores, links handle */
+
+  /* ✅ only visible "on the video" (screen window mask) */
+  top: var(--screen-top);
+  right: var(--screen-right);
+  bottom: var(--screen-bottom);
+  left: var(--screen-left);
+
+  overflow: hidden;
+  border-radius: var(--screen-radius);
+
+  display: flex;
+  align-items: flex-start;
+}
+
+/* the list itself becomes interactive */
+#projects .clientOverlay .client-list{
+  pointer-events: auto;
+
+  /* put it higher / overlapping the video */
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+
+  padding: 0 16px;
+  margin: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ different blend mode for mobile */
+  mix-blend-mode: difference;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* remove underline even on hover/focus */
+#projects .clientOverlay .client-list .client:hover,
+#projects .clientOverlay .client-list .client:focus{
+  text-decoration: none;
+}
+
+/* Hide scrollbar without changing behavior */
+#projects .clientOverlay .client-list::-webkit-scrollbar{ height: 0; }
+#projects .clientOverlay .client-list{ scrollbar-width: none; }
+/* ============================================================
+   MOBILE CLIENT BAR (inside video-container) — BOTTOM + BLEND + NO ROUNDING
+   ============================================================ */
+
+#projects .clientOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none; /* wrapper ignores; list handles */
+}
+
+/* Bottom bar */
+#projects .clientOverlay .client-list{
+  pointer-events: auto;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+
+  padding: 0 18px;
+  margin: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ NO rounding on the list */
+  border-radius: 0;
+
+  /* ✅ MODE CHANGE */
+  mix-blend-mode: difference;
+  color: #fff;
+
+  /* snap is optional but feels great */
+  scroll-snap-type: x mandatory;
+
+  /* no underline/link styling */
+  text-decoration: none;
+}
+
+#projects .clientOverlay .client{
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+
+  text-decoration: none;
+  color: inherit;
+}
+
+#projects .clientOverlay .client:visited{
+  text-decoration: none;
+  color: inherit;
+}
+
+/* hide scrollbar */
+#projects .clientOverlay .client-list::-webkit-scrollbar{ height: 0; }
+#projects .clientOverlay .client-list{ scrollbar-width: none; }
+@media (max-width: 520px){
+
+  #projects .clientOverlay{
+    position: absolute;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+  }
+
+  #projects .clientOverlay .client-list{
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    bottom: 18px; /* 🔑 forces bottom */
+
+    padding: 0 18px;
+    margin: 0;
+
+    display: flex;
+    gap: 18px;
+
+    overflow-x: auto;
+    white-space: nowrap;
+
+    pointer-events: auto;
+
+    mix-blend-mode: difference;
+    color: #fff;
+
+    border-radius: 0; /* list itself stays flat */
+    top: auto;
+
+  }
+}
+
+@media (max-width: 520px){
+  #projects{
+    scroll-margin-top: -5px;
+  }
+}
+/* ============================================================
+   OVERRIDE: MOBILE PHONE SIZE + CLIENT BAR POSITION (TWEAKABLE)
+   Paste at VERY BOTTOM of main.css
+   ============================================================ */
+
+:root{
+  /* You can tweak these anytime */
+  --mm-phone-maxw-mobile: 360px;   /* smaller phone width */
+  --mm-phone-margin-mobile: 14px; /* outer padding around phone */
+  --mm-phone-radius-mobile: 22px; /* corner radius */
+
+  --mm-clientbar-bottom: 22px;    /* move list up/down (smaller = lower, bigger = higher) */
+  --mm-clientbar-pad-x: 18px;     /* left/right padding */
+  --mm-clientbar-gap: 18px;       /* spacing between names */
+}
+
+@media (max-width: 520px){
+
+  /* keep 9:16 but make it smaller + rounded */
+  #projects .video-container{
+    width: min(var(--mm-phone-maxw-mobile), calc(100vw - (var(--mm-phone-margin-mobile) * 2))) !important;
+    height: calc(
+      min(var(--mm-phone-maxw-mobile), calc(100vw - (var(--mm-phone-margin-mobile) * 2)))
+      * 16 / 9
+    );
+
+    margin: var(--mm-phone-margin-mobile) auto;
+
+    overflow: hidden;
+    background: #000;
+
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* video fills that 9:16 box */
+  #projects .slide video{
+    position: absolute;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+  /* client bar control (this assumes your JS moves the list into .clientOverlay inside video-container) */
+  #projects .clientOverlay{
+    position: absolute;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+  }
+
+  #projects .clientOverlay .client-list{
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    /* ✅ THIS IS YOUR CONTROL KNOB */
+    bottom: var(--mm-clientbar-bottom);
+    top: auto !important;
+
+    padding: 0 var(--mm-clientbar-pad-x);
+    margin: 0;
+
+    display: flex;
+    gap: var(--mm-clientbar-gap);
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    pointer-events: auto;
+
+    mix-blend-mode: difference !important;
+    color: #fff;
+
+    text-decoration: none;
+  }
+
+  #projects .clientOverlay .client,
+  #projects .clientOverlay .client:visited{
+    text-decoration: none;
+    color: inherit;
+  }
+
+  #projects .clientOverlay .client-list::-webkit-scrollbar{ height: 0; }
+  #projects .clientOverlay .client-list{ scrollbar-width: none; }
+}
+
+/* ============================================================
+   FINAL MOBILE OVERRIDES — PHONE SIZE + RADIUS (NO VARS)
+   ============================================================ */
+
+@media (max-width: 520px){
+
+  /* Phone container — true 9:16, slightly inset */
+  #projects .video-container{
+    width: calc(100vw - 28px);
+    height: calc((102vw - 28px) * 16 / 9);
+
+    margin: 14px auto;
+
+    border-radius: 10px;   /* ← CHANGE THIS NUMBER ONLY */
+    overflow: hidden;
+    background: #000;
+
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Video respects the same radius */
+  #projects .slide video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-radius: 2px;   /* ← SAME VALUE */
+  }
+}

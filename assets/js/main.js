@@ -863,6 +863,45 @@ const onThumbScroll = () => {
 
 if (listEl) {
   listEl.addEventListener("scroll", onThumbScroll, { passive: true });
+
+  // ============================================================
+  // MOBILE: MOVE CLIENT LIST INTO VIDEO CONTAINER (MASKED)
+  // ============================================================
+  const container = root.querySelector(".video-container");
+  const originalParent = listEl.parentElement;
+  const originalNext = listEl.nextSibling;
+
+  let overlayWrap = null;
+
+  const mountIntoVideo = () => {
+    if (!container || overlayWrap) return;
+
+    overlayWrap = document.createElement("div");
+    overlayWrap.className = "clientOverlay";
+    container.appendChild(overlayWrap);
+    overlayWrap.appendChild(listEl);
+  };
+
+  const restoreToRight = () => {
+    if (!overlayWrap) return;
+
+    if (originalParent) {
+      if (originalNext) originalParent.insertBefore(listEl, originalNext);
+      else originalParent.appendChild(listEl);
+    }
+
+    overlayWrap.remove();
+    overlayWrap = null;
+  };
+
+  const syncClientListPosition = () => {
+    const isMobile = window.matchMedia("(max-width: 520px)").matches;
+    if (isMobile) mountIntoVideo();
+    else restoreToRight();
+  };
+
+  syncClientListPosition();
+  window.addEventListener("resize", syncClientListPosition);
 }
 
 window.addEventListener("resize", () => goTo(activeIndex));
