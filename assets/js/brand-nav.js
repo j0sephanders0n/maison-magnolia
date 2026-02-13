@@ -603,10 +603,11 @@ expertsTab.innerHTML = "<span>Experts</span>";
   bindControls();
 })();
 /* =========================================================
-   BRAND GRID VIDEO CONTROLLER (social-feed style) v1
+   BRAND GRID VIDEO CONTROLLER (social-feed style) v2
    - True lazy attach: only sets <source src> when near viewport
-   - Play only when visible, pause when not
-   - Optional unload when far away to free decoder/memory
+   - Plays only ONE most-centered visible tile video
+   - Pauses others
+   - Unloads when far away to free decoder/memory
    Requires:
      <video muted loop playsinline preload="none">
        <source data-src="...">
@@ -618,32 +619,30 @@ expertsTab.innerHTML = "<span>Experts</span>";
   const gridVideos = Array.from(document.querySelectorAll(".brand-grid video"));
   if (!gridVideos.length) return;
 
-  // Safety defaults
+  const MEDIA = window.MM_MEDIA || null;
+
+  // Normalize attributes
   gridVideos.forEach((v) => {
     v.muted = true;
     v.playsInline = true;
+    v.loop = true;
+    v.autoplay = true;
+
     v.setAttribute("muted", "");
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "");
-    v.loop = true;
     v.setAttribute("loop", "");
+    v.setAttribute("autoplay", "");
 
-    // Do NOT preload everything
     v.preload = "none";
     v.setAttribute("preload", "none");
   });
 
-  const MEDIA = window.MM_MEDIA || null;
-
   const ensureAttached = (video) => {
-    // If you forgot data-src and still have src in markup, we still run play/pause,
-    // but true lazy attach needs data-src.
     if (MEDIA && typeof MEDIA.hydrateVideoSources === "function") {
       MEDIA.hydrateVideoSources(video);
       return;
     }
-
-    // Fallback if MM_MEDIA isn’t present
     const s = video.querySelector("source[data-src]");
     if (!s) return;
     if (s.getAttribute("src")) return;
@@ -656,8 +655,6 @@ expertsTab.innerHTML = "<span>Experts</span>";
       MEDIA.detachVideoSources(video);
       return;
     }
-
-    // Fallback
     const sources = Array.from(video.querySelectorAll("source[src]"));
     if (!sources.length) return;
     sources.forEach((s) => {
@@ -669,63 +666,89 @@ expertsTab.innerHTML = "<span>Experts</span>";
 
   const safePlay = (video) => {
     try {
+      video.muted = true;
+      video.playsInline = true;
+      video.autoplay = true;
+
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      video.setAttribute("autoplay", "");
+
       const p = video.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     } catch (_) {}
   };
 
-  // “Near viewport” means we attach sources early so it never shows black
-  const ioAttach = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        const v = e.target;
+  const safePause = (video) => {
+    try { video.pause(); } catch (_) {}
+  };
 
-        if (e.isIntersecting) {
-          ensureAttached(v);
-        }
-      });
-    },
-    { root: null, rootMargin: "900px 0px", threshold: 0.01 }
-  );
+  // One-video rule
+  const visibleSet = new Set();
 
-  // “In viewport” means we actually play
-  const ioPlay = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        const v = e.target;
+  const pickMostCentered = () => {
+    if (!visibleSet.size) return null;
+    const mid = window.innerHeight / 2;
+    let best = null;
+    let bestDist = Infinity;
 
-        if (e.isIntersecting) {
-          // ensure src is attached before playing
-          ensureAttached(v);
-          safePlay(v);
-        } else {
-          try { v.pause(); } catch (_) {}
-        }
-      });
-    },
-    { root: null, rootMargin: "0px 0px", threshold: 0.6 }
-  );
+    visibleSet.forEach((v) => {
+      const r = v.getBoundingClientRect();
+      const center = (r.top + r.bottom) / 2;
+      const dist = Math.abs(center - mid);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = v;
+      }
+    });
 
-  // Optional: unload when far away to free memory/decoders
-  // This is the “Instagram” trick.
-  const ioUnload = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        const v = e.target;
+    return best;
+  };
 
-        // If NOT intersecting within a large margin, unload
-        if (!e.isIntersecting) {
-          try { v.pause(); } catch (_) {}
-          detachIfPossible(v);
-        }
-      });
-    },
-    { root: null, rootMargin: "2500px 0px", threshold: 0.0 }
-  );
+  const syncPlayback = () => {
+    const winner = pickMostCentered();
+    gridVideos.forEach((v) => {
+      if (v === winner) {
+        ensureAttached(v);
+        safePlay(v);
+      } else {
+        safePause(v);
+      }
+    });
+  };
+
+  const ioAttach = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) ensureAttached(e.target);
+    });
+  }, { root: null, rootMargin: "900px 0px", threshold: 0.01 });
+
+  const ioVisible = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) visibleSet.add(e.target);
+      else visibleSet.delete(e.target);
+    });
+    syncPlayback();
+  }, { root: null, rootMargin: "0px 0px", threshold: 0.6 });
+
+  const ioUnload = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) {
+        safePause(e.target);
+        detachIfPossible(e.target);
+      }
+    });
+  }, { root: null, rootMargin: "2500px 0px", threshold: 0.0 });
 
   gridVideos.forEach((v) => {
     ioAttach.observe(v);
-    ioPlay.observe(v);
+    ioVisible.observe(v);
     ioUnload.observe(v);
   });
+
+  // iOS unlock (Chrome iOS included)
+  const unlock = () => syncPlayback();
+  window.addEventListener("touchstart", unlock, { once: true, passive: true });
+  window.addEventListener("pointerdown", unlock, { once: true, passive: true });
 })();
