@@ -8,42 +8,137 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => window.scrollTo(0, 0), 0);
 
   // ============================================================
-  // MOBILE ONLY: FORCE AUTOPLAY FOR ALL VIDEOS (iOS SAFE)
-  // - Required for real iPhone Safari (DevTools is misleading)
-  // - Index.html only (this main.js is only used by homepage)
+  // HOME VIDEO CONTROLLER (social-feed style)
+  // - Attaches <source src> ONLY when near viewport
+  // - Plays only when visible
+  // - Pauses when not visible
+  // - Unloads when far away (major memory win)
+  // Works with:
+  //   - #gallery .grid video
+  //   - .video-track video
+  // Requires HTML:
+  //   <video muted loop playsinline preload="none">
+  //     <source data-src="...">
+  //   </video>
   // ============================================================
-  (function forceMobileAutoplay() {
-    const isMobile = window.matchMedia("(max-width: 900px)").matches;
-    if (!isMobile) return;
+  (function initHomeLazyVideos() {
+    const MEDIA = window.MM_MEDIA || null;
 
-    const videos = Array.from(document.querySelectorAll("video"));
-    if (!videos.length) return;
+    const homeVideos = Array.from(
+      document.querySelectorAll("#gallery .grid video, .video-track video")
+    );
 
-    const tryPlay = (v) => {
-      // iOS/Safari requirements
+    if (!homeVideos.length) return;
+
+    // normalize
+    homeVideos.forEach((v) => {
       v.muted = true;
       v.playsInline = true;
+      v.loop = true;
 
-      // Ensure attributes exist too
       v.setAttribute("muted", "");
       v.setAttribute("playsinline", "");
       v.setAttribute("webkit-playsinline", "");
-      v.setAttribute("autoplay", "");
+      v.setAttribute("loop", "");
+      v.setAttribute("preload", "none");
+      v.preload = "none";
+    });
 
-      const p = v.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
+    const ensureAttached = (video) => {
+      if (MEDIA && typeof MEDIA.hydrateVideoSources === "function") {
+        MEDIA.hydrateVideoSources(video);
+        return;
+      }
+      // fallback if MM_MEDIA not present
+      const s = video.querySelector("source[data-src]");
+      if (!s) return;
+      if (s.getAttribute("src")) return;
+      s.setAttribute("src", s.getAttribute("data-src"));
+      try { video.load(); } catch (_) {}
     };
 
-    // Initial attempt
-    videos.forEach(tryPlay);
+    const detachIfPossible = (video) => {
+      if (MEDIA && typeof MEDIA.detachVideoSources === "function") {
+        MEDIA.detachVideoSources(video);
+        return;
+      }
+      const sources = Array.from(video.querySelectorAll("source[src]"));
+      if (!sources.length) return;
+      sources.forEach((s) => {
+        if (!s.getAttribute("data-src")) s.setAttribute("data-src", s.getAttribute("src"));
+        s.removeAttribute("src");
+      });
+      try { video.load(); } catch (_) {}
+    };
 
-    // Retry once after page becomes interactive (Safari quirk)
-    setTimeout(() => { videos.forEach(tryPlay); }, 300);
+    const safePlay = (video) => {
+      try {
+        const p = video.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } catch (_) {}
+    };
 
-    // Final fallback: first user touch unlocks playback on stricter devices
-    const unlock = () => { videos.forEach(tryPlay); };
+    // 1) Attach early (prevents black flashes)
+    const ioAttach = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          ensureAttached(e.target);
+        });
+      },
+      { root: null, rootMargin: "900px 0px", threshold: 0.01 }
+    );
+
+    // 2) Play only when truly visible
+    const ioPlay = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          const v = e.target;
+          if (e.isIntersecting) {
+            ensureAttached(v);
+            safePlay(v);
+          } else {
+            try { v.pause(); } catch (_) {}
+          }
+        });
+      },
+      { root: null, rootMargin: "0px 0px", threshold: 0.6 }
+    );
+
+    // 3) Unload when far away (huge performance win)
+    const ioUnload = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          const v = e.target;
+          if (!e.isIntersecting) {
+            try { v.pause(); } catch (_) {}
+            detachIfPossible(v);
+          }
+        });
+      },
+      { root: null, rootMargin: "2500px 0px", threshold: 0.0 }
+    );
+
+    homeVideos.forEach((v) => {
+      ioAttach.observe(v);
+      ioPlay.observe(v);
+      ioUnload.observe(v);
+    });
+
+    // iOS unlock: first touch allows playback if Safari is strict
+    const unlock = () => {
+      const visibles = homeVideos.filter((v) => {
+        const r = v.getBoundingClientRect();
+        return r.bottom > 0 && r.top < window.innerHeight;
+      });
+      visibles.forEach((v) => {
+        ensureAttached(v);
+        safePlay(v);
+      });
+    };
     window.addEventListener("touchstart", unlock, { once: true, passive: true });
   })();
+
 
   // ============================================================
   // INTRO ANIMATION (keeps your existing behavior, but smoother)

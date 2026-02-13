@@ -1,19 +1,30 @@
 /* =========================================================
-   mm-media.js
-   - Centralizes media URL routing (local now, hosted later)
-   - Supports:
-       [data-src] (img/video/source/anything)
-       [data-bg]  (background images)
-       src="assets/media/..." rewriting when a base is provided
-       brand tiles via data-src (works with brand-nav.js lightbox)
+   mm-media.js — MEDIA BASE ROUTER (v3)
+   Purpose:
+   - You should NOT have to store 500 Cloudflare links in JS.
+   - Instead, you set ONE base URL and keep HTML using relative paths.
+
+   How to use:
+   1) In HTML <html data-media-base="https://YOUR-CLOUDFLARE_DOMAIN/">
+      Example:
+      <html lang="en" data-media-base="https://pub-xxxxx.r2.dev/">
+
+   2) In HTML use:
+      <img data-src="brands/ami/img01.webp">
+      <video muted playsinline preload="none">
+        <source data-src="brands/ami/video01.mp4" type="video/mp4">
+      </video>
+
+   What this file does:
+   - Hydrates [data-src] -> src for non-video stuff immediately (images etc)
+   - Hydrates [data-bg] -> style.backgroundImage
+   - DOES NOT auto-hydrate <video><source data-src> because that defeats lazy video.
+   - Exposes helpers so brand-nav.js can hydrate video sources only when visible.
    ========================================================= */
 
 (() => {
   const docEl = document.documentElement;
 
-  // Set this later to your hosted media root, e.g.
-  // https://YOUR-CDN-DOMAIN.com/mm-media/
-  // Leave blank to use local/relative URLs.
   const RAW_BASE =
     docEl.getAttribute("data-media-base") ||
     window.MM_MEDIA_BASE ||
@@ -21,136 +32,161 @@
 
   const BASE = normalizeBase(RAW_BASE);
 
-  // Preconnect for faster media fetches (only if BASE is an http(s) URL)
-  if (BASE && /^https?:\/\//i.test(BASE)) {
+  // ---------------------------------------------
+  // Utility
+  // ---------------------------------------------
+  function normalizeBase(base) {
+    if (!base) return "";
+    let b = String(base).trim();
+    // Allow either with or without trailing slash
+    if (b && !b.endsWith("/")) b += "/";
+    return b;
+  }
+
+  function isAbsUrl(url) {
+    return /^https?:\/\//i.test(url) || /^data:/i.test(url) || /^blob:/i.test(url);
+  }
+
+  function resolveUrl(raw) {
+    if (!raw) return raw;
+    const v = String(raw).trim();
+    if (!BASE || isAbsUrl(v) || v.startsWith("/")) return v;
+    return BASE + v.replace(/^\.\//, "");
+  }
+
+  function addHint(href, rel) {
+    if (!href) return;
     try {
-      const u = new URL(BASE);
-      addHint("dns-prefetch", u.origin);
-      addHint("preconnect", u.origin);
+      const existing = document.querySelector(`link[rel="${rel}"][href="${href}"]`);
+      if (existing) return;
+      const link = document.createElement("link");
+      link.rel = rel;
+      link.href = href;
+      document.head.appendChild(link);
     } catch (_) {}
   }
 
-  const resolve = (path) => {
-    if (!path) return "";
-    // Don’t touch absolute URLs, blob:, data:, etc.
-    if (/^(https?:)?\/\//i.test(path)) return path;
-    if (/^(data:|blob:)/i.test(path)) return path;
-
-    if (!BASE) return path;
-
-    // Strip leading ./ and leading slashes
-    const clean = String(path)
-      .replace(/^\.\//, "")
-      .replace(/^\/+/, "");
-
-    return BASE + clean;
-  };
-
-  // 1) Upgrade elements that explicitly opt-in with data-src
-  const hydrateDataSrc = () => {
-    const nodes = document.querySelectorAll("[data-src]");
-    nodes.forEach((el) => {
-      const raw = el.getAttribute("data-src") || "";
-      if (!raw) return;
-
-      const url = resolve(raw);
-
-      // If this is a <source>, set src
-      if (el.tagName === "SOURCE") {
-        // Only set if not already set (so you can override manually if needed)
-        if (!el.getAttribute("src")) el.setAttribute("src", url);
-        return;
-      }
-
-      // If this is <img>, set src
-      if (el.tagName === "IMG") {
-        if (!el.getAttribute("src")) el.setAttribute("src", url);
-        return;
-      }
-
-      // If this is <video>, set src (rare; usually you use <source>)
-      if (el.tagName === "VIDEO") {
-        if (!el.getAttribute("src")) el.setAttribute("src", url);
-        return;
-      }
-
-      // Otherwise: also support brand tiles, etc.
-      // If element has dataset.src (brand-nav.js reads this), ensure it becomes the resolved URL.
-      if (el.dataset) el.dataset.src = url;
-    });
-  };
-
-  // 2) Upgrade background images via data-bg
-  const hydrateDataBg = () => {
-    const nodes = document.querySelectorAll("[data-bg]");
-    nodes.forEach((el) => {
-      const raw = el.getAttribute("data-bg") || "";
-      if (!raw) return;
-      const url = resolve(raw);
-
-      // Only set once unless you change attributes manually
-      if (!el.style.backgroundImage) {
-        el.style.backgroundImage = `url("${url}")`;
-        el.style.backgroundSize = "cover";
-        el.style.backgroundPosition = "center";
-        el.style.backgroundRepeat = "no-repeat";
-      }
-    });
-  };
-
-  // 3) Optional: if BASE is set, rewrite src="assets/media/..." automatically
-  const rewriteAssetsMediaSrc = () => {
+  function tryPreconnect() {
     if (!BASE) return;
+    try {
+      const u = new URL(BASE);
+      addHint(u.origin, "dns-prefetch");
+      addHint(u.origin, "preconnect");
+    } catch (_) {}
+  }
 
-    const nodes = document.querySelectorAll("img[src], video[src], source[src]");
+  // ---------------------------------------------
+  // Hydrators
+  // ---------------------------------------------
+
+  // Hydrate [data-src] for non-video elements immediately.
+  // IMPORTANT: We intentionally SKIP:
+  // - <source> inside <video>
+  // - <video data-src> (if you ever add it)
+  function hydrateDataSrc(root = document) {
+    const nodes = Array.from(root.querySelectorAll("[data-src]"));
     nodes.forEach((el) => {
-      const src = el.getAttribute("src") || "";
+      const tag = el.tagName;
+
+      // Skip video sources; brand-nav.js will hydrate when visible.
+      if (tag === "SOURCE" && el.closest("video")) return;
+      if (tag === "VIDEO") return;
+
+      const raw = el.getAttribute("data-src");
+      if (!raw) return;
+
+      // Avoid double-hydrate
+      if (el.getAttribute("src")) return;
+
+      const url = resolveUrl(raw);
+      el.setAttribute("src", url);
+    });
+  }
+
+  function hydrateDataBg(root = document) {
+    const nodes = Array.from(root.querySelectorAll("[data-bg]"));
+    nodes.forEach((el) => {
+      const raw = el.getAttribute("data-bg");
+      if (!raw) return;
+      const url = resolveUrl(raw);
+      el.style.backgroundImage = `url("${url}")`;
+    });
+  }
+
+  // Optional: rewrite legacy src="assets/media/..." to BASE + same path
+  // (keeps old pages working if you still have local paths in markup)
+  function rewriteLegacySrc(root = document) {
+    if (!BASE) return;
+    const nodes = Array.from(root.querySelectorAll("[src]"));
+    nodes.forEach((el) => {
+      const src = el.getAttribute("src");
       if (!src) return;
-
-      // Only rewrite your local convention
+      if (isAbsUrl(src)) return;
       if (!src.startsWith("assets/media/")) return;
-
-      // Convert assets/media/... → ... (relative to BASE)
-      const relativeToMediaRoot = src.replace(/^assets\/media\//, "");
-      el.setAttribute("src", resolve(relativeToMediaRoot));
+      el.setAttribute("src", resolveUrl(src));
     });
-  };
+  }
 
-  // Run when DOM is ready (safe even if deferred)
-  const run = () => {
-    hydrateDataSrc();
-    hydrateDataBg();
-    rewriteAssetsMediaSrc();
+  // ---------------------------------------------
+  // Video helpers (called by brand-nav.js / main.js)
+  // ---------------------------------------------
+  function hydrateVideoSources(videoEl) {
+    if (!videoEl) return false;
+    const sources = Array.from(videoEl.querySelectorAll("source[data-src]"));
+    if (!sources.length) return false;
 
-    // If we changed <source> tags after videos were created, reload them.
-    // (This is safe even if you didn’t change anything.)
-    document.querySelectorAll("video").forEach((v) => {
-      const hasSources = v.querySelector("source[src]");
-      if (hasSources) v.load();
+    let changed = false;
+    sources.forEach((s) => {
+      if (s.getAttribute("src")) return;
+      const raw = s.getAttribute("data-src");
+      if (!raw) return;
+      s.setAttribute("src", resolveUrl(raw));
+      changed = true;
     });
+
+    if (changed) {
+      try { videoEl.load(); } catch (_) {}
+    }
+    return changed;
+  }
+
+  function detachVideoSources(videoEl) {
+    if (!videoEl) return;
+    const sources = Array.from(videoEl.querySelectorAll("source"));
+    let changed = false;
+
+    sources.forEach((s) => {
+      const cur = s.getAttribute("src");
+      if (!cur) return;
+
+      // Preserve original in data-src for later reattach
+      if (!s.getAttribute("data-src")) s.setAttribute("data-src", cur);
+
+      s.removeAttribute("src");
+      changed = true;
+    });
+
+    if (changed) {
+      try { videoEl.load(); } catch (_) {}
+    }
+  }
+
+  // ---------------------------------------------
+  // Boot
+  // ---------------------------------------------
+  tryPreconnect();
+  hydrateDataSrc(document);
+  hydrateDataBg(document);
+  rewriteLegacySrc(document);
+
+  // Expose API
+  window.MM_MEDIA = {
+    BASE,
+    resolveUrl,
+    hydrateDataSrc,
+    hydrateDataBg,
+    rewriteLegacySrc,
+    hydrateVideoSources,
+    detachVideoSources,
   };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run);
-  } else {
-    run();
-  }
-
-  // Helpers
-  function normalizeBase(b) {
-    const base = String(b || "").trim();
-    if (!base) return "";
-    // Ensure trailing slash
-    return base.endsWith("/") ? base : base + "/";
-  }
-
-  function addHint(rel, href) {
-    // Don’t duplicate
-    const existing = document.querySelector(`link[rel="${rel}"][href="${href}"]`);
-    if (existing) return;
-    const l = document.createElement("link");
-    l.rel = rel;
-    l.href = href;
-    document.head.appendChild(l);
-  }
 })();

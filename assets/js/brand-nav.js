@@ -603,72 +603,129 @@ expertsTab.innerHTML = "<span>Experts</span>";
   bindControls();
 })();
 /* =========================================================
-   SEQUENTIAL TILE LOADER (cascading media load)
-   - Loads brand grid videos in DOM order (top → bottom)
-   - Requires: <source data-src="..."> + video preload="none"
+   BRAND GRID VIDEO CONTROLLER (social-feed style) v1
+   - True lazy attach: only sets <source src> when near viewport
+   - Play only when visible, pause when not
+   - Optional unload when far away to free decoder/memory
+   Requires:
+     <video muted loop playsinline preload="none">
+       <source data-src="...">
+     </video>
    ========================================================= */
 (() => {
   if (!document.body.classList.contains("brand-page")) return;
 
-  const videos = Array.from(document.querySelectorAll(".brand-grid video"));
-  if (!videos.length) return;
+  const gridVideos = Array.from(document.querySelectorAll(".brand-grid video"));
+  if (!gridVideos.length) return;
 
-  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  // Safety defaults
+  gridVideos.forEach((v) => {
+    v.muted = true;
+    v.playsInline = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
+    v.loop = true;
+    v.setAttribute("loop", "");
 
-  const loadOne = async (v) => {
-    const source = v.querySelector("source[data-src]");
-    if (!source) return;
+    // Do NOT preload everything
+    v.preload = "none";
+    v.setAttribute("preload", "none");
+  });
 
-    // If already hydrated (mm-media.js or prior run), skip
-    if (source.getAttribute("src")) return;
+  const MEDIA = window.MM_MEDIA || null;
 
-    // Hydrate: data-src → src
-    source.setAttribute("src", source.getAttribute("data-src"));
+  const ensureAttached = (video) => {
+    // If you forgot data-src and still have src in markup, we still run play/pause,
+    // but true lazy attach needs data-src.
+    if (MEDIA && typeof MEDIA.hydrateVideoSources === "function") {
+      MEDIA.hydrateVideoSources(video);
+      return;
+    }
 
-    // Kick off fetch
-    try { v.load(); } catch (_) {}
-
-    // Try to wait for “first frame available” (or give it a short head start)
-    await new Promise((resolve) => {
-      let done = false;
-
-      const finish = () => {
-        if (done) return;
-        done = true;
-        cleanup();
-        resolve();
-      };
-
-      const cleanup = () => {
-        v.removeEventListener("loadeddata", finish);
-        v.removeEventListener("canplay", finish);
-        v.removeEventListener("error", finish);
-      };
-
-      v.addEventListener("loadeddata", finish, { once: true });
-      v.addEventListener("canplay", finish, { once: true });
-      v.addEventListener("error", finish, { once: true });
-
-      // Failsafe: don’t stall the chain forever
-      setTimeout(finish, 700);
-    });
-
-    // Small spacing makes the cascade feel intentional
-    await wait(80);
+    // Fallback if MM_MEDIA isn’t present
+    const s = video.querySelector("source[data-src]");
+    if (!s) return;
+    if (s.getAttribute("src")) return;
+    s.setAttribute("src", s.getAttribute("data-src"));
+    try { video.load(); } catch (_) {}
   };
 
-  (async () => {
-    for (const v of videos) {
-      // Optional: skip offscreen for faster initial paint (comment out if you truly want ALL in order)
-      // if (v.getBoundingClientRect().top > window.innerHeight * 1.25) break;
-
-      await loadOne(v);
-
-      // Keep your autoplay vibe
-      try {
-        const p = v.play();
-        if (p && typeof p.catch === "function") p.catch(() => {});
-      } catch (_) {}
+  const detachIfPossible = (video) => {
+    if (MEDIA && typeof MEDIA.detachVideoSources === "function") {
+      MEDIA.detachVideoSources(video);
+      return;
     }
-  })();
+
+    // Fallback
+    const sources = Array.from(video.querySelectorAll("source[src]"));
+    if (!sources.length) return;
+    sources.forEach((s) => {
+      if (!s.getAttribute("data-src")) s.setAttribute("data-src", s.getAttribute("src"));
+      s.removeAttribute("src");
+    });
+    try { video.load(); } catch (_) {}
+  };
+
+  const safePlay = (video) => {
+    try {
+      const p = video.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    } catch (_) {}
+  };
+
+  // “Near viewport” means we attach sources early so it never shows black
+  const ioAttach = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        const v = e.target;
+
+        if (e.isIntersecting) {
+          ensureAttached(v);
+        }
+      });
+    },
+    { root: null, rootMargin: "900px 0px", threshold: 0.01 }
+  );
+
+  // “In viewport” means we actually play
+  const ioPlay = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        const v = e.target;
+
+        if (e.isIntersecting) {
+          // ensure src is attached before playing
+          ensureAttached(v);
+          safePlay(v);
+        } else {
+          try { v.pause(); } catch (_) {}
+        }
+      });
+    },
+    { root: null, rootMargin: "0px 0px", threshold: 0.6 }
+  );
+
+  // Optional: unload when far away to free memory/decoders
+  // This is the “Instagram” trick.
+  const ioUnload = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        const v = e.target;
+
+        // If NOT intersecting within a large margin, unload
+        if (!e.isIntersecting) {
+          try { v.pause(); } catch (_) {}
+          detachIfPossible(v);
+        }
+      });
+    },
+    { root: null, rootMargin: "2500px 0px", threshold: 0.0 }
+  );
+
+  gridVideos.forEach((v) => {
+    ioAttach.observe(v);
+    ioPlay.observe(v);
+    ioUnload.observe(v);
+  });
 })();
