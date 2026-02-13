@@ -7,167 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // some browsers restore scroll after DOMContentLoaded, force again next tick
   setTimeout(() => window.scrollTo(0, 0), 0);
 
-// ============================================================
-// HOME VIDEO CONTROLLER (social-feed style) v2
-// - Attaches <source src> ONLY when near viewport
-// - Plays only ONE most-centered visible video (social rule)
-// - Pauses others
-// - Unloads when far away (major memory win)
-// Works with:
-//   - #gallery .grid video
-//   - .video-track video
-// Requires HTML:
-//   <video muted loop playsinline preload="none">
-//     <source data-src="...">
-//   </video>
-// ============================================================
-(function initHomeLazyVideos() {
-  const MEDIA = window.MM_MEDIA || null;
-
-  const homeVideos = Array.from(
-    document.querySelectorAll("#gallery .grid video, .video-track video")
-  );
-  if (!homeVideos.length) return;
-
-  // Normalize attributes (helps iOS WebKit across ALL iOS browsers)
-  homeVideos.forEach((v) => {
-    v.muted = true;
-    v.playsInline = true;
-    v.loop = true;
-    v.autoplay = true;
-
-    v.setAttribute("muted", "");
-    v.setAttribute("playsinline", "");
-    v.setAttribute("webkit-playsinline", "");
-    v.setAttribute("loop", "");
-    v.setAttribute("autoplay", "");
-
-    v.preload = "none";
-    v.setAttribute("preload", "none");
-  });
-
-  const ensureAttached = (video) => {
-    if (MEDIA && typeof MEDIA.hydrateVideoSources === "function") {
-      MEDIA.hydrateVideoSources(video);
-      return;
-    }
-    const s = video.querySelector("source[data-src]");
-    if (!s) return;
-    if (s.getAttribute("src")) return;
-    s.setAttribute("src", s.getAttribute("data-src"));
-    try { video.load(); } catch (_) {}
-  };
-
-  const detachIfPossible = (video) => {
-    if (MEDIA && typeof MEDIA.detachVideoSources === "function") {
-      MEDIA.detachVideoSources(video);
-      return;
-    }
-    const sources = Array.from(video.querySelectorAll("source[src]"));
-    if (!sources.length) return;
-    sources.forEach((s) => {
-      if (!s.getAttribute("data-src")) s.setAttribute("data-src", s.getAttribute("src"));
-      s.removeAttribute("src");
-    });
-    try { video.load(); } catch (_) {}
-  };
-
-  const safePlay = (video) => {
-    try {
-      // Re-assert right before play (iOS WebKit can be picky)
-      video.muted = true;
-      video.playsInline = true;
-      video.autoplay = true;
-
-      video.setAttribute("muted", "");
-      video.setAttribute("playsinline", "");
-      video.setAttribute("webkit-playsinline", "");
-      video.setAttribute("autoplay", "");
-
-      const p = video.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
-    } catch (_) {}
-  };
-
-  const safePause = (video) => {
-    try { video.pause(); } catch (_) {}
-  };
-
-  // --- Social rule: play only ONE visible video (most centered) ---
-  const visibleSet = new Set();
-
-  const pickMostCentered = () => {
-    if (!visibleSet.size) return null;
-    const mid = window.innerHeight / 2;
-
-    let best = null;
-    let bestDist = Infinity;
-
-    visibleSet.forEach((v) => {
-      const r = v.getBoundingClientRect();
-      const center = (r.top + r.bottom) / 2;
-      const dist = Math.abs(center - mid);
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = v;
-      }
-    });
-
-    return best;
-  };
-
-  const syncPlayback = () => {
-    const winner = pickMostCentered();
-    homeVideos.forEach((v) => {
-      if (v === winner) {
-        ensureAttached(v);
-        safePlay(v);
-      } else {
-        safePause(v);
-      }
-    });
-  };
-
-  // Attach early so you don't see black tiles
-  const ioAttach = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) ensureAttached(e.target);
-    });
-  }, { root: null, rootMargin: "900px 0px", threshold: 0.01 });
-
-  // Track visibility (for one-video rule)
-  const ioVisible = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) visibleSet.add(e.target);
-      else visibleSet.delete(e.target);
-    });
-    syncPlayback();
-  }, { root: null, rootMargin: "0px 0px", threshold: 0.6 });
-
-  // Unload far away (massive memory/perf win on mobile)
-  const ioUnload = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) {
-        safePause(e.target);
-        detachIfPossible(e.target);
-      }
-    });
-  }, { root: null, rootMargin: "2500px 0px", threshold: 0.0 });
-
-  homeVideos.forEach((v) => {
-    ioAttach.observe(v);
-    ioVisible.observe(v);
-    ioUnload.observe(v);
-  });
-
-  // One-time unlock: required on iOS browsers until user interacts once
-  const unlock = () => {
-    syncPlayback();
-  };
-
-  window.addEventListener("touchstart", unlock, { once: true, passive: true });
-  window.addEventListener("pointerdown", unlock, { once: true, passive: true });
-})();
 
 
   // ============================================================
@@ -352,35 +191,26 @@ const setCaptionClampAndMore = (slide, isActive) => {
     const warmCount = 3;
 
     function applyLightDefaults() {
-const isPhone = () => window.matchMedia("(max-width: 520px)").matches;
-
-videos.forEach((v) => {
-  // Make iOS/Safari behave consistently
-  v.muted = true;
-  v.loop = true;
-  v.playsInline = true;
-
-  // Ensure the ATTRIBUTES exist too (Safari can be picky)
-  v.setAttribute("muted", "");
-  v.setAttribute("playsinline", "");
-  v.setAttribute("webkit-playsinline", "");
-  v.setAttribute("autoplay", "");
-
-  // Default: metadata
-  v.preload = v.preload || "metadata";
-});
-
-// PHONE ONLY: aggressively preload so you don't see black frames between swipes
-const warmAllVideosOnPhone = () => {
-  if (!isPhone()) return;
+  // Let mm-media.js be the single boss for autoplay + lazy behavior.
+  // Here we only set safe attributes and DO NOT preload everything.
   videos.forEach((v) => {
-    v.preload = "auto";
-    try { v.load(); } catch {}
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
+
+    // important: don't load all videos on mobile
+    v.preload = "none";
+    v.setAttribute("preload", "none");
+
+    // never show controls in-feed
+    v.controls = false;
+    v.removeAttribute("controls");
   });
-};
-warmAllVideosOnPhone();
-window.addEventListener("resize", warmAllVideosOnPhone);
-    }
+}
 
     function warmStart() {
       videos.slice(0, warmCount).forEach((v) => {
@@ -976,16 +806,13 @@ function primeAround(i) {
 }
 
     // unlock autoplay on first gesture
+// unlock autoplay on first gesture (let mm-media.js do the real work)
 const unlockOnce = () => {
-  warmAllVideosOnPhone();
   primeAround(activeIndex);
-
-  // iOS: force a real play call on the active video after gesture
-  tryPlay(videos[activeIndex]);
 };
-    window.addEventListener("pointerdown", unlockOnce, { once: true });
-    window.addEventListener("keydown", unlockOnce, { once: true });
-    window.addEventListener("touchstart", unlockOnce, { once: true });
+window.addEventListener("pointerdown", unlockOnce, { once: true, passive: true });
+window.addEventListener("touchstart", unlockOnce, { once: true, passive: true });
+window.addEventListener("touchmove", unlockOnce, { once: true, passive: true });
 
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) primeAround(activeIndex);
