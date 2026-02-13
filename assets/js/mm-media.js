@@ -175,6 +175,8 @@
     const normalizeInlineVideo = (v) => {
       if (isLightboxVideo(v)) return;
 
+      v.classList.add("mm-inline-video");
+
       // Remove controls so WebKit doesn't show UI
       v.controls = false;
       v.removeAttribute("controls");
