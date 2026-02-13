@@ -201,9 +201,10 @@
     allVideos.forEach(normalizeInlineVideo);
 
 const safePlay = (v) => {
-  if (!v) return;
+  if (!v || isLightboxVideo(v)) return;
 
   try {
+    // Re-assert autoplay rules (iOS WebKit is picky)
     v.muted = true;
     v.playsInline = true;
     v.autoplay = true;
@@ -215,17 +216,29 @@ const safePlay = (v) => {
     v.setAttribute("autoplay", "");
     v.setAttribute("loop", "");
 
+    // If we don't have enough data yet, wait and retry.
+    // This is the main reason you see "black until tap".
+    if (v.readyState < 2) {
+      const retry = () => {
+        v.removeEventListener("loadeddata", retry);
+        v.removeEventListener("canplay", retry);
+        safePlay(v);
+      };
+      v.addEventListener("loadeddata", retry, { once: true });
+      v.addEventListener("canplay", retry, { once: true });
+      try { v.load(); } catch (_) {}
+      return;
+    }
+
+    // Only reveal AFTER playback actually starts
     const onPlaying = () => {
       v.classList.add("is-playing");
       v.removeEventListener("playing", onPlaying);
     };
-
     v.addEventListener("playing", onPlaying);
 
     const p = v.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {});
-    }
+    if (p && typeof p.catch === "function") p.catch(() => {});
   } catch (_) {}
 };
 
@@ -299,6 +312,9 @@ const safePause = (v) => {
     window.addEventListener("touchstart", unlock, { once: true, passive: true });
     window.addEventListener("touchmove", unlock, { once: true, passive: true });
     window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+    window.addEventListener("scroll", unlock, { once: true, passive: true });
+document.addEventListener("scroll", unlock, { once: true, passive: true });
+
 
     // If tab hidden, pause all (battery/perf)
     document.addEventListener("visibilitychange", () => {

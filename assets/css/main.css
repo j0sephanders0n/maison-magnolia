@@ -3562,6 +3562,17 @@ nav.homeMenu{
     border-radius: 2px;   /* ← SAME VALUE */
   }
 }
+/* =========================================================
+   GLOBAL VIDEO UI KILL (inline videos should NEVER show controls/play UI)
+   ========================================================= */
+video::-webkit-media-controls { display: none !important; }
+video::-webkit-media-controls-enclosure { display: none !important; }
+video::-webkit-media-controls-panel { display: none !important; }
+video::-webkit-media-controls-overlay-play-button { display: none !important; }
+video::-webkit-media-controls-start-playback-button { display: none !important; }
+/* =========================================================
+   HARD KILL: inline video UI + paused-state visibility
+   ========================================================= */
 
 
 /* Kill any possible WebKit UI */
