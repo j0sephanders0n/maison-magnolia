@@ -967,11 +967,4 @@ body.brand-page.mmLightbox-open{
 /* Lightbox videos must always be visible */
 .mmLightbox video { opacity: 1 !important; }
 
-/* Kill any possible WebKit UI */
-video::-webkit-media-controls,
-video::-webkit-media-controls-enclosure,
-video::-webkit-media-controls-panel,
-video::-webkit-media-controls-overlay-play-button,
-video::-webkit-media-controls-start-playback-button {
-  display: none !important;
-}
+
