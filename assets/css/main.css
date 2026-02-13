@@ -3583,3 +3583,7 @@ video::-webkit-media-controls-overlay-play-button,
 video::-webkit-media-controls-start-playback-button {
   display: none !important;
 }
+
+.mm-inline-video { opacity: 0; }
+.mm-inline-video.is-playing { opacity: 1; }
+.mmLightbox video { opacity: 1 !important; }
