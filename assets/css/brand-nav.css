@@ -967,4 +967,4 @@ body.brand-page.mmLightbox-open{
 /* Lightbox videos must always be visible */
 .mmLightbox video { opacity: 1 !important; }
 
-
+/* Hide native controls ONLY for inline feed videos (never for lightbox) */

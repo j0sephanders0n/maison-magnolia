@@ -3573,12 +3573,7 @@ video::-webkit-media-controls-start-playback-button { display: none !important; 
 /* =========================================================
    HARD KILL: inline video UI + paused-state visibility
    ========================================================= */
-/* Only hide INLINE feed videos (not lightbox videos) */
-.mm-inline-video { opacity: 0; }
-.mm-inline-video.is-playing { opacity: 1; }
 
-/* Lightbox videos must always be visible */
-.mmLightbox video { opacity: 1 !important; }
 
 /* Kill any possible WebKit UI */
 video::-webkit-media-controls,
