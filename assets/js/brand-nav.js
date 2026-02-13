@@ -16,70 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   if (!body || !body.classList.contains("brand-page")) return;
   // ============================================================
-// BRAND PAGES — AUTOPLAY ONLY WHEN VISIBLE (lightweight)
-// - Plays videos that are in view
-// - Pauses videos that leave view
-// - Prevents 20+ videos decoding at once
-// ============================================================
-(function initInViewAutoplayVideos(){
-  const videos = Array.from(document.querySelectorAll("video"));
-  if (!videos.length) return;
-
-  const playSafe = (v) => {
-    try {
-      const p = v.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
-    } catch {}
-  };
-
-  const pauseSafe = (v) => {
-    try { v.pause(); } catch {}
-  };
-
-  // baseline: keep the vibe but don’t autoplay everything
-  videos.forEach((v) => {
-    v.setAttribute("playsinline", "");
-v.setAttribute("webkit-playsinline", "");
-
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-
-    // don’t force-load everything
-    v.preload = v.getAttribute("preload") || "metadata";
-
-    // important: stop HTML autoplay from kicking in globally
-    v.autoplay = false;
-    v.removeAttribute("autoplay");
-
-    pauseSafe(v);
-  });
-
-  // Pause everything when tab is hidden (big perf win)
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) videos.forEach(pauseSafe);
-  });
-
-  // IntersectionObserver: play only in-view videos
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const v = entry.target;
-      if (entry.isIntersecting) {
-        playSafe(v);
-      } else {
-        pauseSafe(v);
-      }
-    });
-  }, {
-    root: null,
-    // start playing slightly before it’s fully visible
-    rootMargin: "200px 0px 200px 0px",
-    // you can tune: 0.15 is a good “in view” threshold
-    threshold: 0.15
-  });
-
-  videos.forEach((v) => io.observe(v));
-})();
 
 
 
@@ -749,6 +685,7 @@ expertsTab.innerHTML = "<span>Experts</span>";
 
   // iOS unlock (Chrome iOS included)
   const unlock = () => syncPlayback();
-  window.addEventListener("touchstart", unlock, { once: true, passive: true });
-  window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+window.addEventListener("touchstart", unlock, { once: true, passive: true });
+window.addEventListener("touchmove", unlock, { once: true, passive: true });
+window.addEventListener("pointerdown", unlock, { once: true, passive: true });
 })();
