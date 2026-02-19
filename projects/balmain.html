@@ -9,22 +9,17 @@
   <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" />
 
-  <!-- <link rel="stylesheet" href="../assets/css/main.css" /> -->
-<link rel="stylesheet" href="../assets/css/brand-nav.css?v=BRANDS2026A">
+  <link rel="stylesheet" href="../assets/css/brand-nav.css?v=BRANDS2026A">
 </head>
 
 <body class="brand-page" data-brand="BALMAIN">
-    
 
   <!-- BRAND PAGE HEADER -->
   <header id="siteHeader">
 
-    <!-- Hamburger + menu (HTML structure) -->
+    <!-- Hamburger + menu -->
     <details class="brandMenuWrap">
       <summary class="brandMenuBtn" aria-label="Menu">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -36,7 +31,6 @@
         </svg>
       </summary>
 
-      <!-- Real list (small, clean) -->
       <nav class="brandMenu" aria-label="Brand page menu">
         <a href="../?skipIntro=1#introduction" data-label="Introduction">Introduction</a>
         <a href="../?skipIntro=1#gallery" data-label="Explore">Explore</a>
@@ -46,7 +40,7 @@
       </nav>
     </details>
 
-    <!-- Instagram (always visible) -->
+    <!-- Instagram -->
     <a class="igFixed"
        href="https://www.instagram.com/maisonmagnoliagroup/?hl=en"
        target="_blank"
@@ -56,248 +50,122 @@
         <path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm9 2h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4Zm-4.5 4.2A3.8 3.8 0 1 1 8.2 12 3.81 3.81 0 0 1 12 8.2Zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2ZM17.7 6.6a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9Z"/>
       </svg>
     </a>
-<a href="../?skipIntro=1" class="mm-logo" aria-label="Maison Magnolia home">
-  <span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
-  <span>&nbsp;</span>
-  <span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
-</a>
+
+    <!-- MM logo -->
+    <a href="../?skipIntro=1" class="mm-logo" aria-label="Maison Magnolia home">
+      <span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
+      <span>&nbsp;</span>
+      <span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
+    </a>
 
   </header>
 
-  <!-- Center brand nav (arrows + current brand label) -->
+  <!-- Center brand nav -->
   <div class="brandNav" aria-label="Brand navigation">
     <button class="brandNavArrow brandNavPrev" type="button" aria-label="Previous brand">‹</button>
     <div class="brandNavList" role="list"></div>
     <button class="brandNavArrow brandNavNext" type="button" aria-label="Next brand">›</button>
   </div>
 
-  <!-- BRAND LABEL – ABSOLUTE TOP LEFT -->
-
   <main class="brand-layout">
 
     <!-- LEFT LIST -->
     <aside class="brand-left">
       <nav class="brand-left-nav">
-        <a class="brand-left-link is-active" href="#balmain" data-anchor="balmain">BALMAIN</a>
-</nav>
+        <a class="brand-left-link is-active" href="#balmain-project-1" data-anchor="balmain-project-1">Project One</a>
+        <a class="brand-left-link" href="#balmain-project-2" data-anchor="balmain-project-2">Project Two</a>
+      </nav>
     </aside>
 
     <!-- RIGHT PEOPLE LIST -->
     <aside class="brand-people" aria-label="Project experts">
-<ul class="experts-list brand-people-list" id="collabPeople">
-  <li class="expert">
-    <span class="expert-name">Frederico Stauffer</span>
-    <span class="expert-meta">
-      Director + Video Creator · <a href='https://www.instagram.com/fredstauffer/' class='expert-handle' target='_blank' rel='noopener noreferrer'>@fredstauffer</a>
-    </span>
-  </li>
-
-  <li class="expert">
-    <span class="expert-name">Tobias Jones</span>
-    <span class="expert-meta">
-      Video Creator + Creative Director · <a href='https://www.instagram.com/newinflux/' class='expert-handle' target='_blank' rel='noopener noreferrer'>@newinflux</a>
-    </span>
-  </li>
-</ul>
+      <ul class="experts-list brand-people-list" id="collabPeople">
+        <li class="expert">
+          <span class="expert-name">Frederico Stauffer</span>
+          <span class="expert-meta">Director + Video Creator</span>
+        </li>
+      </ul>
     </aside>
 
     <!-- FEED -->
-<section class="brand-right">
+    <section class="brand-right">
 
-  <div class="brand-anchor" id="balmain"></div>
-  <div class="brand-section-title">BALMAIN</div>
-  <div class="brand-grid">
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/1.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/2.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/3.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/4.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/5.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/6.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/7.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/8.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/9.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/10.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/11.mp4" type="video/mp4"></video></div>
-    <div class="brand-tile r-9-16"><video autoplay muted loop playsinline preload="metadata"><source src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/12.mp4" type="video/mp4"></video></div>
-  </div>
+      <div class="brand-anchor" id="balmain-project-1"></div>
+      <div class="brand-section-title">Project One</div>
+      <div class="brand-grid">
+        <div class="brand-tile r-9-16">
+          <video muted loop playsinline webkit-playsinline preload="none">
+            <source data-src="https://pub-9f55112318664101beada68236f30b46.r2.dev/Frederico%20Stauffer/Baked/BalmainFS.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
 
-</section>
+      <div class="brand-anchor" id="balmain-project-2"></div>
+      <div class="brand-section-title">Project Two</div>
+      <div class="brand-grid">
+        <div class="brand-tile r-9-16">
+          <video muted loop playsinline webkit-playsinline preload="none">
+            <source data-src="https://pub-9f55112318664101beada68236f30b46.r2.dev/Tobias%20Jones/Baked/Balmaintj.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+    </section>
   </main>
 
-  <!-- Page data (JSON only): left-nav active + right people swap uses this per brand page -->
-<script id="mmBrandData" type="application/json">
+  <!-- Section-to-people mapping -->
+  <script id="mmBrandData" type="application/json">
 {
   "sections": {
-    "balmain": [
-      {
-        "name": "Frederico Stauffer",
-        "meta": "Director + Video Creator \u00b7 <a href='https://www.instagram.com/fredstauffer/' class='expert-handle' target='_blank' rel='noopener noreferrer'>@fredstauffer</a>"
-      },
-      {
-        "name": "Tobias Jones",
-        "meta": "Video Creator + Creative Director \u00b7 <a href='https://www.instagram.com/newinflux/' class='expert-handle' target='_blank' rel='noopener noreferrer'>@newinflux</a>"
-      }
+    "balmain-project-1": [
+      { "name": "Frederico Stauffer", "meta": "Director + Video Creator" }
+    ],
+    "balmain-project-2": [
+      { "name": "Tobias Jones", "meta": "Video Creator + Creative Director" }
     ]
   }
 }
-</script>
+  </script>
 
-<script id="mmBrandList" type="application/json">
+  <!-- Brand list for center rolodex -->
+  <script id="mmBrandList" type="application/json">
 {
   "brands": [
-    {
-      "label": "AMI",
-      "file": "ami.html",
-      "slug": "ami"
-    },
-    {
-      "label": "ASOS",
-      "file": "asos.html",
-      "slug": "asos"
-    },
-    {
-      "label": "BALMAIN",
-      "file": "balmain.html",
-      "slug": "balmain"
-    },
-    {
-      "label": "BMW",
-      "file": "bmw.html",
-      "slug": "bmw"
-    },
-    {
-      "label": "BOSS",
-      "file": "boss.html",
-      "slug": "boss"
-    },
-    {
-      "label": "BREITLING",
-      "file": "breitling.html",
-      "slug": "breitling"
-    },
-    {
-      "label": "DAVID YURMAN",
-      "file": "david-yurman.html",
-      "slug": "david-yurman"
-    },
-    {
-      "label": "GIVENCHY",
-      "file": "givenchy.html",
-      "slug": "givenchy"
-    },
-    {
-      "label": "GOOGLE PIXEL",
-      "file": "google-pixel.html",
-      "slug": "google-pixel"
-    },
-    {
-      "label": "H&M",
-      "file": "hm.html",
-      "slug": "handm"
-    },
-    {
-      "label": "HERMES",
-      "file": "hermes.html",
-      "slug": "hermes"
-    },
-    {
-      "label": "HUGO",
-      "file": "hugo.html",
-      "slug": "hugo"
-    },
-    {
-      "label": "JIMMY CHOO",
-      "file": "jimmy-choo.html",
-      "slug": "jimmy-choo"
-    },
-    {
-      "label": "LORO PIANA",
-      "file": "loro-piana.html",
-      "slug": "loro-piana"
-    },
-    {
-      "label": "LOUIS VUITTON",
-      "file": "louis-vuitton.html",
-      "slug": "louis-vuitton"
-    },
-    {
-      "label": "MARC JACOBS",
-      "file": "marc-jacobs.html",
-      "slug": "marc-jacobs"
-    },
-    {
-      "label": "MARKS & SPENCERS",
-      "file": "marks-spencers.html",
-      "slug": "marks-and-spencers"
-    },
-    {
-      "label": "MESHKI",
-      "file": "meshki.html",
-      "slug": "meshki"
-    },
-    {
-      "label": "MICHAEL KORS",
-      "file": "michael-kors.html",
-      "slug": "michael-kors"
-    },
-    {
-      "label": "MIUMIU",
-      "file": "miumiu.html",
-      "slug": "miumiu"
-    },
-    {
-      "label": "MOSCHINO",
-      "file": "moschino.html",
-      "slug": "moschino"
-    },
-    {
-      "label": "PANDORA",
-      "file": "pandora.html",
-      "slug": "pandora"
-    },
-    {
-      "label": "PRADA",
-      "file": "prada.html",
-      "slug": "prada"
-    },
-    {
-      "label": "PRADA BEAUTY",
-      "file": "prada-beauty.html",
-      "slug": "prada-beauty"
-    },
-    {
-      "label": "RABANNE",
-      "file": "rabanne.html",
-      "slug": "rabanne"
-    },
-    {
-      "label": "RENT THE RUNWAY",
-      "file": "rent-the-runway.html",
-      "slug": "rent-the-runway"
-    },
-    {
-      "label": "SANDRO",
-      "file": "sandro.html",
-      "slug": "sandro"
-    },
-    {
-      "label": "TUMI",
-      "file": "tumi.html",
-      "slug": "tumi"
-    },
-    {
-      "label": "VERONICA BEARD",
-      "file": "veronica-beard.html",
-      "slug": "veronica-beard"
-    }
+    { "label": "AMI", "file": "ami.html", "slug": "ami" },
+    { "label": "ASOS", "file": "asos.html", "slug": "asos" },
+    { "label": "BALMAIN", "file": "balmain.html", "slug": "balmain" },
+    { "label": "BMW", "file": "bmw.html", "slug": "bmw" },
+    { "label": "BOSS", "file": "boss.html", "slug": "boss" },
+    { "label": "BREITLING", "file": "breitling.html", "slug": "breitling" },
+    { "label": "DAVID YURMAN", "file": "david-yurman.html", "slug": "david-yurman" },
+    { "label": "GIVENCHY", "file": "givenchy.html", "slug": "givenchy" },
+    { "label": "GOOGLE PIXEL", "file": "google-pixel.html", "slug": "google-pixel" },
+    { "label": "H&M", "file": "hm.html", "slug": "handm" },
+    { "label": "HERMES", "file": "hermes.html", "slug": "hermes" },
+    { "label": "HUGO", "file": "hugo.html", "slug": "hugo" },
+    { "label": "JIMMY CHOO", "file": "jimmy-choo.html", "slug": "jimmy-choo" },
+    { "label": "LORO PIANA", "file": "loro-piana.html", "slug": "loro-piana" },
+    { "label": "LOUIS VUITTON", "file": "louis-vuitton.html", "slug": "louis-vuitton" },
+    { "label": "MARC JACOBS", "file": "marc-jacobs.html", "slug": "marc-jacobs" },
+    { "label": "MARKS & SPENCERS", "file": "marks-spencers.html", "slug": "marks-and-spencers" },
+    { "label": "MESHKI", "file": "meshki.html", "slug": "meshki" },
+    { "label": "MICHAEL KORS", "file": "michael-kors.html", "slug": "michael-kors" },
+    { "label": "MIUMIU", "file": "miumiu.html", "slug": "miumiu" },
+    { "label": "MOSCHINO", "file": "moschino.html", "slug": "moschino" },
+    { "label": "PANDORA", "file": "pandora.html", "slug": "pandora" },
+    { "label": "PRADA", "file": "prada.html", "slug": "prada" },
+    { "label": "PRADA BEAUTY", "file": "prada-beauty.html", "slug": "prada-beauty" },
+    { "label": "RABANNE", "file": "rabanne.html", "slug": "rabanne" },
+    { "label": "RENT THE RUNWAY", "file": "rent-the-runway.html", "slug": "rent-the-runway" },
+    { "label": "SANDRO", "file": "sandro.html", "slug": "sandro" },
+    { "label": "TUMI", "file": "tumi.html", "slug": "tumi" },
+    { "label": "VERONICA BEARD", "file": "veronica-beard.html", "slug": "veronica-beard" }
   ]
 }
-</script>
+  </script>
 
-  <!-- Shared brand page JS (hamburger + brand rolodex + scrollspy + people swap) -->
-<script src="../assets/js/mm-media.js?v=BRANDS2026A" defer></script>
-<script src="../assets/js/brand-nav.js?v=BRANDS2026A" defer></script>
-
+  <script src="../assets/js/mm-media.js?v=BRANDS2026A" defer></script>
+  <script src="../assets/js/brand-nav.js?v=BRANDS2026A" defer></script>
 
 </body>
 </html>
