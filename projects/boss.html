@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-media-base="">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,73 +9,528 @@
   <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="../assets/css/brand-nav.css?v=BRANDS2026A">
 </head>
 
 <body class="brand-page" data-brand="BOSS">
 
-<header id="siteHeader">
-  <details class="brandMenuWrap">
-    <summary class="brandMenuBtn" aria-label="Menu">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <path d="M4 7h16M4 12h16M4 17h16"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"/>
+  <!-- BRAND PAGE HEADER -->
+  <header id="siteHeader">
+
+    <!-- Hamburger + menu (HTML structure) -->
+    <details class="brandMenuWrap">
+      <summary class="brandMenuBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"/>
+        </svg>
+      </summary>
+
+      <!-- Real list (small, clean) -->
+      <nav class="brandMenu" aria-label="Brand page menu">
+        <a href="../?skipIntro=1#introduction" data-label="Introduction">Introduction</a>
+        <a href="../?skipIntro=1#gallery" data-label="Explore">Explore</a>
+        <a href="../?skipIntro=1#about" data-label="About">About</a>
+        <a href="../?skipIntro=1#projects" data-label="Collaborations">Collaborations</a>
+        <a href="../?skipIntro=1#team" data-label="Experts">Experts</a>
+      </nav>
+    </details>
+
+    <!-- Instagram (always visible) -->
+    <a class="igFixed"
+       href="https://www.instagram.com/maisonmagnoliagroup/?hl=en"
+       target="_blank"
+       rel="noopener"
+       aria-label="Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm9 2h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4Zm-4.5 4.2A3.8 3.8 0 1 1 8.2 12 3.81 3.81 0 0 1 12 8.2Zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2ZM17.7 6.6a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9Z"/>
       </svg>
-    </summary>
-    <nav class="brandMenu" aria-label="Brand page menu">
-      <a href="../?skipIntro=1#introduction">Introduction</a>
-      <a href="../?skipIntro=1#gallery">Explore</a>
-      <a href="../?skipIntro=1#about">About</a>
-      <a href="../?skipIntro=1#projects">Collaborations</a>
-      <a href="../?skipIntro=1#team">Experts</a>
-    </nav>
-  </details>
+    </a>
 
-  <a class="igFixed"
-     href="https://www.instagram.com/maisonmagnoliagroup/?hl=en"
-     target="_blank"
-     rel="noopener"
-     aria-label="Instagram">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Z"/>
-    </svg>
-  </a>
+    <a href="../?skipIntro=1" class="mm-logo" aria-label="Maison Magnolia home">
+      <span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
+      <span>&nbsp;</span>
+      <span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
+    </a>
 
-  <a href="../?skipIntro=1" class="mm-logo" aria-label="Maison Magnolia home">
-    <span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
-    <span>&nbsp;</span>
-    <span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
-  </a>
-</header>
+  </header>
 
-<div class="brandNav">
-  <button class="brandNavArrow brandNavPrev">‹</button>
-  <div class="brandNavList"></div>
-  <button class="brandNavArrow brandNavNext">›</button>
-</div>
+  <!-- Center brand nav (arrows + current brand label) -->
+  <div class="brandNav" aria-label="Brand navigation">
+    <button class="brandNavArrow brandNavPrev" type="button" aria-label="Previous brand">‹</button>
+    <div class="brandNavList" role="list"></div>
+    <button class="brandNavArrow brandNavNext" type="button" aria-label="Next brand">›</button>
+  </div>
 
-<main class="brand-layout">
+  <main class="brand-layout">
 
-<aside class="brand-left">
-<nav class="brand-left-nav">
-<a href="#boss-perfect-moments" class="brand-left-link">Boss Perfect Moments</a>
-<a href="#fw22-show" class="brand-left-link">FW22 Show</a>
-<a href="#ss23" class="brand-left-link">SS23</a>
-<a href="#luke-lovell" class="brand-left-link">Luke Lovell</a>
-<a href="#ss22" class="brand-left-link">SS22</a>
-<a href="#ss23-phil" class="brand-left-link">SS23 Phil Cohen</a>
-<a href="#fw23" class="brand-left-link">FW23</a>
-<a href="#golf" class="brand-left-link">GOLF</a>
-</nav>
-</aside>
+    <!-- LEFT LIST -->
+    <aside class="brand-left">
+      <nav class="brand-left-nav">
+        <a class="brand-left-link is-active" href="#boss-perfect-moments" data-anchor="boss-perfect-moments">Boss Perfect Moments</a>
+        <a class="brand-left-link" href="#fw22-show" data-anchor="fw22-show">FW22 Show</a>
+        <a class="brand-left-link" href="#ss23" data-anchor="ss23">SS23</a>
+        <a class="brand-left-link" href="#luke-lovell" data-anchor="luke-lovell">Luke Lovell</a>
+        <a class="brand-left-link" href="#ss22" data-anchor="ss22">SS22</a>
+        <a class="brand-left-link" href="#ss23-phil" data-anchor="ss23-phil">SS23 Phil Cohen</a>
+        <a class="brand-left-link" href="#fw23" data-anchor="fw23">FW23</a>
+        <a class="brand-left-link" href="#golf" data-anchor="golf">GOLF</a>
+      </nav>
+    </aside>
 
-<section class="brand-right">
+    <!-- RIGHT PEOPLE LIST -->
+    <aside class="brand-people" aria-label="Project experts">
+      <ul class="experts-list brand-people-list" id="collabPeople">
+        <!-- Intentionally empty (populate only when expert data is provided) -->
+      </ul>
+    </aside>
 
-<div class="brand-anchor" id="boss-perfect-moments"></div>
-<div class="brand-section-title">Boss Perfect Moments</div>
-<div class="brand-grid">
+    <!-- FEED -->
+    <section class="brand-right">
+
+  <div class="brand-anchor" id="boss-perfect-moments"></div>
+  <div class="brand-section-title">Boss Perfect Moments</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/Boss%20Perfect%20Moments/Baked/Bossperfect1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/Boss%20Perfect%20Moments/Baked/Bossperfect2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/Boss%20Perfect%20Moments/Baked/Bossperfect3.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="fw22-show"></div>
+  <div class="brand-section-title">FW22 Show</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/FW22%20Show/Baked/Fw22show.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="ss23"></div>
+  <div class="brand-section-title">SS23</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss231.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss232.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss233.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss234.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="luke-lovell"></div>
+  <div class="brand-section-title">Project Name (Fill In)</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll3.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll4.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll5.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll6.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll7.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll8.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Luke%20Lovell/Baked/Bossll9.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="ss22"></div>
+  <div class="brand-section-title">SS22</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss221.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss222.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss223.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss224.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss225.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss226.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss227.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss228.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS22/Baked/Ss229.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="ss23-phil"></div>
+  <div class="brand-section-title">SS23 Phil Cohen</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS23/Baked/Ss231.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS23/Baked/Ss232.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS23/Baked/Ss233.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Phil%20Cohen/SS23/Baked/Ss234.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="fw23"></div>
+  <div class="brand-section-title">FW23</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw231.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw232.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw233.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw234.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw235.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/FW23/Baked/Fw236.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="brand-anchor" id="golf"></div>
+  <div class="brand-section-title">GOLF</div>
+
+  <div class="brand-grid">
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/GOLF/Baked/Bossgolf1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/GOLF/Baked/Bossgolf2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/GOLF/Baked/Bossgolf4.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/GOLF/Baked/Bossgolf5.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="brand-tile r-9-16">
+      <video muted loop playsinline webkit-playsinline preload="none">
+        <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Tobias%20Jones/GOLF/Baked/Bossgolf7.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+    </section>
+
+  </main>
+
+  <!-- Page data (JSON only): left-nav active + right people swap uses this per brand page -->
+  <script id="mmBrandData" type="application/json">
+{
+  "sections": {
+    "boss-perfect-moments": [],
+    "fw22-show": [],
+    "ss23": [],
+    "luke-lovell": [],
+    "ss22": [],
+    "ss23-phil": [],
+    "fw23": [],
+    "golf": []
+  }
+}
+  </script>
+
+  <script id="mmBrandList" type="application/json">
+{
+  "brands": [
+    {
+      "label": "AMI",
+      "file": "ami.html",
+      "slug": "ami"
+    },
+    {
+      "label": "ASOS",
+      "file": "asos.html",
+      "slug": "asos"
+    },
+    {
+      "label": "BALMAIN",
+      "file": "balmain.html",
+      "slug": "balmain"
+    },
+    {
+      "label": "BMW",
+      "file": "bmw.html",
+      "slug": "bmw"
+    },
+    {
+      "label": "BOSS",
+      "file": "boss.html",
+      "slug": "boss"
+    },
+    {
+      "label": "BREITLING",
+      "file": "breitling.html",
+      "slug": "breitling"
+    },
+    {
+      "label": "DAVID YURMAN",
+      "file": "david-yurman.html",
+      "slug": "david-yurman"
+    },
+    {
+      "label": "GIVENCHY",
+      "file": "givenchy.html",
+      "slug": "givenchy"
+    },
+    {
+      "label": "GOOGLE PIXEL",
+      "file": "google-pixel.html",
+      "slug": "google-pixel"
+    },
+    {
+      "label": "H&M",
+      "file": "hm.html",
+      "slug": "handm"
+    },
+    {
+      "label": "HERMES",
+      "file": "hermes.html",
+      "slug": "hermes"
+    },
+    {
+      "label": "HUGO",
+      "file": "hugo.html",
+      "slug": "hugo"
+    },
+    {
+      "label": "JIMMY CHOO",
+      "file": "jimmy-choo.html",
+      "slug": "jimmy-choo"
+    },
+    {
+      "label": "LORO PIANA",
+      "file": "loro-piana.html",
+      "slug": "loro-piana"
+    },
+    {
+      "label": "LOUIS VUITTON",
+      "file": "louis-vuitton.html",
+      "slug": "louis-vuitton"
+    },
+    {
+      "label": "MARC JACOBS",
+      "file": "marc-jacobs.html",
+      "slug": "marc-jacobs"
+    },
+    {
+      "label": "MARKS & SPENCERS",
+      "file": "marks-spencers.html",
+      "slug": "marks-and-spencers"
+    },
+    {
+      "label": "MESHKI",
+      "file": "meshki.html",
+      "slug": "meshki"
+    },
+    {
+      "label": "MICHAEL KORS",
+      "file": "michael-kors.html",
+      "slug": "michael-kors"
+    },
+    {
+      "label": "MIUMIU",
+      "file": "miumiu.html",
+      "slug": "miumiu"
+    },
+    {
+      "label": "MOSCHINO",
+      "file": "moschino.html",
+      "slug": "moschino"
+    },
+    {
+      "label": "PANDORA",
+      "file": "pandora.html",
+      "slug": "pandora"
+    },
+    {
+      "label": "PRADA",
+      "file": "prada.html",
+      "slug": "prada"
+    },
+    {
+      "label": "PRADA BEAUTY",
+      "file": "prada-beauty.html",
+      "slug": "prada-beauty"
+    },
+    {
+      "label": "RABANNE",
+      "file": "rabanne.html",
+      "slug": "rabanne"
+    },
+    {
+      "label": "RENT THE RUNWAY",
+      "file": "rent-the-runway.html",
+      "slug": "rent-the-runway"
+    },
+    {
+      "label": "SANDRO",
+      "file": "sandro.html",
+      "slug": "sandro"
+    },
+    {
+      "label": "TUMI",
+      "file": "tumi.html",
+      "slug": "tumi"
+    },
+    {
+      "label": "VERONICA BEARD",
+      "file": "veronica-beard.html",
+      "slug": "veronica-beard"
+    }
+  ]
+}
+  </script>
+
+  <!-- Shared brand page JS (hamburger + brand rolodex + scrollspy + people swap) -->
+  <script src="../assets/js/mm-media.js?v=BRANDS2026A" defer></script>
+  <script src="../assets/js/brand-nav.js?v=BRANDS2026A" defer></script>
+
+</body>
+</html>

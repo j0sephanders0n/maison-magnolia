@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "MICHAEL KORS", href: "./michael-kors.html" },
     { name: "MIU MIU", href: "./miumiu.html" },
     { name: "MOSCHINO", href: "./moschino.html" },
+        { name: "PANDORA", href: "./pandora.html" },
     { name: "PRADA", href: "./prada.html" },
     { name: "PRADA BEAUTY", href: "./prada-beauty.html" },
     { name: "RABANNE", href: "./rabanne.html" },
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "SANDRO", href: "./sandro.html" },
     { name: "TUMI", href: "./tumi.html" },
     { name: "VERONICA BEARD", href: "./veronica-beard.html" },
-    { name: "PANDORA", href: "./pandora.html" }
+
   ];
 
   /* =========================================================
