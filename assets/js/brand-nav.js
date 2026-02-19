@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "PRADA BEAUTY", href: "./prada-beauty.html" },
     { name: "RABANNE", href: "./rabanne.html" },
     { name: "RENT THE RUNWAY", href: "./rent-the-runway.html" },
+    { name: "SPENCE", href: "./spence.html" },
     { name: "SANDRO", href: "./sandro.html" },
     { name: "TUMI", href: "./tumi.html" },
     { name: "VERONICA BEARD", href: "./veronica-beard.html" },
@@ -419,10 +420,22 @@ expertsTab.innerHTML = "<span>Experts</span>";
     return lb;
   };
 
-  const getTileSrc = (tile) => {
-    const srcEl = tile.querySelector("video source");
-    const src = srcEl ? srcEl.getAttribute("src") : "";
-    return src || "";
+  const getTileMedia = (tile) => {
+    // VIDEO tile
+    const vSource = tile.querySelector("video source");
+    if (vSource) {
+      const src = vSource.getAttribute("src") || vSource.getAttribute("data-src") || "";
+      return { kind: "video", src };
+    }
+
+    // IMAGE tile
+    const img = tile.querySelector("img");
+    if (img) {
+      const src = img.getAttribute("src") || img.getAttribute("data-src") || "";
+      return { kind: "image", src };
+    }
+
+    return { kind: "unknown", src: "" };
   };
 
   let lbState = { isOpen: false, tiles: [], index: 0 };
@@ -437,13 +450,31 @@ expertsTab.innerHTML = "<span>Experts</span>";
     const tile = lbState.tiles[lbState.index];
     if (!tile) return;
 
-    const src = getTileSrc(tile);
+    const media = getTileMedia(tile);
     frame.innerHTML = "";
-    if (!src) return;
+    if (!media.src) return;
 
     // Default ratio while metadata loads (prevents jump)
     frame.style.setProperty("--lb-ar", "9 / 16");
 
+    if (media.kind === "image") {
+      const img = document.createElement("img");
+      img.alt = "";
+      img.decoding = "async";
+      img.loading = "eager";
+      img.src = media.src;
+
+      img.addEventListener("load", () => {
+        const w = img.naturalWidth || 0;
+        const h = img.naturalHeight || 0;
+        if (w > 0 && h > 0) frame.style.setProperty("--lb-ar", `${w} / ${h}`);
+      });
+
+      frame.appendChild(img);
+      return;
+    }
+
+    // VIDEO (default)
     const v = document.createElement("video");
     v.setAttribute("playsinline", "");
     v.setAttribute("controls", "");
@@ -456,7 +487,7 @@ expertsTab.innerHTML = "<span>Experts</span>";
     // Optional: loop in lightbox too
     v.loop = true;
 
-    v.src = src;
+    v.src = media.src;
 
     v.addEventListener("loadedmetadata", () => {
       const w = v.videoWidth || 0;
