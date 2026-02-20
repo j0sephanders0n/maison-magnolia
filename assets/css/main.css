@@ -4031,3 +4031,334 @@ video::-webkit-media-controls-start-playback-button {
   }
 }
 
+/* =========================================================
+   PROJECTS PHONE — AE MATTE (MASK ONLY VIDEO STACK)
+   Requires: .phoneMask wrapper around .video-track
+   ========================================================= */
+
+#projects .video-container{
+  position: relative;
+  background: transparent; /* black comes from .phoneMask */
+}
+
+/* Black matte + videos are clipped together */
+#projects .phoneMask{
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 1;
+
+  -webkit-mask-image: url("../phone-matte.svg");
+  mask-image: url("../phone-matte.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* keep the moving track behavior unchanged */
+#projects .phoneMask .video-track{
+  position: absolute;
+  inset: 0;
+}
+
+/* keep phone art above everything */
+#projects .phoneFrameOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROJECTS PHONE — FIX MASK SCALE + BLACK RECTANGLE
+   Paste at END of main.css
+   ========================================================= */
+
+/* 1) Kill the old 395% phone overlay scaling */
+#projects .phoneFrameOverlay svg{
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* 2) The container itself must NOT be black (that’s the rectangle you see) */
+#projects .video-container{
+  background: transparent !important;
+  overflow: visible;
+}
+
+
+
+/* =========================================================
+   PROJECTS PHONE — KEEP BIG PHONE + SCALE MASK TO MATCH
+   Paste at END of main.css
+   ========================================================= */
+
+/* 0) One knob to rule them all */
+#projects .video-container{
+  --phone-scale: 395%;              /* 👈 your preferred size */
+  background: transparent !important; /* kill the big black rectangle */
+}
+
+/* 1) Your phone SVG overlay stays HUGE (as before) */
+#projects .phoneFrameOverlay svg{
+  width: var(--phone-scale) !important;
+  height: var(--phone-scale) !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) translateZ(0) !important;
+  pointer-events: none;
+}
+
+/* 2) Black matte belongs INSIDE the masked layer */
+#projects .phoneMask{
+  background: #000 !important;
+
+  -webkit-mask-image: url("../phone-matte.svg");
+  mask-image: url("../phone-matte.svg");
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  /* 👇 THIS is the missing piece: scale mask to match the 395% phone */
+  -webkit-mask-size: var(--phone-scale) var(--phone-scale);
+  mask-size: var(--phone-scale) var(--phone-scale);
+}
+
+/* =========================================================
+   PROJECTS — PHONE: swap matte SVG to mobile.svg
+   (desktop uses phone-matte.svg)
+   ========================================================= */
+@media (max-width: 520px){
+
+  /* If your matte is applied to .phoneMask (most likely) */
+  #projects .phoneMask{
+    -webkit-mask-image: url("../mobile.svg") !important;
+    mask-image: url("../mobile.svg") !important;
+
+    /* mobile matte should fit normally */
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+  }
+
+  /* If you ALSO apply the matte to the moving stack, swap it too */
+  #projects .phoneMask .video-track{
+    -webkit-mask-image: url("../mobile.svg") !important;
+    mask-image: url("../mobile.svg") !important;
+
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+  }
+}
+/* =========================================================
+   PROJECTS — PHONE: swap matte SVG, keep SAME SCALE (395%)
+   ========================================================= */
+
+@media (max-width: 520px){
+
+  /* Swap matte SVG ONLY — keep scale + positioning identical */
+  #projects .phoneMask{
+    -webkit-mask-image: url("../mobile.svg") !important;
+    mask-image: url("../mobile.svg") !important;
+
+    /* keep the big cinematic scale */
+    -webkit-mask-size: var(--phone-scale) var(--phone-scale) !important;
+    mask-size: var(--phone-scale) var(--phone-scale) !important;
+  }
+
+  /* Safety: if mask is also applied to the moving stack */
+  #projects .phoneMask .video-track{
+    -webkit-mask-image: url("../mobile.svg") !important;
+    mask-image: url("../mobile.svg") !important;
+
+    -webkit-mask-size: var(--phone-scale) var(--phone-scale) !important;
+    mask-size: var(--phone-scale) var(--phone-scale) !important;
+  }
+}
+
+/* =========================================================
+   PROJECTS — iPHONE SAFARI FIX
+   WebKit can fail to render <video> inside -webkit-mask-image.
+   So: disable mask on iPhone, use overflow clip instead.
+   ========================================================= */
+
+@media (max-width: 520px){
+
+  /* 1) Turn OFF masking on iPhone (video rendering fix) */
+  #projects .phoneMask{
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  #projects .phoneMask .video-track{
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  /* 2) Use your mobile “screen clip” behavior instead */
+  #projects .video-container{
+    background: #000 !important;
+    overflow: hidden !important;
+
+    /* tune if you want, but these should match the mobile look */
+    border-radius: 20px !important;
+  }
+
+  /* 3) Make sure the moving stack stays positioned correctly */
+  #projects .phoneMask{
+    position: absolute !important;
+    inset: 0 !important;
+    background: transparent !important; /* black is on container */
+    z-index: 1 !important;
+  }
+
+  #projects .video-track{
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+  }
+
+  /* 4) Keep each slide cleanly clipped */
+  #projects .slide{
+    overflow: hidden !important;
+  }
+}
+
+/* =========================================================
+   FIX: iPad Air / iPad Pro should behave like DESKTOP in #projects
+   - keep 2-column layout
+   - keep sticky phone
+   - keep SVG phone overlay
+   - scale phone + list down together
+   ========================================================= */
+
+/* 1) iPad range: scale the phone + list down (but keep desktop behavior) */
+@media (min-width: 701px) and (max-width: 1180px){
+
+  /* Scale knobs (tweak if you want slightly bigger/smaller) */
+  :root{
+    --phone-w: 280px;
+    --phone-h: 498px;
+  }
+
+  /* Keep the DESKTOP 2-column layout */
+  .projects-layout{
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 28px !important;
+    row-gap: 0 !important;
+  }
+
+  /* Keep sticky phone inside the section (desktop behavior) */
+  #projects .projects-left{
+    position: sticky !important;
+    top: 80px !important;      /* matches your existing desktop offset */
+    height: 75vh !important;
+  }
+
+  /* Make sure the phone container uses the scaled vars */
+  #projects .video-container{
+    width: var(--phone-w) !important;
+    height: var(--phone-h) !important;
+    --slide-h: var(--phone-h);
+  }
+
+  /* Scale list to match the phone */
+  #projects .client-list{
+    width: var(--phone-w) !important;
+    gap: 36px !important;
+  }
+
+  #projects .client{
+    font-size: 18px !important;
+  }
+}
+
+/* 2) IMPORTANT: Do NOT hide the phone SVG overlay on iPad.
+      Your file currently hides it at max-width:900px. This turns it back on. */
+@media (min-width: 521px) and (max-width: 1024px){
+  #projects .phoneFrameOverlay{
+    display: block !important;
+  }
+}
+
+/* 3) Move the “collapse to 1 column / non-sticky” behavior DOWN to true small screens.
+      (Your current max-width:900px rule is what breaks iPad Air.) */
+@media (max-width: 700px){
+  .projects-layout{
+    grid-template-columns: 1fr !important;
+    row-gap: 48px !important;
+  }
+
+  #projects .projects-left{
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+  }
+}
+
+/* =========================================================
+   PROJECTS: iPad scaling fix — keep phone overlay truly 1:1
+   (removes the 395% SVG hack so it tracks container resizing)
+   ========================================================= */
+
+#projects .phoneFrameOverlay svg{
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+  transform: none !important;
+}
+
+/* (Optional but recommended) ensure the mask layer always matches container */
+#projects .phoneMask{
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================
+   PROJECTS: restore iPhone frame scale (desktop + iPad)
+   ========================================================= */
+
+/* Default scale for the iphonec.svg */
+:root{
+  --frame-scale: 3.95; /* this is basically your old "395%" */
+}
+
+/* Make overlay fill container and scale up */
+#projects .phoneFrameOverlay{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#projects .phoneFrameOverlay svg{
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+
+  /* key part: scale the SVG up again */
+  transform-origin: 50% 50% !important;
+  transform: scale(var(--frame-scale)) !important;
+}
+
+/* If you want iPad slightly different, tweak here (optional) */
+@media (min-width: 701px) and (max-width: 1180px){
+  :root{
+    --frame-scale: 3.95; /* keep same as desktop for now */
+  }
+}

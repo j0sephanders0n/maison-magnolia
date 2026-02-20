@@ -7,7 +7,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // some browsers restore scroll after DOMContentLoaded, force again next tick
   setTimeout(() => window.scrollTo(0, 0), 0);
 
+  // ============================================================
+  // PROJECTS: Wrap .video-track in a mask layer (AE-style matte)
+  // - Masks ONLY videos + black backing
+  // - Keeps phone SVG overlay visible above it
+  // ============================================================
+  (function ensurePhoneMaskWrapper(){
+    const container = document.querySelector("#projects .video-container");
+    if (!container) return;
 
+    // Prevent double-wrap
+    if (container.querySelector(".phoneMask")) return;
+
+    const track = container.querySelector(".video-track");
+    if (!track) return;
+
+    const mask = document.createElement("div");
+    mask.className = "phoneMask";
+
+    // Insert wrapper and move track into it
+    container.insertBefore(mask, track);
+    mask.appendChild(track);
+  })();
 
   // ============================================================
   // INTRO ANIMATION (keeps your existing behavior, but smoother)
@@ -36,36 +57,100 @@ document.body.classList.remove("preload");
 document.body.classList.add("intro-done");
   };
 
-  // ============================================================
+// ============================================================
 // BOTTOM CONTACT BAR (show when user reaches page bottom)
+// - Uses a real end-of-page sentinel (no scrollHeight guessing)
+// - Pops a hair LATER (closer to true bottom)
+// - When visible: prevents scrolling further DOWN (acts as hard page end)
 // ============================================================
 (function initContactBar(){
   const bar = document.getElementById("contactBar");
   if (!bar) return;
 
-  const THRESHOLD_PX = 24; // how close to bottom counts as "at bottom"
+  const THRESHOLD_PX = 24;     // base threshold
+  const SHOW_LATER_PX = +16;   // negative = show later (try -16 / -24 / -32)
 
-  function atBottom(){
+  // Create / reuse a sentinel that sits at the *real* end of the page
+  let sentinel = document.getElementById("contactBarSentinel");
+  if (!sentinel) {
+    sentinel = document.createElement("div");
+    sentinel.id = "contactBarSentinel";
+    sentinel.setAttribute("aria-hidden", "true");
+    sentinel.style.cssText = "position:relative;width:100%;height:1px;";
+    document.body.appendChild(sentinel);
+  }
+
+  // Scroll lock state (when bar is visible)
+  let lockY = null;
+
+  function setVisible(on){
+    const isOn = !!on;
+    bar.classList.toggle("is-visible", isOn);
+
+    if (isOn) {
+      // Lock the "bottom" at the moment it becomes visible
+      if (lockY === null) lockY = window.scrollY || window.pageYOffset;
+
+      // Clamp immediately in case we crossed the lock point
+      requestAnimationFrame(() => {
+        const y = window.scrollY || window.pageYOffset;
+        if (y > lockY) window.scrollTo(0, lockY);
+      });
+    } else {
+      // Unlock when hidden (so user can scroll normally again)
+      lockY = null;
+    }
+  }
+
+  // Clamp any attempt to scroll further down while locked
+  window.addEventListener("scroll", () => {
+    if (lockY === null) return;
+    const y = window.scrollY || window.pageYOffset;
+    if (y > lockY) window.scrollTo(0, lockY);
+  }, { passive: true });
+
+  // Fallback (if IntersectionObserver is unavailable)
+  function fallbackUpdate(){
     const scrollY = window.scrollY || window.pageYOffset;
     const viewportH = window.innerHeight || document.documentElement.clientHeight;
-    const docH = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight
+    const docH = document.documentElement.scrollHeight;
+
+    const atBottom = (scrollY + viewportH) >= (docH - THRESHOLD_PX);
+    setVisible(atBottom);
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    window.addEventListener("scroll", fallbackUpdate, { passive: true });
+    window.addEventListener("resize", fallbackUpdate);
+    fallbackUpdate();
+    return;
+  }
+
+  let io;
+
+  function setupObserver(){
+    if (io) io.disconnect();
+
+    // We want "later", so we *don't* add barH here.
+    // Using a negative SHOW_LATER_PX makes the sentinel need to be closer to the viewport bottom.
+    const bottomMargin = THRESHOLD_PX + SHOW_LATER_PX;
+
+    io = new IntersectionObserver(
+      (entries) => setVisible(entries[0]?.isIntersecting),
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: `0px 0px ${bottomMargin}px 0px`
+      }
     );
 
-    return (scrollY + viewportH) >= (docH - THRESHOLD_PX);
+    io.observe(sentinel);
   }
 
-  function update(){
-    bar.classList.toggle("is-visible", atBottom());
-  }
-
-  window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update);
-  update();
+  setupObserver();
+  window.addEventListener("resize", setupObserver);
+  window.addEventListener("orientationchange", setupObserver);
 })();
-
-
   // ============================================================
   // PROJECTS PRELOAD (lightweight + staged)
   // - metadata for all immediately
@@ -927,8 +1012,21 @@ if (listEl) {
   window.addEventListener("resize", syncClientListPosition);
 }
 
-window.addEventListener("resize", () => goTo(activeIndex));
+window.addEventListener("resize", () => {
+  goTo(activeIndex);
 
+  // Force CSS mask to re-rasterize (fixes iPad/responsive mismatch)
+  const mask = root.querySelector(".phoneMask");
+  if (mask) {
+    // tiny size nudge -> repaint -> restore
+    mask.style.webkitMaskSize = "99.9% 99.9%";
+    mask.style.maskSize = "99.9% 99.9%";
+    requestAnimationFrame(() => {
+      mask.style.webkitMaskSize = "100% 100%";
+      mask.style.maskSize = "100% 100%";
+    });
+  }
+});
     // init
     slideHeight();
     goTo(0);
@@ -942,7 +1040,7 @@ window.addEventListener("resize", () => goTo(activeIndex));
   const container = root.querySelector(".video-container");
   if (!container) return;
 
-  const SVG_URL = "assets/media/phone-frame.svg";
+  const SVG_URL = "assets/iphonec.svg";
 
   const overlayEl = document.createElement("div");
   overlayEl.className = "phoneFrameOverlay";
