@@ -169,6 +169,38 @@
 
     // Don’t touch lightbox videos (they can have controls/play UI)
     const isLightboxVideo = (v) => !!v.closest(".mmLightbox");
+    // Collaborations / TikTok section: when the SECTION becomes visible,
+    // hydrate ALL videos inside it (attach data-src -> src) so it loads cleanly.
+    // This does NOT change how videos are played/paused/unloaded elsewhere.
+    const projectsSection = document.getElementById("projects");
+
+    const hydrateProjectsVideos = () => {
+      if (!projectsSection) return;
+      const vids = Array.from(projectsSection.querySelectorAll("video"));
+      vids.forEach((v) => {
+        if (!v || isLightboxVideo(v)) return;
+        hydrateVideoSources(v);
+        try { v.load(); } catch (_) {}
+      });
+    };
+
+    // Observe the section (not individual videos) so we can bulk-hydrate once it comes into view.
+    // rootMargin loads a bit early as you approach the section.
+    if (projectsSection && "IntersectionObserver" in window) {
+      const ioProjects = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            hydrateProjectsVideos();
+          }
+        });
+      }, { root: null, rootMargin: "600px 0px", threshold: 0.01 });
+
+      ioProjects.observe(projectsSection);
+    } else {
+      // Fallback: no IO support, just hydrate immediately.
+      hydrateProjectsVideos();
+    }
+
 
     // Your requirement: NO play button unless lightbox.
     // That means: no controls on inline videos, ever.

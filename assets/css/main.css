@@ -152,6 +152,7 @@ body.preload #siteHeader{
 .nav a:hover{
   font-weight: 800;
   opacity: 1;
+    color: var(--accent);
 }
 
 /* Active section = GREEN */
@@ -3897,7 +3898,7 @@ video::-webkit-media-controls-start-playback-button {
   width: min(1120px, 100%);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 48px;   /* nudge right */
+  padding-left: 24px;   /* nudge right */
   padding-right: 24px;  /* keep right breathing room */
 }
 
@@ -3914,19 +3915,16 @@ video::-webkit-media-controls-start-playback-button {
 #about .three-col.about-process .col:nth-child(1){
   grid-column: 1 / span 4;
   grid-row: 1;
-  transform: translateY(28px);
 }
 
 #about .three-col.about-process .col:nth-child(2){
   grid-column: 5 / span 4;
   grid-row: 1;
-  transform: translateY(-6px);
 }
 
 #about .three-col.about-process .col:nth-child(3){
   grid-column: 9 / span 4;
   grid-row: 1;
-  transform: translateY(18px);
 }
 
 /* number alignment + rhythm */
@@ -3960,30 +3958,76 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 /* =========================================================
-   RESPONSIVE
+   ABOUT — FORCE TRUE MOBILE STACK (kills any grid-column spans)
    ========================================================= */
 @media (max-width: 820px){
+
+  /* Force the container to be a single vertical stack */
   #about .three-col.about-process{
-    grid-template-columns: 1fr;
-    row-gap: 48px;
-    padding-left: 0;     /* remove nudge on mobile */
-    padding-right: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 48px !important;
   }
 
+  /* Each column becomes full-width in normal document flow */
+  #about .three-col.about-process .col{
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-column: auto !important;
+    transform: none !important;
+  }
+
+  /* In case any nth-child rules are still present somewhere */
   #about .three-col.about-process .col:nth-child(1),
   #about .three-col.about-process .col:nth-child(2),
   #about .three-col.about-process .col:nth-child(3){
-    grid-column: auto;
-    transform: none;
+    grid-column: auto !important;
+    transform: none !important;
   }
 
-  #about .three-col.about-process .process-num{
-    height: auto;
-    margin-bottom: 8px;
-  }
-
+  /* Let copy breathe on mobile */
   #about .three-col.about-process .col p{
-    max-width: 100%;
+    max-width: 100% !important;
+  }
+
+  /* Optional: numbers shouldn’t reserve a big block on mobile */
+  #about .three-col.about-process .process-num{
+    height: auto !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+/* =========================================================
+   ABOUT — MOBILE CENTERED TYPE
+   ========================================================= */
+@media (max-width: 820px){
+
+  /* Center the paragraph ABOVE the 01/02/03 blocks */
+  #about .about-wrap,
+  #about .about-blurb{
+    text-align: center;
+  }
+
+  /* Center each process column */
+  #about .three-col.about-process .col{
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Numbers centered */
+  #about .three-col.about-process .process-num{
+    justify-content: center;
+  }
+
+  /* Titles centered */
+  #about .three-col.about-process .col-title{
+    text-align: center;
+  }
+
+  /* Paragraph copy centered + readable width */
+  #about .three-col.about-process .col p{
+    text-align: center;
+    max-width: 28ch; /* tighter for centered reading */
   }
 }
 
