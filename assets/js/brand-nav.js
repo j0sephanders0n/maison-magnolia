@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "RENT THE RUNWAY", href: "./rent-the-runway.html" },
     { name: "SPENCE", href: "./spence.html" },
     { name: "SANDRO", href: "./sandro.html" },
+    { name: "TORY BURCH", href: "./toryburch.html" },
     { name: "TUMI", href: "./tumi.html" },
     { name: "VERONICA BEARD", href: "./veronica-beard.html" },
 
