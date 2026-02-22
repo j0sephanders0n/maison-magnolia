@@ -4362,3 +4362,88 @@ video::-webkit-media-controls-start-playback-button {
     --frame-scale: 3.95; /* keep same as desktop for now */
   }
 }
+
+/* ============================================================
+   FRANNIE PETOK — MOBILE + TABLET
+   No media, no scroll, text-only viewport fit
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  body.frannie-page {
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  body.frannie-page .frannie-bio {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: calc(100svh - var(--nav-h, 72px));
+  }
+
+  /* ❌ REMOVE MEDIA COMPLETELY */
+  body.frannie-page .frannie-bio-media,
+  body.frannie-page .frannie-phone,
+  body.frannie-page video,
+  body.frannie-page .phoneFrameOverlay {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* ✅ TEXT TAKES FULL SCREEN */
+  body.frannie-page .frannie-bio-text {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 5vw, 64px);
+  }
+
+  /* ROLE */
+  body.frannie-page .frannie-role {
+    font-size: clamp(12px, 2.5vw, 14px);
+    letter-spacing: 0.12em;
+    margin-bottom: clamp(12px, 3vw, 20px);
+  }
+
+  /* COPY */
+  body.frannie-page .frannie-copy {
+    font-size: clamp(13px, 2.6vw, 16px);
+    line-height: 1.55;
+    max-width: 72ch;
+  }
+
+  body.frannie-page .frannie-copy p {
+    margin-bottom: clamp(10px, 2.5vw, 18px);
+  }
+}
+
+/* ============================================================
+   FRANNIE — PHONE ONLY: allow text to scroll, keep nav clear
+   ============================================================ */
+@media (max-width: 520px) {
+
+  /* keep the overall page from scrolling behind the nav */
+  body.frannie-page {
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  /* let the TEXT area be the scroller */
+  body.frannie-page .frannie-bio {
+    height: calc(100svh - var(--nav-h, 72px));
+  }
+
+  body.frannie-page .frannie-bio-text {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: clamp(18px, 5vw, 32px);
+    padding-bottom: clamp(28px, 8vw, 56px);
+  }
+
+  /* optional: prevents the first paragraph from hiding under the nav if header is fixed */
+  body.frannie-page .frannie-bio-text {
+    scroll-padding-top: var(--nav-h, 72px);
+  }
+}
