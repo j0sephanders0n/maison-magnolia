@@ -78,6 +78,25 @@ const BRANDS = [
   { name: "TUMI", href: H("tumi.html") },
   { name: "VERONICA BEARD", href: H("veronica-beard.html") },
 ];
+
+// ============================================================
+// ROUTE NORMALIZER (supports BOTH):
+// - Pretty URLs: /projects/veronica-beard
+// - File URLs:   /projects/veronica-beard.html
+// Used for brand label + next/prev indexing.
+// ============================================================
+const normSlug = (p) =>
+  String(p || "")
+    .split("?")[0]
+    .split("#")[0]
+    .replace(/\/+$/, "")
+    .split("/")
+    .pop()
+    .toLowerCase()
+    .replace(/\.html$/i, "");
+
+const currentSlug = normSlug(location.pathname);
+
   /* =========================================================
      HAMBURGER MENU (details/summary)
      ========================================================= */
@@ -153,17 +172,28 @@ const BRANDS = [
     const explicit = body.getAttribute("data-brand");
     if (explicit) return explicit.trim();
 
-    const currentPath = (location.pathname.split("/").pop() || "").toLowerCase();
-    const byHref = BRANDS.findIndex((b) => ((b.href || "").toLowerCase()).includes(currentPath));
+    const byHref = BRANDS.findIndex((b) => {
+      try {
+        const u = new URL(String(b.href || ""), location.origin);
+        return normSlug(u.pathname) === currentSlug;
+      } catch {
+        return normSlug(String(b.href || "")) === currentSlug;
+      }
+    });
+
     if (byHref >= 0) return BRANDS[byHref].name;
 
     return BRANDS[0]?.name || "";
   };
 
-  const currentPath = (location.pathname.split("/").pop() || "").toLowerCase();
-  let currentIndex = BRANDS.findIndex(
-    (b) => String(b.href || "").toLowerCase().endsWith(currentPath)
-  );
+  let currentIndex = BRANDS.findIndex((b) => {
+    try {
+      const u = new URL(String(b.href || ""), location.origin);
+      return normSlug(u.pathname) === currentSlug;
+    } catch {
+      return normSlug(String(b.href || "")) === currentSlug;
+    }
+  });
   if (currentIndex < 0) currentIndex = 0;
 
   const renderBrandNav = () => {
@@ -184,7 +214,14 @@ const BRANDS = [
     if (!BRANDS.length) return;
     const next = (currentIndex + dir + BRANDS.length) % BRANDS.length;
     const target = BRANDS[next];
-    if (target && target.href) window.location.href = target.href;
+    if (!target || !target.href) return;
+
+    // If the current page is using a "pretty" URL (no .html), keep that style when navigating
+    const preferPretty = !/\.html$/i.test(location.pathname);
+    let dest = String(target.href);
+
+    if (preferPretty) dest = dest.replace(/\.html(?=$|[?#])/i, "");
+    window.location.href = dest;
   };
 
   if (prevBtn) prevBtn.addEventListener("click", () => stepBrand(-1));
