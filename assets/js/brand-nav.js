@@ -19,57 +19,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  // ============================================================
-  // PATH BASE (so the same repo works on BOTH:
-  // - Cloudflare Pages: https://maisonmagnoliagroup.pages.dev/  (base = "")
-  // - GitHub Pages:     https://j0sephanders0n.github.io/maison-magnolia/ (base = "/maison-magnolia")
-  // ============================================================
-  const SITE_BASE = (() => {
-    // GitHub Pages: first path segment is the repo name
-    if (location.hostname.endsWith("github.io")) {
-      const seg = location.pathname.split("/").filter(Boolean)[0] || "";
-      return seg ? `/${seg}` : "";
-    }
-    return "";
-  })();
+// ============================================================
+// PATH BASE (works for BOTH):
+// - Cloudflare Pages: https://maison-magnoliagroup.pages.dev/   (SITE_BASE = "")
+// - GitHub Pages:     https://j0sephanders0n.github.io/maison-magnolia/ (SITE_BASE = "/maison-magnolia")
+// And it auto-detects whether brand pages live in "/projects" or root.
+// ============================================================
 
-  const H = (p) => `${SITE_BASE}${p}`;
+const SITE_BASE = (() => {
+  if (location.hostname.endsWith("github.io")) {
+    const seg = location.pathname.split("/").filter(Boolean)[0] || "";
+    return seg ? `/${seg}` : "";
+  }
+  return "";
+})();
 
-  const BRANDS = [
-    { name: "ASOS", href: H("/projects/asos.html") },
-    { name: "AMI", href: H("/projects/ami.html") },
-    { name: "AMIRI", href: H("/projects/amiri.html") },
-    { name: "BALMAIN", href: H("/projects/balmain.html") },
-    { name: "BMW", href: H("/projects/bmw.html") },
-    { name: "BOSS", href: H("/projects/boss.html") },
-    { name: "BREITLING", href: H("/projects/breitling.html") },
-    { name: "DAVID YURMAN", href: H("/projects/david-yurman.html") },
-    { name: "GIVENCHY", href: H("/projects/givenchy.html") },
-    { name: "GOOGLE PIXEL", href: H("/projects/google-pixel.html") },
-    { name: "HERMES", href: H("/projects/hermes.html") },
-    { name: "HUGO", href: H("/projects/hugo.html") },
-    { name: "H&M", href: H("/projects/hm.html") },
-    { name: "JIMMY CHOO", href: H("/projects/jimmy-choo.html") },
-    { name: "LORO PIANA", href: H("/projects/loro-piana.html") },
-    { name: "LOUIS VUITTON", href: H("/projects/louis-vuitton.html") },
-    { name: "MARC JACOBS", href: H("/projects/marc-jacobs.html") },
-    { name: "MARKS & SPENCER", href: H("/projects/marks-spencers.html") },
-    { name: "MESHKI", href: H("/projects/meshki.html") },
-    { name: "MICHAEL KORS", href: H("/projects/michael-kors.html") },
-    { name: "MIU MIU", href: H("/projects/miumiu.html") },
-    { name: "MOSCHINO", href: H("/projects/moschino.html") },
-    { name: "NIKE JORDAN", href: H("/projects/nikejordan.html") },
-    { name: "PANDORA", href: H("/projects/pandora.html") },
-    { name: "PRADA", href: H("/projects/prada.html") },
-    { name: "PRADA BEAUTY", href: H("/projects/prada-beauty.html") },
-    { name: "RABANNE", href: H("/projects/rabanne.html") },
-    { name: "RENT THE RUNWAY", href: H("/projects/rent-the-runway.html") },
-    { name: "SPENCE", href: H("/projects/spence.html") },
-    { name: "SANDRO", href: H("/projects/sandro.html") },
-    { name: "TORY BURCH", href: H("/projects/toryburch.html") },
-    { name: "TUMI", href: H("/projects/tumi.html") },
-    { name: "VERONICA BEARD", href: H("/projects/veronica-beard.html") },
-  ];
+// Are we currently inside /projects/... ?
+const BRAND_DIR = location.pathname.includes("/projects/") ? "/projects" : "";
+
+// Helper to build a correct absolute URL for brand pages
+const H = (file) => {
+  const path = `${SITE_BASE}${BRAND_DIR}/${file}`.replace(/\/{2,}/g, "/");
+  return path;
+};
+
+const BRANDS = [
+  { name: "ASOS", href: H("asos.html") },
+  { name: "AMI", href: H("ami.html") },
+  { name: "AMIRI", href: H("amiri.html") },
+  { name: "BALMAIN", href: H("balmain.html") },
+  { name: "BMW", href: H("bmw.html") },
+  { name: "BOSS", href: H("boss.html") },
+  { name: "BREITLING", href: H("breitling.html") },
+  { name: "DAVID YURMAN", href: H("david-yurman.html") },
+  { name: "GIVENCHY", href: H("givenchy.html") },
+  { name: "GOOGLE PIXEL", href: H("google-pixel.html") },
+  { name: "HERMES", href: H("hermes.html") },
+  { name: "HUGO", href: H("hugo.html") },
+  { name: "H&M", href: H("hm.html") },
+  { name: "JIMMY CHOO", href: H("jimmy-choo.html") },
+  { name: "LORO PIANA", href: H("loro-piana.html") },
+  { name: "LOUIS VUITTON", href: H("louis-vuitton.html") },
+  { name: "MARC JACOBS", href: H("marc-jacobs.html") },
+  { name: "MARKS & SPENCER", href: H("marks-spencers.html") },
+  { name: "MESHKI", href: H("meshki.html") },
+  { name: "MICHAEL KORS", href: H("michael-kors.html") },
+  { name: "MIU MIU", href: H("miumiu.html") },
+  { name: "MOSCHINO", href: H("moschino.html") },
+  { name: "NIKE JORDAN", href: H("nikejordan.html") },
+  { name: "PANDORA", href: H("pandora.html") },
+  { name: "PRADA", href: H("prada.html") },
+  { name: "PRADA BEAUTY", href: H("prada-beauty.html") },
+  { name: "RABANNE", href: H("rabanne.html") },
+  { name: "RENT THE RUNWAY", href: H("rent-the-runway.html") },
+  { name: "SPENCE", href: H("spence.html") },
+  { name: "SANDRO", href: H("sandro.html") },
+  { name: "TORY BURCH", href: H("toryburch.html") },
+  { name: "TUMI", href: H("tumi.html") },
+  { name: "VERONICA BEARD", href: H("veronica-beard.html") },
+];
   /* =========================================================
      HAMBURGER MENU (details/summary)
      ========================================================= */
