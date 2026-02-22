@@ -19,45 +19,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* -------------------------
-     CONFIG: brand list
-     ------------------------- */
-  const BRANDS = [
-    { name: "ASOS", href: "/projects/asos.html" },
-    { name: "AMI", href: "/projects/ami.html" },
-    { name: "AMIRI", href: "/projects/amiri.html" },
-    { name: "BALMAIN", href: "/projects/balmain.html" },
-    { name: "BMW", href: "/projects/bmw.html" },
-    { name: "BOSS", href: "/projects/boss.html" },
-    { name: "BREITLING", href: "/projects/breitling.html" },
-    { name: "DAVID YURMAN", href: "/projects/david-yurman.html" },
-    { name: "GIVENCHY", href: "/projects/givenchy.html" },
-    { name: "GOOGLE PIXEL", href: "/projects/google-pixel.html" },
-    { name: "HERMES", href: "/projects/hermes.html" },
-    { name: "HUGO", href: "/projects/hugo.html" },
-    { name: "H&M", href: "/projects/hm.html" },
-    { name: "JIMMY CHOO", href: "/projects/jimmy-choo.html" },
-    { name: "LORO PIANA", href: "/projects/loro-piana.html" },
-    { name: "LOUIS VUITTON", href: "/projects/louis-vuitton.html" },
-    { name: "MARC JACOBS", href: "/projects/marc-jacobs.html" },
-    { name: "MARKS & SPENCER", href: "/projects/marks-spencers.html" },
-    { name: "MESHKI", href: "/projects/meshki.html" },
-    { name: "MICHAEL KORS", href: "/projects/michael-kors.html" },
-    { name: "MIU MIU", href: "/projects/miumiu.html" },
-    { name: "MOSCHINO", href: "/projects/moschino.html" },
-    { name: "NIKE JORDAN", href: "/projects/nikejordan.html" },
-    { name: "PANDORA", href: "/projects/pandora.html" },
-    { name: "PRADA", href: "/projects/prada.html" },
-    { name: "PRADA BEAUTY", href: "/projects/prada-beauty.html" },
-    { name: "RABANNE", href: "/projects/rabanne.html" },
-    { name: "RENT THE RUNWAY", href: "/projects/rent-the-runway.html" },
-    { name: "SPENCE", href: "/projects/spence.html" },
-    { name: "SANDRO", href: "/projects/sandro.html" },
-    { name: "TORY BURCH", href: "/projects/toryburch.html" },
-    { name: "TUMI", href: "/projects/tumi.html" },
-    { name: "VERONICA BEARD", href: "/projects/veronica-beard.html" },
-  ];
+  // ============================================================
+  // PATH BASE (so the same repo works on BOTH:
+  // - Cloudflare Pages: https://maisonmagnoliagroup.pages.dev/  (base = "")
+  // - GitHub Pages:     https://j0sephanders0n.github.io/maison-magnolia/ (base = "/maison-magnolia")
+  // ============================================================
+  const SITE_BASE = (() => {
+    // GitHub Pages: first path segment is the repo name
+    if (location.hostname.endsWith("github.io")) {
+      const seg = location.pathname.split("/").filter(Boolean)[0] || "";
+      return seg ? `/${seg}` : "";
+    }
+    return "";
+  })();
 
+  const H = (p) => `${SITE_BASE}${p}`;
+
+  const BRANDS = [
+    { name: "ASOS", href: H("/projects/asos.html") },
+    { name: "AMI", href: H("/projects/ami.html") },
+    { name: "AMIRI", href: H("/projects/amiri.html") },
+    { name: "BALMAIN", href: H("/projects/balmain.html") },
+    { name: "BMW", href: H("/projects/bmw.html") },
+    { name: "BOSS", href: H("/projects/boss.html") },
+    { name: "BREITLING", href: H("/projects/breitling.html") },
+    { name: "DAVID YURMAN", href: H("/projects/david-yurman.html") },
+    { name: "GIVENCHY", href: H("/projects/givenchy.html") },
+    { name: "GOOGLE PIXEL", href: H("/projects/google-pixel.html") },
+    { name: "HERMES", href: H("/projects/hermes.html") },
+    { name: "HUGO", href: H("/projects/hugo.html") },
+    { name: "H&M", href: H("/projects/hm.html") },
+    { name: "JIMMY CHOO", href: H("/projects/jimmy-choo.html") },
+    { name: "LORO PIANA", href: H("/projects/loro-piana.html") },
+    { name: "LOUIS VUITTON", href: H("/projects/louis-vuitton.html") },
+    { name: "MARC JACOBS", href: H("/projects/marc-jacobs.html") },
+    { name: "MARKS & SPENCER", href: H("/projects/marks-spencers.html") },
+    { name: "MESHKI", href: H("/projects/meshki.html") },
+    { name: "MICHAEL KORS", href: H("/projects/michael-kors.html") },
+    { name: "MIU MIU", href: H("/projects/miumiu.html") },
+    { name: "MOSCHINO", href: H("/projects/moschino.html") },
+    { name: "NIKE JORDAN", href: H("/projects/nikejordan.html") },
+    { name: "PANDORA", href: H("/projects/pandora.html") },
+    { name: "PRADA", href: H("/projects/prada.html") },
+    { name: "PRADA BEAUTY", href: H("/projects/prada-beauty.html") },
+    { name: "RABANNE", href: H("/projects/rabanne.html") },
+    { name: "RENT THE RUNWAY", href: H("/projects/rent-the-runway.html") },
+    { name: "SPENCE", href: H("/projects/spence.html") },
+    { name: "SANDRO", href: H("/projects/sandro.html") },
+    { name: "TORY BURCH", href: H("/projects/toryburch.html") },
+    { name: "TUMI", href: H("/projects/tumi.html") },
+    { name: "VERONICA BEARD", href: H("/projects/veronica-beard.html") },
+  ];
   /* =========================================================
      HAMBURGER MENU (details/summary)
      ========================================================= */
