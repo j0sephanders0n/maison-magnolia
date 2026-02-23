@@ -4447,3 +4447,31 @@ video::-webkit-media-controls-start-playback-button {
     scroll-padding-top: var(--nav-h, 72px);
   }
 }
+
+/* ============================================================
+   PATCH: Prevent #projects links overlaying/capturing clicks in #team
+   - Fixes "clicking Experts opens ASOS" on smaller viewports
+   - Keeps layout intact (override only)
+   ============================================================ */
+
+/* Ensure sections stack predictably */
+#projects{ position: relative; z-index: 1; }
+#team{ position: relative; z-index: 2; }
+
+/* Remove the negative pull-up that causes overlap */
+.projects-wrap{ margin-bottom: 0 !important; }
+
+/* Give sticky column room to finish before #team begins */
+#projects{ padding-bottom: 200px !important; }
+
+/* Mobile: keep enough bottom room even though #projects padding was set to 0 earlier */
+@media (max-width: 520px){
+  #projects{ padding-bottom: 140px !important; }
+}
+
+/* ============================================================
+   PATCH: Make @ handles obviously clickable (accent green)
+   ============================================================ */
+.expert-handle{
+  color: var(--home-color) !important;
+}

@@ -1,721 +1,553 @@
-<!doctype html>
-<html lang="en" data-media-base="">
+<!DOCTYPE html>
 
+<html data-media-base="" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maison Magnolia</title>
-
-  <!-- Montserrat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <link rel="stylesheet" href="assets/css/main.css" />
-</head>
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Maison Magnolia</title>
+<!-- Montserrat -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&amp;display=swap" rel="stylesheet">
+<link href="assets/css/main.css" rel="stylesheet">
+</link></link></head>
 <body class="preload">
-
-  <!-- MM Home Button -->
-  <a id="logoBtn" class="logoBtn" href="./" aria-label="Home">
-    <span class="logoText" id="logoText">MAISON MAGNOLIA</span>
-  </a>
-
-  <div id="page">
-
-    <div id="navSentinel" aria-hidden="true"></div>
-
-    <!-- NAV (all in-page anchors so JS active-nav works + nothing breaks) -->
-    <header id="siteHeader" aria-label="Primary navigation">
-<div class="blend-header">
-  <nav class="nav">
-    <a href="#introduction" data-label="Intro">Intro</a>
-    <a href="#gallery" data-label="Explore">Explore</a>
-    <a href="#about" data-label="About">About</a>
-    <a href="#projects" data-label="Collaborations">Collaborations</a>
-    <a href="#team" data-label="Experts">Experts</a>
-  </nav>
-
-  <a href="index.html" class="mm-logo" aria-label="Maison Magnolia home">
-    <span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
-    <span>&nbsp;</span>
-    <span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
-  </a>
-</div>
-      <!-- MOBILE HAMBURGER (homepage) -->
-<details class="homeMenuWrap" aria-label="Mobile menu">
-  <summary class="homeMenuBtn" aria-label="Menu">
-    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <path d="M4 7h16M4 12h16M4 17h16"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"/>
-    </svg>
-  </summary>
-
-  <nav class="homeMenu" aria-label="Homepage menu">
-    <a href="#introduction" data-label="Introduction">Introduction</a>
-    <a href="#gallery" data-label="Explore">Explore</a>
-    <a href="#about" data-label="About">About</a>
-    <a href="#projects" data-label="Collaborations">Collaborations</a>
-    <a href="#team" data-label="Experts">Experts</a>
-  </nav>
-</details>
-
-      <a class="igFixed"
-   href="https://www.instagram.com/maisonmagnoliagroup/?hl=en"
-   target="_blank"
-   rel="noopener"
-   aria-label="Instagram">
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm9 2h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4Zm-4.5 4.2A3.8 3.8 0 1 1 8.2 12 3.81 3.81 0 0 1 12 8.2Zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2ZM17.7 6.6a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9Z"/>
-  </svg>
+<!-- MM Home Button -->
+<a aria-label="Home" class="logoBtn" href="./" id="logoBtn">
+<span class="logoText" id="logoText">MAISON MAGNOLIA</span>
 </a>
-    <!-- LOGO -->
-
-    </header>
-
-    <!-- Sticky right-side section title (JS-controlled, informational only) -->
-<div id="sideTitle" class="sideTitle" aria-hidden="true">
-  <span class="sideTitleText"></span>
+<div id="page">
+<div aria-hidden="true" id="navSentinel"></div>
+<!-- NAV (all in-page anchors so JS active-nav works + nothing breaks) -->
+<header aria-label="Primary navigation" id="siteHeader">
+<div class="blend-header">
+<nav class="nav">
+<a data-label="Intro" href="#introduction">Intro</a>
+<a data-label="Explore" href="#gallery">Explore</a>
+<a data-label="About" href="#about">About</a>
+<a data-label="Collaborations" href="#projects">Collaborations</a>
+<a data-label="Experts" href="#team">Experts</a>
+</nav>
+<a aria-label="Maison Magnolia home" class="mm-logo" href="index.html">
+<span>M</span><span>A</span><span>I</span><span>S</span><span>O</span><span>N</span>
+<span> </span>
+<span>M</span><span>A</span><span>G</span><span>N</span><span>O</span><span>L</span><span>I</span><span>A</span>
+</a>
 </div>
-
-
-    <!-- LANDING SPACER -->
-    <section id="landing" aria-label="Landing"></section>
-
-    <!-- INTRODUCTION -->
-<section id="introduction" aria-label="Introduction">
-  <div class="intro-wrap">
-      <div class="intro-title">INTRODUCTION</div>
-
+<!-- MOBILE HAMBURGER (homepage) -->
+<details aria-label="Mobile menu" class="homeMenuWrap">
+<summary aria-label="Menu" class="homeMenuBtn">
+<svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18">
+<path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path>
+</svg>
+</summary>
+<nav aria-label="Homepage menu" class="homeMenu">
+<a data-label="Introduction" href="#introduction">Introduction</a>
+<a data-label="Explore" href="#gallery">Explore</a>
+<a data-label="About" href="#about">About</a>
+<a data-label="Collaborations" href="#projects">Collaborations</a>
+<a data-label="Experts" href="#team">Experts</a>
+</nav>
+</details>
+<a aria-label="Instagram" class="igFixed" href="https://www.instagram.com/maisonmagnoliagroup/?hl=en" rel="noopener" target="_blank">
+<svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
+<path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm9 2h-9A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4Zm-4.5 4.2A3.8 3.8 0 1 1 8.2 12 3.81 3.81 0 0 1 12 8.2Zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2ZM17.7 6.6a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9Z" fill="currentColor"></path>
+</svg>
+</a>
+<!-- LOGO -->
+</header>
+<!-- Sticky right-side section title (JS-controlled, informational only) -->
+<div aria-hidden="true" class="sideTitle" id="sideTitle">
+<span class="sideTitleText"></span>
+</div>
+<!-- LANDING SPACER -->
+<section aria-label="Landing" id="landing"></section>
+<!-- INTRODUCTION -->
+<section aria-label="Introduction" id="introduction">
+<div class="intro-wrap">
+<div class="intro-title">INTRODUCTION</div>
 <div class="intro-copy">
 <p><span class="intro-lead">At Magnolia</span>, we see content as more than deliverables. Every piece of content is a <span class="intro-highlight">creative expression</span>, and every campaign is an opportunity to <span class="intro-highlight">build a world</span>.</p>
-
 <p>We design 360 campaigns with a social-first lens, creative ideas that are conceived to <span class="intro-highlight">live cohesively across platforms</span>. From hero moments to cultural touchpoints. We develop creative system that allow a single campaign idea to unfold, evolve, and express itself in many forms, on every platform, without ever losing its point of view.</p>
-
 <p>We turn insights into creative strategy, creative strategy into visuals, and visuals into stories that feel <span class="intro-highlight">elevated, entertaining, educational, aspirational, and culturally fluent</span>.</p>
-
 <p>This is what defines us as a partner. We understand that <span class="intro-highlight">scaling creative should never dilute it</span>, and our process is designed to ensure it never does.</p>
-
 <p>We’d love to <span class="intro-highlight">bring your vision to life</span> and create something <span class="intro-highlight">truly exceptional together</span>.</p>
-
-  <p class="intro-cta">
+<p class="intro-cta">
     drop us an email
     <a class="intro-email" href="mailto:bonjour@maisonmagnolia.com">bonjour@maisonmagnolia.com</a>
-  </p>
+</p>
 </div>
-      </div>
-    </section>
-
-    <!-- GALLERY -->
+</div>
+</section>
 <!-- GALLERY -->
-<main id="gallery" aria-label="Gallery">
-  <div class="grid">
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/1.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/2.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/3.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/4.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/5.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/6.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/7.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/8.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video muted loop playsinline preload="none">
-        <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/9.mp4" type="video/mp4">
-      </video>
-    </div>
-
-  </div>
-</main>
-
-    <!-- ABOUT -->
-    <section id="about" aria-label="About">
-      <div class="about-wrap">
-
-<div class="about-blurb">
-  <p>At Magnolia, <strong>everything is on the menu.</strong></p>
-  <p>In addition to full-scale 360 campaigns, we love rolling up our sleeves for ad hoc collaborations:
-     <strong>whether it’s a one-off asset or a burst of content.</strong>
-  </p>
+<!-- GALLERY -->
+<main aria-label="Gallery" id="gallery">
+<div class="grid">
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/1.mp4" type="video/mp4"/>
+</video>
 </div>
-
-<section class="three-col about-process" aria-label="About columns">
-  <article class="col">
-
-    <div class="process-num">01</div>
-    <div class="col-title">CURATION</div>
-    <p>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/2.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/3.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/4.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/5.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/6.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/7.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/8.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="tile">
+<video loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/9.mp4" type="video/mp4"/>
+</video>
+</div>
+</div>
+</main>
+<!-- ABOUT -->
+<section aria-label="About" id="about">
+<div class="about-wrap">
+<div class="about-blurb">
+<p>At Magnolia, <strong>everything is on the menu.</strong></p>
+<p>In addition to full-scale 360 campaigns, we love rolling up our sleeves for ad hoc collaborations:
+     <strong>whether it’s a one-off asset or a burst of content.</strong>
+</p>
+</div>
+<section aria-label="About columns" class="three-col about-process">
+<article class="col">
+<div class="process-num">01</div>
+<div class="col-title">CURATION</div>
+<p>
       Magnolia is a creative house and talent collective group. We believe craftsmanship and agility should coexist in luxury.
       Every touchpoint, from a hero billboard to a six-second film, is treated with the same level of intention and artistry.
     </p>
-  </article>
-
-  <article class="col">
-
-    <div class="process-num">02</div>
-    <div class="col-title">DIRECTION</div>
-    <p>
+</article>
+<article class="col">
+<div class="process-num">02</div>
+<div class="col-title">DIRECTION</div>
+<p>
       We are not just tastemakers. We are architects of ideas and narratives, building worlds that live far beyond a single post or frame.
     </p>
-  </article>
-
-  <article class="col">
-
-    <div class="process-num">03</div>
-    <div class="col-title">EXECUTION</div>
-    <p>
+</article>
+<article class="col">
+<div class="process-num">03</div>
+<div class="col-title">EXECUTION</div>
+<p>
       We work in agile, modular steps that keep strategy and creativity aligned from start to finish.
       We begin with a deep dive into your brand, shape concepts through rapid ideation, and produce with precision across photo,
       video and social formats.
     </p>
-  </article>
+</article>
 </section>
-
-      </div>
-    </section>
-
-    <!-- PROJECTS (INTEGRATED) -->
-    <section id="projects" aria-label="Collaborations">
-      <div class="projects-wrap">
-
-        <div class="projects-layout">
-
-          <!-- STICKY PHONE (sticks only inside Projects section) -->
-          <div class="projects-left">
-            <div class="video-container">
+</div>
+</section>
+<!-- PROJECTS (INTEGRATED) -->
+<section aria-label="Collaborations" id="projects">
+<div class="projects-wrap">
+<div class="projects-layout">
+<!-- STICKY PHONE (sticks only inside Projects section) -->
+<div class="projects-left">
+<div class="video-container">
 <div class="video-track">
-
-  <a class="slide" href="projects/asos.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-2583aec847a044bc9e880b67ab65c142.r2.dev/Asos1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">ASOS</div></div>
-  </a>
-
-    <a class="slide" href="projects/asos.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-3f4d9b3e90a94373bafee439dda86e8a.r2.dev/Amiri2.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">AMIRI</div></div>
-  </a>
-
-  <a class="slide" href="projects/ami.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-bb859d9f10e44aacbbb2cf06bbf96b91.r2.dev/AMI/Frederico%20Stauffer/AMI_SS24/Baked/Amiss242.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">AMI</div></div>
-  </a>
-
-  <a class="slide" href="projects/balmain.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-9f55112318664101beada68236f30b46.r2.dev/Frederico%20Stauffer/Baked/BalmainFS.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">BALMAIN</div></div>
-  </a>
-
-  <a class="slide" href="projects/bmw.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-a2fdf16ce8414bf3a4afd16185ec64ad.r2.dev/Baked/Video1Vf.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">BMW</div></div>
-  </a>
-
-  <a class="slide" href="projects/boss.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss232.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">BOSS</div></div>
-  </a>
-
-  <a class="slide" href="projects/breitling.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-59b77199dd52447d9c74d2c41b6ab212.r2.dev/Frederico%20Stauffer/Wheels%20n%20Waves%202023/Baked/Wnw20233.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">BREITLING</div></div>
-  </a>
-
-  <a class="slide" href="projects/david-yurman.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-d8670bb276634c8eb415e5de0e76f1da.r2.dev/Taylor%20Hill/Baked/Dyth5.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">DAVID YURMAN</div></div>
-  </a>
-
-  <a class="slide" href="projects/givenchy.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-7100b3cb354147858bb9d1e619ce68a7.r2.dev/Baked/G1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">GIVENCHY</div></div>
-  </a>
-
-  <a class="slide" href="projects/google-pixel.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-b776590ba18249a3856d79fafeaea49d.r2.dev/Baked/Baked/Gp2.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">GOOGLE PIXEL</div></div>
-  </a>
-
-  <a class="slide" href="projects/hermes.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-31b01edee5f5488f8684c5a904ba1574.r2.dev/Baked/Hermes.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">HERMES</div></div>
-  </a>
-
-  <a class="slide" href="projects/hugo.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-a6cfe6a156b74b5d8579c86ccbbf72fc.r2.dev/Baked/Hss231.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">HUGO</div></div>
-  </a>
-
-  <a class="slide" href="projects/hm.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-e8f549aaab524d82b5b26e8fe5f2556f.r2.dev/H%26M%20Beauty%20with%20Alisha%20Boe/Baked/Hmbwab7.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">H&amp;M</div></div>
-  </a>
-
-  <a class="slide" href="projects/jimmy-choo.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-624054d48b7249848403a566362773e4.r2.dev/Luke%20Lovell/Kendall%20Jenner%20x%20Jimmy%20Choo/Baked/Reel%201.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">JIMMY CHOO</div></div>
-  </a>
-
-  <a class="slide" href="projects/loro-piana.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-0b62df01525d459d9dca4550631e7ed3.r2.dev/Ski%202023/Baked/LP2.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">LORO PIANA</div></div>
-  </a>
-
-  <a class="slide" href="projects/louis-vuitton.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-7e6fa938ad6342dda70a4e27da18b7a6.r2.dev/Bubblegram%20Campaign/Baked/Lvbgc1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">LOUIS VUITTON</div></div>
-  </a>
-
-  <a class="slide" href="projects/marc-jacobs.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-5626dd823b2144da8aaa788518f87046.r2.dev/Frederico%20Stauffer/Baked/Mj.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MARC JACOBS</div></div>
-  </a>
-
-  <a class="slide" href="projects/marks-spencers.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-f263650c8b394fd68d376fc638039295.r2.dev/Baked/Ms1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MARKS &amp; SPENCER</div></div>
-  </a>
-
-  <a class="slide" href="projects/meshki.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-4023116210664933ac2939949d696ada.r2.dev/Baked/Meshki1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MESHKI</div></div>
-  </a>
-
-  <a class="slide" href="projects/michael-kors.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-00ab1ca6df824eaf92e2b177a109b321.r2.dev/Baked/Mk1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MICHAEL KORS</div></div>
-  </a>
-
-  <a class="slide" href="projects/miumiu.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-5979013332944d3db21b0e9e221d14b1.r2.dev/SS22/Baked/Muimuiss221.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MIU MIU</div></div>
-  </a>
-
-  <a class="slide" href="projects/moschino.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-53250783fcb14f9d99630a3b9b69d228.r2.dev/Frederico%20Stauffer/Pre%20Fall%20Heart%20Campaign/Baked/Moschinopreheartcamp2.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">MOSCHINO</div></div>
-  </a>
-
-  <a class="slide" href="projects/nikejordan.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-e3a0497b31224842a50d7d70d6559e7b.r2.dev/Jordan1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">NIKE JORDAN</div></div>
-  </a>
-
-    <a class="slide" href="projects/pandora.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/2.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">PANDORA</div></div>
-  </a>
-
-  <a class="slide" href="projects/prada.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-73eef90d9bef473c85d9cf19560f133c.r2.dev/Frederico%20Stauffer/PRADA%20SS25%20MEN/Baked/Pradass25m1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">PRADA</div></div>
-  </a>
-
-  <a class="slide" href="projects/prada-beauty.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-2c237c1a1c814e54a350af9636d01f39.r2.dev/Luke%20Lovell/SS24/Baked/Final%20Video%209.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">PRADA BEAUTY</div></div>
-  </a>
-
-  <a class="slide" href="projects/rabanne.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-a4f44befd4414d49ac152a50c5ce342a.r2.dev/Baked/Rabanne3.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">RABANNE</div></div>
-  </a>
-
-  <a class="slide" href="projects/rent-the-runway.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-436b8b36ad14426284e99eabe202189b.r2.dev/Baked/Rtr1.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">RENT THE RUNWAY</div></div>
-  </a>
-  <a class="slide" href="projects/spence.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-93bd0e27ffc94a2e9616e498a560a73a.r2.dev/Shot%20by%20Luke%20Lovell%20Creative%20by%20Maison%20Magnolia/Baked/Spence8.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">SPENCE</div></div>
-  </a>
-
-  <a class="slide" href="projects/sandro.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-121c7b6c7c49410fbfa6f5acc6a50c88.r2.dev/Social%20Assets/Baked/Socialassets3.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">SANDRO</div></div>
-  </a>
-
-    <a class="slide" href="projects/toryburch.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-a39824c4047d422e8f8e699f51d75a17.r2.dev/Baked/Tb5.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">TORY BURCH</div></div>
-  </a>
-
-  <a class="slide" href="projects/tumi.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-07e13f0eda204068a43c69d31238ea22.r2.dev/Frederico%20Stauffer/Holiday%202025/Baked/Video%20Ribbons%20V4.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">TUMI</div></div>
-  </a>
-
-  <a class="slide" href="projects/veronica-beard.html">
-    <video class="tiktokVid" muted loop playsinline preload="none">
-      <source data-src="https://pub-debf4d5a0c104fb5b8485ed60ad21fbf.r2.dev/Resort/Baked/Vb3.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"><div class="overlay-title">VERONICA BEARD</div></div>
-  </a>
-
-
-
+<a class="slide" href="projects/asos.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-2583aec847a044bc9e880b67ab65c142.r2.dev/Asos1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">ASOS</div></div>
+</a>
+<a class="slide" href="projects/asos.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-3f4d9b3e90a94373bafee439dda86e8a.r2.dev/Amiri2.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">AMIRI</div></div>
+</a>
+<a class="slide" href="projects/ami.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-bb859d9f10e44aacbbb2cf06bbf96b91.r2.dev/AMI/Frederico%20Stauffer/AMI_SS24/Baked/Amiss242.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">AMI</div></div>
+</a>
+<a class="slide" href="projects/balmain.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-9f55112318664101beada68236f30b46.r2.dev/Frederico%20Stauffer/Baked/BalmainFS.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">BALMAIN</div></div>
+</a>
+<a class="slide" href="projects/bmw.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-a2fdf16ce8414bf3a4afd16185ec64ad.r2.dev/Baked/Video1Vf.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">BMW</div></div>
+</a>
+<a class="slide" href="projects/boss.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-2ac1ef48a7ea4874a9682e1a4e8f38a7.r2.dev/Frederico%20Stauffer/SS23/Baked/Ss232.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">BOSS</div></div>
+</a>
+<a class="slide" href="projects/breitling.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-59b77199dd52447d9c74d2c41b6ab212.r2.dev/Frederico%20Stauffer/Wheels%20n%20Waves%202023/Baked/Wnw20233.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">BREITLING</div></div>
+</a>
+<a class="slide" href="projects/david-yurman.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-d8670bb276634c8eb415e5de0e76f1da.r2.dev/Taylor%20Hill/Baked/Dyth5.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">DAVID YURMAN</div></div>
+</a>
+<a class="slide" href="projects/givenchy.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-7100b3cb354147858bb9d1e619ce68a7.r2.dev/Baked/G1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">GIVENCHY</div></div>
+</a>
+<a class="slide" href="projects/google-pixel.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-b776590ba18249a3856d79fafeaea49d.r2.dev/Baked/Baked/Gp2.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">GOOGLE PIXEL</div></div>
+</a>
+<a class="slide" href="projects/hermes.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-31b01edee5f5488f8684c5a904ba1574.r2.dev/Baked/Hermes.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">HERMES</div></div>
+</a>
+<a class="slide" href="projects/hugo.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-a6cfe6a156b74b5d8579c86ccbbf72fc.r2.dev/Baked/Hss231.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">HUGO</div></div>
+</a>
+<a class="slide" href="projects/hm.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-e8f549aaab524d82b5b26e8fe5f2556f.r2.dev/H%26M%20Beauty%20with%20Alisha%20Boe/Baked/Hmbwab7.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">H&amp;M</div></div>
+</a>
+<a class="slide" href="projects/jimmy-choo.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-624054d48b7249848403a566362773e4.r2.dev/Luke%20Lovell/Kendall%20Jenner%20x%20Jimmy%20Choo/Baked/Reel%201.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">JIMMY CHOO</div></div>
+</a>
+<a class="slide" href="projects/loro-piana.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-0b62df01525d459d9dca4550631e7ed3.r2.dev/Ski%202023/Baked/LP2.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">LORO PIANA</div></div>
+</a>
+<a class="slide" href="projects/louis-vuitton.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-7e6fa938ad6342dda70a4e27da18b7a6.r2.dev/Bubblegram%20Campaign/Baked/Lvbgc1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">LOUIS VUITTON</div></div>
+</a>
+<a class="slide" href="projects/marc-jacobs.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-5626dd823b2144da8aaa788518f87046.r2.dev/Frederico%20Stauffer/Baked/Mj.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MARC JACOBS</div></div>
+</a>
+<a class="slide" href="projects/marks-spencers.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-f263650c8b394fd68d376fc638039295.r2.dev/Baked/Ms1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MARKS &amp; SPENCER</div></div>
+</a>
+<a class="slide" href="projects/meshki.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-4023116210664933ac2939949d696ada.r2.dev/Baked/Meshki1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MESHKI</div></div>
+</a>
+<a class="slide" href="projects/michael-kors.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-00ab1ca6df824eaf92e2b177a109b321.r2.dev/Baked/Mk1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MICHAEL KORS</div></div>
+</a>
+<a class="slide" href="projects/miumiu.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-5979013332944d3db21b0e9e221d14b1.r2.dev/SS22/Baked/Muimuiss221.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MIU MIU</div></div>
+</a>
+<a class="slide" href="projects/moschino.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-53250783fcb14f9d99630a3b9b69d228.r2.dev/Frederico%20Stauffer/Pre%20Fall%20Heart%20Campaign/Baked/Moschinopreheartcamp2.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">MOSCHINO</div></div>
+</a>
+<a class="slide" href="projects/nikejordan.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-e3a0497b31224842a50d7d70d6559e7b.r2.dev/Jordan1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">NIKE JORDAN</div></div>
+</a>
+<a class="slide" href="projects/pandora.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-8ceedf0f11824fb7aa055034a83c4c78.r2.dev/TEST/videos/2.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">PANDORA</div></div>
+</a>
+<a class="slide" href="projects/prada.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-73eef90d9bef473c85d9cf19560f133c.r2.dev/Frederico%20Stauffer/PRADA%20SS25%20MEN/Baked/Pradass25m1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">PRADA</div></div>
+</a>
+<a class="slide" href="projects/prada-beauty.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-2c237c1a1c814e54a350af9636d01f39.r2.dev/Luke%20Lovell/SS24/Baked/Final%20Video%209.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">PRADA BEAUTY</div></div>
+</a>
+<a class="slide" href="projects/rabanne.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-a4f44befd4414d49ac152a50c5ce342a.r2.dev/Baked/Rabanne3.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">RABANNE</div></div>
+</a>
+<a class="slide" href="projects/rent-the-runway.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-436b8b36ad14426284e99eabe202189b.r2.dev/Baked/Rtr1.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">RENT THE RUNWAY</div></div>
+</a>
+<a class="slide" href="projects/spence.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-93bd0e27ffc94a2e9616e498a560a73a.r2.dev/Shot%20by%20Luke%20Lovell%20Creative%20by%20Maison%20Magnolia/Baked/Spence8.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">SPENCE</div></div>
+</a>
+<a class="slide" href="projects/sandro.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-121c7b6c7c49410fbfa6f5acc6a50c88.r2.dev/Social%20Assets/Baked/Socialassets3.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">SANDRO</div></div>
+</a>
+<a class="slide" href="projects/toryburch.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-a39824c4047d422e8f8e699f51d75a17.r2.dev/Baked/Tb5.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">TORY BURCH</div></div>
+</a>
+<a class="slide" href="projects/tumi.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-07e13f0eda204068a43c69d31238ea22.r2.dev/Frederico%20Stauffer/Holiday%202025/Baked/Video%20Ribbons%20V4.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">TUMI</div></div>
+</a>
+<a class="slide" href="projects/veronica-beard.html">
+<video class="tiktokVid" loop="" muted="" playsinline="" preload="none">
+<source data-src="https://pub-debf4d5a0c104fb5b8485ed60ad21fbf.r2.dev/Resort/Baked/Vb3.mp4" type="video/mp4"/>
+</video>
+<div class="overlay"><div class="overlay-title">VERONICA BEARD</div></div>
+</a>
 </div>
-            </div>
-          </div>
-
-          <!-- RIGHT LIST -->
-          <main class="projects-right" aria-label="Client list">
+</div>
+</div>
+<!-- RIGHT LIST -->
+<main aria-label="Client list" class="projects-right">
 <div class="client-list">
-  <a class="client" data-index="0" href="projects/asos.html">ASOS</a>
-  <a class="client" data-index="1" href="projects/amiri.html">AMIRI</a>
-  <a class="client" data-index="2" href="projects/ami.html">AMI</a>
-  <a class="client" data-index="3" href="projects/balmain.html">BALMAIN</a>
-  <a class="client" data-index="4" href="projects/bmw.html">BMW</a>
-  <a class="client" data-index="5" href="projects/boss.html">BOSS</a>
-  <a class="client" data-index="6" href="projects/breitling.html">BREITLING</a>
-  <a class="client" data-index="7" href="projects/david-yurman.html">DAVID YURMAN</a>
-  <a class="client" data-index="8" href="projects/givenchy.html">GIVENCHY</a>
-  <a class="client" data-index="9" href="projects/google-pixel.html">GOOGLE PIXEL</a>
-  <a class="client" data-index="10" href="projects/hermes.html">HERMES</a>
-
-  <a class="client" data-index="11" href="projects/hugo.html">HUGO</a>
-  <a class="client" data-index="12" href="projects/hm.html">H&amp;M</a>
-  <a class="client" data-index="13" href="projects/jimmy-choo.html">JIMMY CHOO</a>
-  <a class="client" data-index="14" href="projects/loro-piana.html">LORO PIANA</a>
-  <a class="client" data-index="15" href="projects/louis-vuitton.html">LOUIS VUITTON</a>
-  <a class="client" data-index="16" href="projects/marc-jacobs.html">MARC JACOBS</a>
-  <a class="client" data-index="17" href="projects/marks-spencers.html">MARKS &amp; SPENCER</a>
-  <a class="client" data-index="18" href="projects/meshki.html">MESHKI</a>
-  <a class="client" data-index="19" href="projects/michael-kors.html">MICHAEL KORS</a>
-  <a class="client" data-index="20" href="projects/miumiu.html">MIU MIU</a>
-  <a class="client" data-index="21" href="projects/moschino.html">MOSCHINO</a>
-  <a class="client" data-index="22" href="projects/nikejordan.html">NIKE JORDAN</a>
-  <a class="client" data-index="23" href="projects/pandora.html">PANDORA</a>
-  <a class="client" data-index="24" href="projects/prada.html">PRADA</a>
-  <a class="client" data-index="25" href="projects/prada-beauty.html">PRADA BEAUTY</a>
-  <a class="client" data-index="26" href="projects/rabanne.html">RABANNE</a>
-  <a class="client" data-index="27" href="projects/rent-the-runway.html">RENT THE RUNWAY</a>
-  <a class="client" data-index="28" href="projects/spence.html">SPENCE</a>
-  <a class="client" data-index="29" href="projects/sandro.html">SANDRO</a>
-  <a class="client" data-index="30" href="projects/toryburch.html">TORY BURCH</a>
-  <a class="client" data-index="31" href="projects/tumi.html">TUMI</a>
-  <a class="client" data-index="32" href="projects/veronica-beard.html">VERONICA BEARD</a>
-
+<a class="client" data-index="0" href="projects/asos.html">ASOS</a>
+<a class="client" data-index="1" href="projects/amiri.html">AMIRI</a>
+<a class="client" data-index="2" href="projects/ami.html">AMI</a>
+<a class="client" data-index="3" href="projects/balmain.html">BALMAIN</a>
+<a class="client" data-index="4" href="projects/bmw.html">BMW</a>
+<a class="client" data-index="5" href="projects/boss.html">BOSS</a>
+<a class="client" data-index="6" href="projects/breitling.html">BREITLING</a>
+<a class="client" data-index="7" href="projects/david-yurman.html">DAVID YURMAN</a>
+<a class="client" data-index="8" href="projects/givenchy.html">GIVENCHY</a>
+<a class="client" data-index="9" href="projects/google-pixel.html">GOOGLE PIXEL</a>
+<a class="client" data-index="10" href="projects/hermes.html">HERMES</a>
+<a class="client" data-index="11" href="projects/hugo.html">HUGO</a>
+<a class="client" data-index="12" href="projects/hm.html">H&amp;M</a>
+<a class="client" data-index="13" href="projects/jimmy-choo.html">JIMMY CHOO</a>
+<a class="client" data-index="14" href="projects/loro-piana.html">LORO PIANA</a>
+<a class="client" data-index="15" href="projects/louis-vuitton.html">LOUIS VUITTON</a>
+<a class="client" data-index="16" href="projects/marc-jacobs.html">MARC JACOBS</a>
+<a class="client" data-index="17" href="projects/marks-spencers.html">MARKS &amp; SPENCER</a>
+<a class="client" data-index="18" href="projects/meshki.html">MESHKI</a>
+<a class="client" data-index="19" href="projects/michael-kors.html">MICHAEL KORS</a>
+<a class="client" data-index="20" href="projects/miumiu.html">MIU MIU</a>
+<a class="client" data-index="21" href="projects/moschino.html">MOSCHINO</a>
+<a class="client" data-index="22" href="projects/nikejordan.html">NIKE JORDAN</a>
+<a class="client" data-index="23" href="projects/pandora.html">PANDORA</a>
+<a class="client" data-index="24" href="projects/prada.html">PRADA</a>
+<a class="client" data-index="25" href="projects/prada-beauty.html">PRADA BEAUTY</a>
+<a class="client" data-index="26" href="projects/rabanne.html">RABANNE</a>
+<a class="client" data-index="27" href="projects/rent-the-runway.html">RENT THE RUNWAY</a>
+<a class="client" data-index="28" href="projects/spence.html">SPENCE</a>
+<a class="client" data-index="29" href="projects/sandro.html">SANDRO</a>
+<a class="client" data-index="30" href="projects/toryburch.html">TORY BURCH</a>
+<a class="client" data-index="31" href="projects/tumi.html">TUMI</a>
+<a class="client" data-index="32" href="projects/veronica-beard.html">VERONICA BEARD</a>
 </div>
-          </main>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- TEAM (INTEGRATED) -->
+</main>
+</div>
+</div>
+</section>
 <!-- TEAM (INTEGRATED) -->
 <!-- TEAM (INTEGRATED) -->
-<section id="team" aria-label="The Crew">
-  <div class="team-wrap">
-    <!-- keep your team section + wrapper so existing JS/CSS hooks still work -->
-    <ul class="experts-list">
-
-      <!-- Frannie (special, FIRST item) -->
-      <li class="expert expert-featured">
-        <span class="expert-name expert-name-accent">
-          <a href="experts/frannie-petok.html" class="expert-link">Frannie Petok</a>
-        </span>
-        <span class="expert-meta">
+<!-- TEAM (INTEGRATED) -->
+<section aria-label="The Crew" id="team">
+<div class="team-wrap">
+<!-- keep your team section + wrapper so existing JS/CSS hooks still work -->
+<ul class="experts-list">
+<!-- Frannie (special, FIRST item) -->
+<li class="expert expert-featured" data-href="experts/frannie-petok.html" role="link" tabindex="0">
+<span class="expert-name expert-name-accent">
+<a class="expert-link" href="experts/frannie-petok.html">Frannie Petok</a>
+</span>
+<span class="expert-meta">
           Founder + Creative Director ·
-          <a
-            href="https://www.instagram.com/maisonmagnoliagroup/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/maisonmagnoliagroup/" rel="noopener noreferrer" target="_blank">
             @maisonmagnolia
           </a>
-        </span>
-      </li>
-
-      <li class="expert">
-        <span class="expert-name">Tobias Jones</span>
-        <span class="expert-meta">
+</span>
+</li>
+<li class="expert" data-href="https://www.instagram.com/newinflux/" role="link" tabindex="0">
+<span class="expert-name">Tobias Jones</span>
+<span class="expert-meta">
           Video Creator + Creative Director ·
-          <a
-            href="https://www.instagram.com/newinflux/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/newinflux/" rel="noopener noreferrer" target="_blank">
             @newinflux
           </a>
-        </span>
-      </li>
-
-
-      <!-- NEW: Frederico (after Luke, before Isaac) -->
-      <li class="expert">
-        <span class="expert-name">Frederico Stauffer</span>
-        <span class="expert-meta">
+</span>
+</li>
+<!-- NEW: Frederico (after Luke, before Isaac) -->
+<li class="expert" data-href="https://www.instagram.com/fredstauffer/" role="link" tabindex="0">
+<span class="expert-name">Frederico Stauffer</span>
+<span class="expert-meta">
           Video Creator ·
-          <a
-            href="https://www.instagram.com/fredstauffer/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/fredstauffer/" rel="noopener noreferrer" target="_blank">
             @fredstauffer
           </a>
-        </span>
-      </li>
-
-      <li class="expert">
-        <span class="expert-name">Alba Camara Rodriguez</span>
-        <span class="expert-meta">
+</span>
+</li>
+<li class="expert" data-href="https://www.instagram.com/albamenorobbins/" role="link" tabindex="0">
+<span class="expert-name">Alba Camara Rodriguez</span>
+<span class="expert-meta">
           Director + Creative Director ·
-          <a
-            href="https://www.instagram.com/albamenorobbins/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/albamenorobbins/" rel="noopener noreferrer" target="_blank">
             @albamenorobbins
           </a>
-        </span>
-      </li>
-
-      <!-- Isaac: same website link, handle text only -->
-      <li class="expert">
-        <span class="expert-name">Isaac Dektor</span>
-        <span class="expert-meta">
+</span>
+</li>
+<!-- Isaac: same website link, handle text only -->
+<li class="expert" data-href="https://isaacdektor.com" role="link" tabindex="0">
+<span class="expert-name">Isaac Dektor</span>
+<span class="expert-meta">
           Video Creator + DOP ·
-          <a
-            href="https://isaacdektor.com"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://isaacdektor.com" rel="noopener noreferrer" target="_blank">
             @Isaacdektor
           </a>
-        </span>
-      </li>
-
-      <!-- NEW: César (after Isaac) -->
-      <li class="expert">
-        <span class="expert-name">César Buitrago</span>
-        <span class="expert-meta">
+</span>
+</li>
+<!-- NEW: César (after Isaac) -->
+<li class="expert" data-href="https://cesarbuitrago.com/" role="link" tabindex="0">
+<span class="expert-name">César Buitrago</span>
+<span class="expert-meta">
           Photographer ·
-        <a
-          href="https://cesarbuitrago.com/"
-          class="expert-handle"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a class="expert-handle" href="https://cesarbuitrago.com/" rel="noopener noreferrer" target="_blank">
           @cesarbuitragostudio
         </a>
-        </span>
-      </li>
-
-      <li class="expert">
-        <span class="expert-name">Camyl Buenaventura</span>
-        <span class="expert-meta">
+</span>
+</li>
+<li class="expert" data-href="https://www.instagram.com/cgilabs.io/" role="link" tabindex="0">
+<span class="expert-name">Camyl Buenaventura</span>
+<span class="expert-meta">
           CGI + 3D + AI Creator ·
-          <a
-            href="https://www.instagram.com/cgilabs.io/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/cgilabs.io/" rel="noopener noreferrer" target="_blank">
             @cgilabs.io
           </a>
-        </span>
-      </li>
-
-      <li class="expert">
-        <span class="expert-name">Philip Cohen</span>
-        <span class="expert-meta">
+</span>
+</li>
+<li class="expert" data-href="https://www.instagram.com/thepacman82/" role="link" tabindex="0">
+<span class="expert-name">Philip Cohen</span>
+<span class="expert-meta">
           CGI + 3D Creator ·
-          <a
-            href="https://www.instagram.com/thepacman82/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/thepacman82/" rel="noopener noreferrer" target="_blank">
             @thepacman82
           </a>
-        </span>
-      </li>
-
-      <li class="expert">
-        <span class="expert-name">Tiffany Izzie Chang</span>
-        <span class="expert-meta">
+</span>
+</li>
+<li class="expert" data-href="https://www.boonchastudio.com/" role="link" tabindex="0">
+<span class="expert-name">Tiffany Izzie Chang</span>
+<span class="expert-meta">
           Creative Executive Producer ·
-        <a
-          href="https://www.boonchastudio.com/"
-          class="expert-handle"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a class="expert-handle" href="https://www.boonchastudio.com/" rel="noopener noreferrer" target="_blank">
           @booncha.studio
         </a>
-        </span>
-      </li>
-
-      <!-- NEW: Joseph (bottom of list) -->
-      <li class="expert">
-        <span class="expert-name">Joseph Anderson</span>
-        <span class="expert-meta">
+</span>
+</li>
+<!-- NEW: Joseph (bottom of list) -->
+<li class="expert" data-href="https://www.instagram.com/josephxanderson/" role="link" tabindex="0">
+<span class="expert-name">Joseph Anderson</span>
+<span class="expert-meta">
           Motion Graphic Designer ·
-          <a
-            href="https://www.instagram.com/josephxanderson/"
-            class="expert-handle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="expert-handle" href="https://www.instagram.com/josephxanderson/" rel="noopener noreferrer" target="_blank">
             @josephxanderson
           </a>
-        </span>
-      </li>
-
-    </ul>
-  </div>
-</section>
-
-
-    
-
-  </div>
-
-  <!-- Bottom Contact Bar -->
-<div id="contactBar" class="contactBar contactBar--receipt" aria-label="Contact information">
-  <div class="contactBar-inner">
-    <div class="receiptPaper" role="presentation">
-      <div class="rcptHeader">
-        <div class="rcptBrand">MAISON MAGNOLIA PARIS</div>
-        <div class="rcptAddr">
-          <div class="rcptLine">320 rue Saint-Honoré</div>
-          <div class="rcptLine">75001, Paris</div>
-        </div>
-      </div>
-
-      <div class="rcptRule" aria-hidden="true"></div>
-
-      <div class="rcptBody">
-        <div class="rcptRow">
-          <span class="rcptKey">CONTACT</span>
-          <a class="rcptVal" href="mailto:fp@maisonmagnolia.com">bonjour@maisonmagnolia.com</a>
-        </div>
-      </div>
-
-      <div class="rcptRule rcptRule--thin" aria-hidden="true"></div>
-    </div>
-  </div>
+</span>
+</li>
+</ul>
 </div>
-
+</section>
+</div>
+<!-- Bottom Contact Bar -->
+<div aria-label="Contact information" class="contactBar contactBar--receipt" id="contactBar">
+<div class="contactBar-inner">
+<div class="receiptPaper" role="presentation">
+<div class="rcptHeader">
+<div class="rcptBrand">MAISON MAGNOLIA PARIS</div>
+<div class="rcptAddr">
+<div class="rcptLine">320 rue Saint-Honoré</div>
+<div class="rcptLine">75001, Paris</div>
+</div>
+</div>
+<div aria-hidden="true" class="rcptRule"></div>
+<div class="rcptBody">
+<div class="rcptRow">
+<span class="rcptKey">CONTACT</span>
+<a class="rcptVal" href="mailto:fp@maisonmagnolia.com">bonjour@maisonmagnolia.com</a>
+</div>
+</div>
+<div aria-hidden="true" class="rcptRule rcptRule--thin"></div>
+</div>
+</div>
+</div>
 <script src="assets/js/mm-media.js"></script>
 <script src="assets/js/main.js"></script>
-
 </body>
 </html>

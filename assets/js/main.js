@@ -1056,3 +1056,75 @@ window.addEventListener("resize", () => {
     });
 })();
 
+
+
+/* ============================================================
+   PATCH: Make each expert row clickable WITHOUT changing markup
+   - For normal experts: click anywhere on the row => same URL as the @ handle
+   - For Frannie (featured): click anywhere EXCEPT the name link => Instagram handle URL
+   - If you click an actual <a>, default behavior wins (no interference)
+   ============================================================ */
+(function initExpertRowLinks(){
+  const list = document.querySelector(".experts-list");
+  if (!list) return;
+
+  // Add affordance
+  list.querySelectorAll("li.expert").forEach(li => {
+    li.style.cursor = "pointer";
+    li.setAttribute("role", "link");
+    if (!li.hasAttribute("tabindex")) li.setAttribute("tabindex", "0");
+  });
+
+  function getDestination(li){
+    if (!li) return null;
+
+    // Featured: preserve name => bio link; row click uses handle link.
+    if (li.classList.contains("expert-featured")){
+      const handle = li.querySelector("a.expert-handle[href]");
+      return handle ? handle.getAttribute("href") : null;
+    }
+
+    const handle = li.querySelector("a.expert-handle[href]");
+    if (handle) return handle.getAttribute("href");
+
+    // Fallback: first link in row
+    const any = li.querySelector("a[href]");
+    return any ? any.getAttribute("href") : null;
+  }
+
+  function navigateTo(href){
+    if (!href) return;
+    const isExternal = /^https?:\/\//i.test(href);
+    if (isExternal) window.open(href, "_blank", "noopener,noreferrer");
+    else window.location.href = href;
+  }
+
+  list.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (a) return; // let real links behave normally
+
+    const li = e.target.closest("li.expert");
+    if (!li) return;
+
+    const href = getDestination(li);
+    if (!href) return;
+
+    e.preventDefault();
+    navigateTo(href);
+  });
+
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const li = e.target.closest("li.expert");
+    if (!li) return;
+
+    // If focused element is a real link, let it handle Enter naturally
+    if (e.target.closest("a")) return;
+
+    const href = getDestination(li);
+    if (!href) return;
+
+    e.preventDefault();
+    navigateTo(href);
+  });
+})();
