@@ -169,6 +169,7 @@
 
     // Don’t touch lightbox videos (they can have controls/play UI)
     const isLightboxVideo = (v) => !!v.closest(".mmLightbox");
+
     // Collaborations / TikTok section: when the SECTION becomes visible,
     // hydrate ALL videos inside it (attach data-src -> src) so it loads cleanly.
     // This does NOT change how videos are played/paused/unloaded elsewhere.
@@ -201,7 +202,6 @@
       hydrateProjectsVideos();
     }
 
-
     // Your requirement: NO play button unless lightbox.
     // That means: no controls on inline videos, ever.
     const normalizeInlineVideo = (v) => {
@@ -232,53 +232,73 @@
 
     allVideos.forEach(normalizeInlineVideo);
 
-const safePlay = (v) => {
-  if (!v || isLightboxVideo(v)) return;
+    // ------------------------------------------------------------
+    // SAFE PLAY / PAUSE
+    // - Adds a guard to prevent repeated load() storms while scrolling
+    // - Avoids "black until tap" by waiting for data and retrying
+    // ------------------------------------------------------------
+    const safePlay = (v) => {
+      if (!v || isLightboxVideo(v)) return;
 
-  try {
-    // Re-assert autoplay rules (iOS WebKit is picky)
-    v.muted = true;
-    v.playsInline = true;
-    v.autoplay = true;
-    v.loop = true;
+      try {
+        // Re-assert autoplay rules (iOS WebKit is picky)
+        v.muted = true;
+        v.playsInline = true;
+        v.autoplay = true;
+        v.loop = true;
 
-    v.setAttribute("muted", "");
-    v.setAttribute("playsinline", "");
-    v.setAttribute("webkit-playsinline", "");
-    v.setAttribute("autoplay", "");
-    v.setAttribute("loop", "");
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+        v.setAttribute("webkit-playsinline", "");
+        v.setAttribute("autoplay", "");
+        v.setAttribute("loop", "");
 
-    // If we don't have enough data yet, wait and retry.
-    // This is the main reason you see "black until tap".
-    if (v.readyState < 2) {
-      const retry = () => {
-        v.removeEventListener("loadeddata", retry);
-        v.removeEventListener("canplay", retry);
-        safePlay(v);
-      };
-      v.addEventListener("loadeddata", retry, { once: true });
-      v.addEventListener("canplay", retry, { once: true });
-      try { v.load(); } catch (_) {}
-      return;
-    }
+        // If we don't have enough data yet, wait and retry.
+        // This is the main reason you see "black until tap".
+        if (v.readyState < 2) {
+          // Guard against repeated load() storms while IO fires repeatedly
+          if (v.dataset.mmLoading !== "1") {
+            v.dataset.mmLoading = "1";
+            const clear = () => { delete v.dataset.mmLoading; };
+            v.addEventListener("loadeddata", clear, { once: true });
+            v.addEventListener("error", clear, { once: true });
+          }
 
-    // Only reveal AFTER playback actually starts
-    const onPlaying = () => {
-      v.classList.add("is-playing");
-      v.removeEventListener("playing", onPlaying);
+          const retry = () => {
+            v.removeEventListener("loadeddata", retry);
+            v.removeEventListener("canplay", retry);
+            safePlay(v);
+          };
+
+          v.addEventListener("loadeddata", retry, { once: true });
+          v.addEventListener("canplay", retry, { once: true });
+
+          // Only call load() the first time we enter this "needs data" state
+          if (v.dataset.mmLoadedOnce !== "1") {
+            v.dataset.mmLoadedOnce = "1";
+            try { v.load(); } catch (_) {}
+          }
+
+          return;
+        }
+
+        // Only reveal AFTER playback actually starts
+        const onPlaying = () => {
+          v.classList.add("is-playing");
+          v.removeEventListener("playing", onPlaying);
+        };
+        v.addEventListener("playing", onPlaying);
+
+        const p = v.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } catch (_) {}
     };
-    v.addEventListener("playing", onPlaying);
 
-    const p = v.play();
-    if (p && typeof p.catch === "function") p.catch(() => {});
-  } catch (_) {}
-};
-
-const safePause = (v) => {
-  if (!v || isLightboxVideo(v)) return;
-  try { v.pause(); } catch (_) {}
-  try { v.classList.remove("is-playing"); } catch (_) {}
-};
+    const safePause = (v) => {
+      if (!v || isLightboxVideo(v)) return;
+      try { v.pause(); } catch (_) {}
+      try { v.classList.remove("is-playing"); } catch (_) {}
+    };
 
     const ensureAttached = (v) => {
       if (!v || isLightboxVideo(v)) return;
@@ -345,8 +365,6 @@ const safePause = (v) => {
     window.addEventListener("touchmove", unlock, { once: true, passive: true });
     window.addEventListener("pointerdown", unlock, { once: true, passive: true });
     window.addEventListener("scroll", unlock, { once: true, passive: true });
-document.addEventListener("scroll", unlock, { once: true, passive: true });
-
 
     // If tab hidden, pause all (battery/perf)
     document.addEventListener("visibilitychange", () => {
