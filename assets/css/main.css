@@ -214,23 +214,12 @@ body.preload #siteHeader{
   margin-bottom: 18px;
 }
 
-.intro-copy{
-  width: min(840px, 100%);
-  margin: 0 auto;          /* centers the block itself */
-  text-align: center;      /* centers the text inside */
-  font-size: 14px;
-  line-height: 1.55;
-  letter-spacing: 0.01em;
-}
 
 
-.intro-copy p{ margin: 0 0 14px 0; }
+
+
 /* Intro: green highlight words (informational only, no hover, no click) */
-.intro-copy .intro-highlight{
-  color: var(--home-color);
-  font-weight: inherit;
-  text-decoration: none;
-}
+
 
 
 /* =========================
@@ -363,7 +352,7 @@ body.preload #siteHeader{
   margin-bottom: -80px; 
 }
 
-#projects{ padding-bottom: 0px; }
+
 
 .projects-layout{
   width: 100%;
@@ -414,18 +403,10 @@ body.preload #siteHeader{
 }
 
 /* Phone SVG overlay (no layout changes) */
-#projects .video-container{
-  position: relative; /* needed so overlay can absolute-position */
-}
+
 
 /* --- SCREEN WINDOW (clip the video so it can't bleed under the bezel) --- */
-#projects .video-container{
-  --screen-top: 22px;
-  --screen-right: 26px;
-  --screen-bottom: 22px;
-  --screen-left: 26px;
-  --screen-radius: 38px;
-}
+
 
 /* clip the moving video stack */
 
@@ -442,23 +423,10 @@ body.preload #siteHeader{
 }
 
 /* ensures SVG scales perfectly inside container */
-#projects .phoneFrameOverlay svg{
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+
 
 /* Force SVG to fully cover the container */
-#projects .phoneFrameOverlay svg{
-  width: 395%;
-  height: 395%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: block;
-  pointer-events: none;
-}
+
 
 #projects .phoneFrameOverlay svg{
   backface-visibility: hidden;
@@ -515,23 +483,9 @@ body.preload #siteHeader{
   pointer-events: none;
 }
 
-#projects .overlay::before{
-  content: "";
-  position: absolute;
-  left: -18px;
-  right: -18px;
-  bottom: -18px;
-  height: 160px;
-  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
-  z-index: 0;
-}
 
-#projects .overlay-title,
-#projects .overlay-meta{
-  position: relative;
-  z-index: 1;
-  color: #ffffff;
-}
+
+
 
 /* Right list column */
 #projects .projects-right{
@@ -564,8 +518,8 @@ body.preload #siteHeader{
   letter-spacing: 0.02em;
 }
 
-#projects .client:hover{ transform: scale(1.06); }
-#projects .client.is-active{ transform: scale(1.06); }
+
+
 
 
 /* =========================
@@ -608,41 +562,16 @@ body.preload #siteHeader{
    TEAM (INTEGRATED)
    ========================= */
 
-#team{
-  grid-row: 6;
-
-  padding-top: 280px;     /* keep the top breathing room */
-  padding-bottom: 0px;  /* MUCH tighter so contact bar appears sooner */
-
-  scroll-margin-top: -100px;
-
-  display: flex;
-  justify-content: center;
-}
 
 
-.team-wrap{
-  width: min(1100px, calc(100% - (var(--pad) * 2)));
-}
 
-.bio{
-  width: min(860px, 100%);
-  margin: 0 auto;
-}
 
-.bio-name{
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.10em;
-  margin-bottom: 18px;
-}
 
-.bio-copy{
-  font-size: 12px;
-  line-height: 1.75;
-  letter-spacing: 0.01em;
-  color: rgba(10,10,10,.78);
-}
+
+
+
+
+
 
 /* =========================
    RESPONSIVE
@@ -867,13 +796,7 @@ text-align: center;
 }
 
 /* Side title text animation (swap: old goes up/out, new comes from below) */
-.sideTitle .sideTitleText{
-  display: inline-block;
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
-  will-change: transform, opacity;
-}
+
 
 /* animate old word up and out */
 .sideTitle.is-exiting .sideTitleText{
@@ -889,10 +812,7 @@ text-align: center;
 }
 
 /* animate new word into place */
-.sideTitle.is-entering .sideTitleText{
-  transform: translateY(0);
-  opacity: 1;
-}
+
 
 
 /* Hide scrollbars */
@@ -1063,17 +983,10 @@ text-align: center;
   color: rgba(10,10,10,.7);
 }
 
-.expert-meta a{
-  color: inherit;
-  text-decoration: none;
-}
+
 
 /* Frannie special */
-.expert-featured .expert-link{
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-}
+
 
 .expert-name-accent{
   color: var(--home-color);
@@ -1086,13 +999,7 @@ text-align: center;
 
 
 /* --- SCREEN WINDOW (match SVG opening) --- */
-#projects .video-container{
-  --screen-top: 22px;
-  --screen-right: 26px;
-  --screen-bottom: 22px;
-  --screen-left: 26px;
-  --screen-radius: 38px;
-}
+
 
 /* Clip ONLY the video */
 #projects .slide video{
@@ -1112,11 +1019,7 @@ text-align: center;
 }
 
 /* Overlay stays inside the “screen safe area” */
-#projects .overlay{
-  left: calc(var(--screen-left) + 14px);
-  right: calc(var(--screen-right) + 14px);
-  bottom: calc(var(--screen-bottom) + 14px);
-}
+
 
 /* Gradient should only live inside the screen too (no weird bleed) */
 #projects .overlay::before{
@@ -1220,12 +1123,7 @@ text-align: center;
 }
 
 /* 5) Keep SVG bezel ALWAYS on top */
-#projects .phoneFrameOverlay{
-  position: absolute;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-}
+
 
 /* if you're scaling the SVG huge, keep it centered */
 #projects .phoneFrameOverlay svg{
@@ -1252,9 +1150,7 @@ text-align: center;
    ========================================================= */
 
 /* The “phone body” behind the screen window */
-#projects .video-container{
-  background: #000 !important; /* was #fff */
-}
+
 
 /* The moving stack itself */
 #projects .video-track{
@@ -1439,20 +1335,9 @@ text-align: center;
   text-decoration: none !important;
 }
 
-.intro-cta{
-  margin-top: 22px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-.intro-email{
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(10,10,10,0.35);
-  padding-bottom: 2px;
-}
-.intro-email:hover{
-  border-bottom-color: rgba(10,10,10,0.85);
-}
+
+
+
 
 
 #introduction .intro-title{ display: none; }
@@ -1464,58 +1349,24 @@ text-align: center;
   opacity: 1;
 }
 
-.sideTitle .sideTitleText{
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-}
+
 
 .sideTitle{ text-align: center !important; }
 .sideTitle .sideTitleText{ width: 100%; text-align: center !important; }
 
 
-.sideTitle .sideTitleText{
-  display: inline-block;
-  width: 100%;
-  text-align: center;
 
-  transform: translateY(0);
-  opacity: 1;
-
-  transition:
-    transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 120ms ease;
-
-  will-change: transform, opacity;
-}
 
 /* EXITING */
-.sideTitle.exit-up .sideTitleText{
-  transform: translateY(-20px);
-  opacity: 0;
-}
-.sideTitle.exit-down .sideTitleText{
-  transform: translateY(20px);
-  opacity: 0;
-}
+
+
 
 /* PREP (no animation) */
-.sideTitle.enter-from-bottom .sideTitleText{
-  transform: translateY(20px);
-  opacity: 0;
-  transition: none;
-}
-.sideTitle.enter-from-top .sideTitleText{
-  transform: translateY(-20px);
-  opacity: 0;
-  transition: none;
-}
+
+
 
 /* ENTERING */
-.sideTitle.entering .sideTitleText{
-  transform: translateY(0);
-  opacity: 1;
-}
+
 
 /* =========================================================
    SIDE TITLE – FINAL OVERRIDE (PASTE AT BOTTOM)
@@ -1712,14 +1563,7 @@ text-align: center;
    FRANNIE PAGE – FORCE NAV VISIBLE (bio page has no intro JS)
    ========================================================= */
 
-body.frannie-page #siteHeader{
-  opacity: 1 !important;
-  pointer-events: auto !important;
 
-  /* keep it clean on white pages */
-  mix-blend-mode: normal;
-  isolation: auto;
-}
 
 /* =========================================================
    FRANNIE PAGE – LAYOUT + PHONE (FINAL OVERRIDE)
@@ -1757,10 +1601,7 @@ body.frannie-page .frannie-role{
   margin: 0 0 22px 0;
 }
 
-body.frannie-page .frannie-copy{
-  font-size: 14px;
-  line-height: 1.6;
-}
+
 
 body.frannie-page .frannie-copy p{
   margin: 0 0 14px 0;
@@ -1889,22 +1730,12 @@ body.frannie-page .frannie-copy p{
    BRAND / PROJECT PAGES (scaffold)
    ========================================================= */
 
-body.brand-page{
-  overflow-y: auto !important;
-  overflow-x: hidden;
-}
+
 
 /* Ensure header is visible on standalone pages */
-body.brand-page #siteHeader{
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  mix-blend-mode: normal !important;
-}
 
-body.brand-page #siteHeader .nav a{
-  color: var(--text) !important;
-  opacity: 0.92;
-}
+
+
 
 /* Layout */
 .brand-wrap{
@@ -2041,10 +1872,7 @@ body.brand-page{
 }
 
 /* NAV stays exactly like main site */
-body.brand-page #siteHeader{
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
+
 
 /* =========================
    BRAND TITLE (PANDORA)
@@ -2127,15 +1955,7 @@ body.brand-page .brand-left-link.is-active{
 /* =========================
    FEED / GRID
    ========================= */
-body.brand-page .brand-right{
-  /* keep the feed centered in the viewport */
-  width: min(1200px, calc(100% - (var(--pad) * 2)));
-  margin: 0 auto;
 
-  /* reserve space INSIDE the centered feed for the left list */
-  padding-left: 220px;
-  box-sizing: border-box;
-}
 
 /* Correct anchor snapping */
 body.brand-page .brand-anchor{
@@ -2209,9 +2029,7 @@ body.brand-page .brand-tile.r-16-9{ aspect-ratio: 16 / 9; }
    BRAND PAGE – NAV REACTIVE BLEND (MODE CHANGE)
    ========================================================= */
 
-body.brand-page #siteHeader{
-  mix-blend-mode: normal;
-}
+
 
 body.brand-page.is-blend #siteHeader{
   mix-blend-mode: difference;
@@ -2403,22 +2221,11 @@ body.brand-page .brand-grid{
   z-index: 99999 !important;
 }
 /* ABOUT — centered blurb above buckets */
-#about .about-blurb{
-  width: min(760px, 100%);
-  margin: 0 auto 120px;
-  text-align: center;
-}
 
-#about .about-blurb p{
-  margin: 0 0 14px 0;
-  font-size: 14px;
-  line-height: 1.55;
-  letter-spacing: 0.01em;
-}
 
-#about .about-blurb strong{
-  font-weight: 800;
-}
+
+
+
 
 
 /* =========================================
@@ -2712,7 +2519,7 @@ body.brand-page #siteHeader{
   display: flex;
   align-items: flex-end;
 
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 15px;
   letter-spacing: 0.08em;
@@ -3038,21 +2845,13 @@ backdrop-filter: blur(14px);
    ========================================= */
 
 /* main nav links */
-#siteHeader nav.nav{
-  mix-blend-mode: difference;
-  isolation: isolate;
-}
+
 
 /* Maison Magnolia wordmark */
-#siteHeader a.mm-logo{
-  mix-blend-mode: difference;
-  isolation: isolate;
-}
+
 
 /* make sure individual letters inherit correctly */
-#siteHeader a.mm-logo span{
-  mix-blend-mode: inherit;
-}
+
 
 /* =========================================================
    FINAL BLEND RULES (HOME)
@@ -3063,10 +2862,7 @@ backdrop-filter: blur(14px);
    ========================================================= */
 
 /* Make sure the header itself is NOT blending */
-#siteHeader{
-  mix-blend-mode: difference;
-  isolation: isolate;
-}
+
 
 /* Nav blends */
 #siteHeader nav.nav{
@@ -3091,12 +2887,7 @@ backdrop-filter: blur(14px);
 }
 
 /* Instagram always solid black and always above drawer */
-#siteHeader a.igFixed{
-  color: #000;
-  mix-blend-mode: normal;
-  -webkit-text-fill-color: currentColor;
-  z-index: 10130;
-}
+
 
 /* Hamburger + drawer NEVER blend */
 #siteHeader details.homeMenuWrap,
@@ -4067,12 +3858,7 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 /* keep phone art above everything */
-#projects .phoneFrameOverlay{
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-}
+
 
 /* =========================================================
    PROJECTS PHONE — FIX MASK SCALE + BLACK RECTANGLE
@@ -4080,15 +3866,7 @@ video::-webkit-media-controls-start-playback-button {
    ========================================================= */
 
 /* 1) Kill the old 395% phone overlay scaling */
-#projects .phoneFrameOverlay svg{
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  inset: 0 !important;
-  top: auto !important;
-  left: auto !important;
-  transform: none !important;
-}
+
 
 /* 2) The container itself must NOT be black (that’s the rectangle you see) */
 #projects .video-container{
@@ -4313,13 +4091,7 @@ video::-webkit-media-controls-start-playback-button {
    (removes the 395% SVG hack so it tracks container resizing)
    ========================================================= */
 
-#projects .phoneFrameOverlay svg{
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  inset: 0 !important;
-  transform: none !important;
-}
+
 
 /* (Optional but recommended) ensure the mask layer always matches container */
 #projects .phoneMask{
