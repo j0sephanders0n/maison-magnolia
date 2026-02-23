@@ -3586,10 +3586,9 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 .mm-inline-video { opacity: 0; }
+.mm-inline-video.is-ready,
 .mm-inline-video.is-playing { opacity: 1; }
 .mmLightbox video { opacity: 1 !important; }
-
-
 /* =========================================================
    CONTACT BAR — FULL-WIDTH RECEIPT PAPER (NO BLACK STAGE)
    ========================================================= */

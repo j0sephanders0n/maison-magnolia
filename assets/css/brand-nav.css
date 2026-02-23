@@ -972,9 +972,9 @@ body.brand-page.mmLightbox-open{
    ========================================================= */
 /* Only hide INLINE feed videos (not lightbox videos) */
 .mm-inline-video { opacity: 0; }
+.mm-inline-video.is-ready,
 .mm-inline-video.is-playing { opacity: 1; }
 
 /* Lightbox videos must always be visible */
 .mmLightbox video { opacity: 1 !important; }
-
 /* Hide native controls ONLY for inline feed videos (never for lightbox) */

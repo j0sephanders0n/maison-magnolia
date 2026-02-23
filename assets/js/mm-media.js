@@ -228,7 +228,13 @@
       // Prevent loading everything
       v.preload = "none";
       v.setAttribute("preload", "none");
-    };
+    
+
+      // Mark visible as soon as the first frame is available (prevents “blank tile until play”)
+      const markReady = () => v.classList.add("is-ready");
+      v.addEventListener("loadeddata", markReady, { once: true });
+      v.addEventListener("loadedmetadata", markReady, { once: true });
+};
 
     allVideos.forEach(normalizeInlineVideo);
 
@@ -290,8 +296,13 @@
         v.addEventListener("playing", onPlaying);
 
         const p = v.play();
-        if (p && typeof p.catch === "function") p.catch(() => {});
-      } catch (_) {}
+        if (p && typeof p.catch === "function") {
+          p.catch(() => {
+            // If iOS blocks autoplay, at least show the loaded frame instead of a blank tile.
+            v.classList.add("is-ready");
+          });
+        }
+} catch (_) {}
     };
 
     const safePause = (v) => {
