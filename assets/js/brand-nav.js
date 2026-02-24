@@ -480,6 +480,13 @@ expertsTab.innerHTML = "<span>Experts</span>";
   };
 
   const getTileMedia = (tile) => {
+    // IFRAME tile (Cloudflare Stream, etc.)
+    const ifr = tile.querySelector("iframe");
+    if (ifr) {
+      const src = ifr.getAttribute("src") || ifr.getAttribute("data-stream-src") || "";
+      return { kind: "iframe", src };
+    }
+
     // VIDEO tile
     const vSource = tile.querySelector("video source");
     if (vSource) {
@@ -512,6 +519,25 @@ expertsTab.innerHTML = "<span>Experts</span>";
     const media = getTileMedia(tile);
     frame.innerHTML = "";
     if (!media.src) return;
+
+    // IFRAME (Cloudflare Stream, etc.)
+    if (media.kind === "iframe") {
+      // Keep a stable ratio (can't read true video metadata cross-origin)
+      frame.style.setProperty("--lb-ar", "9 / 16");
+
+      const ifr = document.createElement("iframe");
+      ifr.src = media.src;
+      ifr.loading = "eager";
+      ifr.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture";
+      ifr.allowFullscreen = true;
+      ifr.style.border = "none";
+      ifr.style.width = "100%";
+      ifr.style.height = "100%";
+
+      frame.appendChild(ifr);
+      return;
+    }
+
 
     // Default ratio while metadata loads (prevents jump)
     frame.style.setProperty("--lb-ar", "9 / 16");
