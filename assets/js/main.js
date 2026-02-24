@@ -707,7 +707,16 @@ setTimeout(() => {
     const root = document.getElementById("projects");
     if (!root) return;
 
-    const container = root.querySelector(".video-container");
+      // MOBILE: Projects becomes a horizontal swipe row (CSS-driven).
+  // Prevent the vertical TikTok controller from forcing translateY().
+  if (window.matchMedia("(max-width: 520px)").matches) return;
+
+        // MOBILE: Projects becomes a native horizontal scroller (CSS-driven)
+    // Skip the desktop "client list ↔ phone" controller so it doesn't fight touch scrolling.
+    const mqProjectsMobile = window.matchMedia("(max-width: 520px)");
+    if (mqProjectsMobile.matches) return;
+
+const container = root.querySelector(".video-container");
     const track = root.querySelector(".video-track");
     const slides = Array.from(root.querySelectorAll(".slide"));
     const clients = Array.from(root.querySelectorAll(".client"));

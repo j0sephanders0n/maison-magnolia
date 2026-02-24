@@ -4257,3 +4257,470 @@ video::-webkit-media-controls-start-playback-button {
     display: none !important;
   }
 }
+
+/* =========================================================
+   PROJECTS — MOBILE: HORIZONTAL SCROLLER (native swipe)
+   - Replaces the "client list controls vertical TikTok stack" UX on phones
+   - Only affects the #projects section (no site-wide horizontal scroll)
+   ========================================================= */
+@media (max-width: 520px){
+
+  /* Hide the right column list on phone */
+  #projects .projects-right{ display: none !important; }
+
+  /* Let the left column be the whole section */
+  #projects .projects-left{
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Phone frame / masking not used in this layout */
+  #projects .phoneFrameOverlay{ display: none !important; }
+  #projects .phoneMask{
+    position: static !important;
+    inset: auto !important;
+    background: transparent !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  /* The scroller (one row, swipe left/right) */
+  #projects .video-container{
+    width: 100% !important;
+    height: 64vh !important;
+    margin: 10px 0 0 !important;
+
+    background: #000 !important;
+    border-radius: 18px !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+
+    /* contain swipe to this section only */
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+
+    /* optional: premium snap */
+    scroll-snap-type: x mandatory;
+  }
+
+  /* Track becomes a horizontal strip */
+  #projects .video-track{
+    position: relative !important;
+    inset: auto !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    height: 100% !important;
+    width: max-content !important;
+
+    transform: none !important;      /* defeat any JS translateY */
+    transition: none !important;
+    background: #000 !important;
+  }
+
+  /* Each brand tile */
+  #projects .slide{
+    flex: 0 0 82vw !important;       /* swipeable panels */
+    max-width: 380px !important;
+    height: 100% !important;
+
+    position: relative !important;
+    margin-right: 14px !important;
+
+    border-radius: 18px !important;
+    overflow: hidden !important;
+
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+  #projects .slide:last-child{ margin-right: 0 !important; }
+
+  /* Video fills the card */
+  #projects .slide video{
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+
+    /* override any screen-window clipping rules */
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+  }
+
+  /* Brand label on the card */
+  #projects .overlay{
+    display: flex !important;
+    position: absolute !important;
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 14px !important;
+
+    z-index: 30 !important;
+    opacity: 1 !important;          /* override "only active shows text" */
+    transition: none !important;
+
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  #projects .overlay::before{
+    content: "" !important;
+    position: absolute !important;
+    left: -14px !important;
+    right: -14px !important;
+    bottom: -14px !important;
+    height: 110px !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.62), rgba(0,0,0,0)) !important;
+    z-index: 0 !important;
+  }
+
+  #projects .overlay-title{
+    position: relative !important;
+    z-index: 1 !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 0.10em !important;
+    font-size: 14px !important;
+    color: #fff !important;
+  }
+
+  /* If meta / show-more exists on some slides, keep it off in this layout */
+  #projects .overlay-meta,
+  #projects .overlay-more{ display: none !important; }
+}
+
+/* ============================================================
+   PROJECTS — MOBILE HORIZONTAL SWIPE ROW (free scroll)
+   Paste at VERY BOTTOM of main.css
+   ============================================================ */
+@media (max-width: 520px){
+
+  /* kill the black background + enable horizontal scroll only in this section */
+  #projects .video-container{
+    background: #fff !important;     /* removes the black div behind */
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  /* turn the stack into a horizontal row */
+  #projects .video-track{
+    position: relative !important;   /* overrides absolute */
+    top: auto !important;
+    left: auto !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    height: 100% !important;
+    width: max-content !important;
+
+    transform: none !important;      /* defeats translateY */
+    transition: none !important;
+    will-change: auto !important;
+    gap: 14px;
+    padding: 0 14px;                 /* little breathing room at edges */
+  }
+
+  /* each tile = one “screen” card you can swipe through */
+  #projects .slide{
+    flex: 0 0 calc(100% - 28px) !important; /* full-width inside padding */
+    height: 100% !important;
+  }
+
+  /* video fills the tile */
+  #projects .slide video{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* BRAND LABEL: centered at the bottom */
+  #projects .overlay{
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 18px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0 16px !important;
+  }
+
+  #projects .overlay-title{
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* optional: hide the client list on phones (tiles ARE the list now) */
+  #projects .projects-right{
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   PROJECTS – MOBILE HORIZONTAL VIDEO ROW (SIMPLE, TRUE 9:16)
+   ============================================================ */
+@media (max-width: 520px){
+
+  /* remove client list entirely */
+  #projects .projects-right{
+    display: none !important;
+  }
+
+  /* container becomes horizontal scroller */
+  #projects .video-container{
+    background: transparent !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* horizontal row */
+  #projects .video-track{
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px;
+    transform: none !important;
+    position: relative !important;
+    height: auto !important;
+    padding: 0 12px;
+  }
+
+  /* each video keeps TRUE 9:16 */
+  #projects .slide{
+    flex: 0 0 auto !important;
+    width: 72vw;              /* controls size, still true ratio */
+    aspect-ratio: 9 / 16;
+    height: auto !important;
+  }
+
+  /* video fills its frame */
+  #projects video{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* brand title – centered bottom */
+  #projects .overlay{
+    position: absolute !important;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  #projects .overlay-title{
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   PROJECTS — MOBILE: simple horizontal row, TRUE 9:16, no black, centered title
+   Paste at VERY BOTTOM of main.css
+   ============================================================ */
+@media (max-width: 520px){
+
+  /* Hide the client list column */
+  #projects .projects-right{ display: none !important; }
+
+  /* Kill the whole "phone/matte" black system on mobile */
+  #projects .video-container{
+    background: transparent !important;
+    height: auto !important;              /* stop 100vh phone box */
+    width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 0 !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  /* JS wraps .video-track in .phoneMask — neutralize it */
+  #projects .phoneMask{
+    background: transparent !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    display: contents !important;         /* wrapper becomes invisible layout-wise */
+  }
+
+  /* Row layout (no translateY stack) */
+  #projects .video-track{
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 14px !important;
+    padding: 0 14px !important;
+
+    width: max-content !important;
+    height: auto !important;
+
+    transform: none !important;
+    transition: none !important;
+
+    background: transparent !important;   /* kill black backing */
+  }
+
+  /* Each item is TRUE 9:16 */
+  #projects .slide{
+    position: relative !important;
+    flex: 0 0 auto !important;
+
+    width: 72vw !important;              /* adjust if you want */
+    aspect-ratio: 9 / 16 !important;
+    height: auto !important;
+
+    background: transparent !important;  /* kill black fallback */
+    overflow: hidden !important;
+    border-radius: 0 !important;
+  }
+
+  /* Video fills its 9:16 frame */
+  #projects .slide video{
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+  }
+
+  /* FORCE overlay to exist on mobile (your CSS currently hides it) */
+  #projects .overlay{
+    display: flex !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 18px !important;
+
+    justify-content: center !important;
+    align-items: flex-end !important;
+    text-align: center !important;
+
+    opacity: 1 !important;               /* defeat "only active shows" */
+    transition: none !important;
+    pointer-events: none !important;
+  }
+
+  /* No gradient / no extra styling */
+  #projects .overlay::before{ display: none !important; }
+
+  /* Title centered like your reference */
+  #projects .overlay-title{
+    width: 100% !important;
+    text-align: center !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+  }
+}
+
+@media (max-width: 520px){
+  #projects .slide{
+    border-radius: 5px !important;   /* adjust if you want */
+    overflow: hidden !important;       /* clips video to radius */
+  }
+
+  #projects .slide video{
+    border-radius: 5px !important;
+  }
+}
+
+/* ============================================================
+   HOTFIX: MOBILE PROJECTS — SHOW + CENTER CAPTIONS
+   Paste at VERY BOTTOM of main.css
+   ============================================================ */
+@media (max-width: 520px){
+
+  /* turn captions back ON (you currently have display:none !important twice) */
+  #projects .overlay{
+    display: flex !important;
+
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 18px !important;
+
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+
+    pointer-events: none !important;
+    z-index: 50 !important;
+  }
+
+  /* kill "only active slide shows text" logic */
+  #projects .slide .overlay{
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* if you have any gradient pseudo element, remove it */
+  #projects .overlay::before{
+    display: none !important;
+    content: none !important;
+  }
+
+  /* center the actual text node */
+  #projects .overlay-title{
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+}
+
+/* ============================================================
+   FIX: Projects mobile carousel — hard-center brand title overlay
+   (wins against earlier competing mobile rules)
+   ============================================================ */
+@media (max-width: 520px){
+  #projects .slide{ position: relative; }
+
+  #projects .overlay{
+    /* force it back on + center it */
+    display: flex !important;
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 18px !important;
+
+    transform: none !important;           /* kills translateX(-50%) */
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+
+    width: 100% !important;
+    pointer-events: none !important;
+  }
+
+  #projects .overlay-title{
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+}
