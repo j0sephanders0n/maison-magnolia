@@ -4246,3 +4246,14 @@ video::-webkit-media-controls-start-playback-button {
 .expert-handle{
   color: var(--home-color) !important;
 }
+
+/* =========================================================
+   HIDE RIGHT-SIDE SECTION INDICATOR ON iPAD / iPAD PRO
+   ========================================================= */
+
+/* iPad + iPad Pro (portrait & landscape) */
+@media (max-width: 1180px){
+  .sideTitle{
+    display: none !important;
+  }
+}
