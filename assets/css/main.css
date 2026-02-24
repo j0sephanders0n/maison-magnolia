@@ -338,7 +338,6 @@ body.preload #siteHeader{
 
   scroll-margin-top: calc((100vh - var(--phone-h)) / 2);
   padding-top: 0;
-  padding-bottom: 160px;
 
   display: flex;
   justify-content: center;
@@ -499,7 +498,7 @@ body.preload #siteHeader{
 
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 32px;
 
   transform: translateY( -15px);
 }
@@ -607,9 +606,6 @@ body.preload #siteHeader{
     padding-bottom: 240px;
   }
 
-  #projects{
-    padding-bottom: 140px;
-  }
 
   .projects-layout{
     grid-template-columns: 1fr;
@@ -4722,5 +4718,44 @@ video::-webkit-media-controls-start-playback-button {
     width: 100% !important;
     text-align: center !important;
     margin: 0 auto !important;
+  }
+}
+
+/* =========================================
+   TIGHTEN GAP: Collaborations (#projects) -> Experts (#team)
+   - preserves nav anchor logic and sideTitle JS behavior
+   - responsive: desktop / iPad / phone
+   ========================================= */
+
+/* Desktop baseline */
+#projects{
+  padding-bottom: 90px;   /* was 160px */
+}
+
+#team{
+  padding-top: 140px;     /* was 320px (later rule wins) */
+  padding-bottom: 220px;  /* optional: keeps ending feeling intentional */
+  /* keep your existing scroll-margin-top behavior as-is */
+}
+
+/* iPad / iPad Pro */
+@media (max-width: 900px){
+  #projects{
+    padding-bottom: 70px;   /* was 140px in your 900px block */
+  }
+  #team{
+    padding-top: 110px;
+    padding-bottom: 180px;
+  }
+}
+
+/* Phone */
+@media (max-width: 520px){
+  #projects{
+    padding-bottom: 56px;
+  }
+  #team{
+    padding-top: 84px;
+    padding-bottom: 160px;
   }
 }
