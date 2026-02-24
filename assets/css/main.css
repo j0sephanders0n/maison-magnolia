@@ -278,7 +278,7 @@ body.preload #siteHeader{
   grid-row: 4;
 
   padding-top: 140px;
-  padding-bottom: 320px; /* BIG GAP before Projects (safe) */
+  padding-bottom: 220px; /* BIG GAP before Projects (safe) */
 
   scroll-margin-top: 60px;
 
@@ -512,7 +512,7 @@ body.preload #siteHeader{
   font-size: 16px;     /* smaller text */
   line-height: 1.35;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: transform 0.10s ease;
   font-weight: 800;
   letter-spacing: 0.02em;
 }
@@ -539,7 +539,7 @@ body.preload #siteHeader{
   color: rgba(10,10,10,88);
   transition:
     transform 0.18s ease,
-    color 0.18s ease,
+    color 0.2s ease,
     letter-spacing 0.18s ease;
 }
 
@@ -2571,7 +2571,6 @@ body.frannie-page .mm-logo{
   position: relative;
   overflow: hidden;
   aspect-ratio: 9 / 16; /* true vertical */
-  background: #000;     /* looks intentional if letterboxed */
 }
 
 /* Make videos/images fill the tile box */
@@ -4759,3 +4758,87 @@ video::-webkit-media-controls-start-playback-button {
     padding-bottom: 160px;
   }
 }
+
+/* =========================================
+   TEST OVERRIDE — EXPLORE GRID
+   (slightly smaller tiles + more air)
+   ========================================= */
+
+#gallery .grid{
+  width: min(1020px, calc(100% - (var(--pad) * 2)));
+  gap: 18px;
+}
+
+/* Tablet refinement */
+@media (max-width: 900px){
+  #gallery .grid{
+    width: min(670px, calc(100% - (var(--pad) * 2)));
+    gap: 14px;
+  }
+}
+
+/* Phone: keep things intentional and tight */
+@media (max-width: 520px){
+  #gallery .grid{
+    width: min(420px, calc(100% - (var(--pad) * 2)));
+    gap: 12px;
+  }
+}
+
+/* =========================================
+   TEST OVERRIDE — INTRO WIDTH
+   (slightly wider, more stretched feel)
+   ========================================= */
+
+#introduction .intro-wrap{
+  width: min(1000px, calc(100% - (var(--pad) * 2)));
+}
+
+/* iPad / iPad Pro */
+@media (max-width: 900px){
+  #introduction .intro-wrap{
+    width: min(600px, calc(100% - (var(--pad) * 2)));
+  }
+}
+
+/* Phone — keep readable */
+@media (max-width: 520px){
+  #introduction .intro-wrap{
+    width: min(420px, calc(100% - (var(--pad) * 2)));
+  }
+}
+
+/* =========================================
+   TEST OVERRIDE — ABOUT WIDTH
+   (slightly wider, more editorial)
+   ========================================= */
+
+#about .about-wrap{
+  width: min(1240px, calc(100% - (var(--pad) * 2)));
+}
+
+/* iPad / iPad Pro */
+@media (max-width: 900px){
+  #about .about-wrap{
+    width: min(1000px, calc(100% - (var(--pad) * 2)));
+  }
+}
+
+/* Phone — keep readable and calm */
+@media (max-width: 520px){
+  #about .about-wrap{
+    width: min(420px, calc(100% - (var(--pad) * 2)));
+  }
+}
+
+/* =========================================
+   EXPLORE — Cloudflare Stream iframe support
+   ========================================= */
+
+#gallery .tile iframe{
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
