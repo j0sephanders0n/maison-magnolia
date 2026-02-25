@@ -656,28 +656,3 @@ expertsTab.innerHTML = "<span>Experts</span>";
   bindControls();
 })();
 
-/* =========================================
-   MOBILE SPACING TIGHTENING
-   About → Collaborations
-   Collaborations → Experts
-   ========================================= */
-
-@media (max-width: 640px){
-
-  /* Reduce space AFTER About */
-  #about{
-    padding-bottom: 100px; /* was 220px */
-  }
-
-  /* Reduce space BEFORE Collaborations content visually */
-  #projects{
-    scroll-margin-top: 40px;
-  }
-
-  /* Reduce space BEFORE Experts */
-  #team{
-    padding-top: 140px; /* was 320px */
-    padding-bottom: 160px; /* optional: keeps balance */
-  }
-
-}
