@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
   // ============================================================
+  // SUBTLE MOTION BLUR FOR TIKTOK-STYLE TRANSITIONS (LUXURY SAFE)
+  // - Applied ONLY to moving video stack (.video-track)
+  // - Short duration, low intensity
+  // ============================================================
+  const applyMotionBlur = (() => {
+    let blurTimeout = null;
+    return (track) => {
+      if (!track) return;
+      track.classList.add("is-blurring");
+      clearTimeout(blurTimeout);
+      blurTimeout = setTimeout(() => {
+        track.classList.remove("is-blurring");
+      }, 120); // ~2–3 frames @60fps
+    };
+  })();
+
+  // ============================================================
   // ALWAYS START AT TOP ON REFRESH
   // ============================================================
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -28,6 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Insert wrapper and move track into it
     container.insertBefore(mask, track);
     mask.appendChild(track);
+  })();
+
+  // ============================================================
+  // HOOK: apply motion blur when video-track moves
+  // ============================================================
+  (function hookVideoTrackMotion(){
+    const track = document.querySelector("#projects .video-track");
+    if (!track) return;
+
+    const style = track.style;
+    const originalSetProperty = style.setProperty.bind(style);
+
+    style.setProperty = function(prop, value, priority){
+      if (prop === "transform" && value.includes("translateY")) {
+        applyMotionBlur(track);
+      }
+      return originalSetProperty(prop, value, priority);
+    };
   })();
 
   // ============================================================
@@ -1136,91 +1171,4 @@ window.addEventListener("resize", () => {
     e.preventDefault();
     navigateTo(href);
   });
-})();
-
-// ============================================================
-// FRANNIE BIO MODAL (FINAL — centered + nav stays green + no jump)
-// ============================================================
-(function initFrannieBioModal(){
-  function boot(){
-    const modal = document.getElementById("frannieModal");
-    if (!modal) return;
-
-    const closeEls = modal.querySelectorAll("[data-close]");
-    let scrollY = 0;
-
-    function openModal(){
-      scrollY = window.scrollY || window.pageYOffset;
-
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-
-      // ✅ keep Experts nav green while open (CSS targets this)
-      document.body.classList.add("bioModal-open");
-
-      // lock scroll WITHOUT touching overflow
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-    }
-
-    function closeModal(){
-      // 1) restore body first (modal still covering everything)
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-
-      // ✅ remove green-nav override class
-      document.body.classList.remove("bioModal-open");
-
-      // 2) force instant scroll restore (override smooth scrolling temporarily)
-      const html = document.documentElement;
-      const prevScrollBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = "auto";
-      window.scrollTo(0, scrollY);
-
-      // 3) next frame: restore scroll behavior + then hide modal (no visible movement)
-      requestAnimationFrame(() => {
-        html.style.scrollBehavior = prevScrollBehavior;
-        modal.classList.remove("is-open");
-        modal.setAttribute("aria-hidden", "true");
-      });
-    }
-
-    // OPEN (capture phase so IG click never fires)
-    document.addEventListener("click", (e) => {
-      const trigger = e.target.closest(
-        ".expert-featured .expert-link, .expert-featured .expert-bio-trigger"
-      );
-      if (!trigger) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-      openModal();
-    }, true);
-
-    // CLOSE (X + backdrop)
-    closeEls.forEach(el =>
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        closeModal();
-      })
-    );
-
-    // ESC
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
 })();

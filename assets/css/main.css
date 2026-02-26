@@ -4914,3 +4914,196 @@ video::-webkit-media-controls-start-playback-button {
   }
 }
 
+/* =========================
+   FRANNIE BIO MODAL
+   ========================= */
+
+.bioModal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+}
+
+.bioModal.is-open {
+  display: block;
+}
+
+/* Frosted background */
+.bioModal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+}
+
+/* Modal box */
+.bioModal-content {
+  position: relative;
+  max-width: 520px;
+  margin: 10vh auto;
+  background: rgba(255,255,255,0.9);
+  border-radius: 18px;
+  padding: 42px 36px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.18);
+}
+
+/* Close button */
+.bioModal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: none;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: rgba(10,10,10,.6);
+}
+
+/* Copy */
+.bioModal-inner p {
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  margin: 0 0 14px;
+}
+
+/* Mobile tuning */
+@media (max-width: 520px) {
+  .bioModal-content {
+    margin: 12vh 16px;
+    padding: 34px 26px;
+  }
+}
+
+.expert-bio-trigger{
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.expert-bio-trigger:hover{
+  opacity: 0.85;
+}
+
+/* =========================================
+   FRANNIE BIO MODAL — FINAL TUNING OVERRIDE
+   ========================================= */
+
+/* True center on all screens */
+.bioModal.is-open{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 36px);
+}
+
+.bioModal-backdrop{
+  /* keep frosted glass */
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+}
+
+/* Bigger + fully opaque */
+.bioModal-content{
+  margin: 0 !important;                 /* kills the 10vh push-down */
+  width: min(720px, calc(100% - 32px)); /* bigger on desktop, safe on mobile */
+  max-width: 720px;
+  background: #ffffff !important;       /* ✅ opacity 100 */
+  border-radius: 20px;
+  padding: clamp(26px, 3.2vw, 48px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.18); /* fix alpha */
+}
+
+/* If copy gets long, scroll inside the box (not the page) */
+.bioModal-inner{
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+}
+
+/* Green close X */
+.bioModal-close{
+  color: var(--home-color) !important;
+  opacity: 1 !important;
+}
+
+/* Remove the ugly clicked/focus outline on the trigger */
+.expert-bio-trigger:focus,
+.expert-bio-trigger:focus-visible,
+.expert-featured .expert-link:focus,
+.expert-featured .expert-link:focus-visible{
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep the Experts nav label green while the bio modal is open */
+body.bioModal-open #siteHeader .nav a[href="#team"]{
+  color: var(--home-color) !important;
+  font-weight: 800 !important;
+}
+
+/* =========================================
+   FRANNIE BIO MODAL — SIZE REFINEMENT
+   ========================================= */
+
+.bioModal-content{
+  margin: 0 !important;
+
+  /* square-ish, editorial feel */
+  width: min(520px, calc(100% - 32px));
+  max-width: 520px;
+
+  background: #ffffff !important;
+  border-radius: 20px;
+  padding: clamp(24px, 3vw, 42px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+}
+
+/* =========================================
+   FRANNIE BIO MODAL — CLEAN LUXURY OPEN
+   ========================================= */
+
+/* Backdrop: fast, quiet materialization */
+.bioModal-backdrop{
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  transition:
+    opacity 180ms ease-out,
+    backdrop-filter 180ms ease-out;
+}
+
+.bioModal.is-open .bioModal-backdrop{
+  opacity: 1;
+  backdrop-filter: blur(12px);
+}
+
+/* Modal box: arrives at final size, no overshoot */
+.bioModal-content{
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    transform 220ms cubic-bezier(0.25, 0.9, 0.25, 1),
+    opacity 140ms ease-out;
+  will-change: transform, opacity;
+}
+
+.bioModal.is-open .bioModal-content{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .bioModal-backdrop,
+  .bioModal-content{
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

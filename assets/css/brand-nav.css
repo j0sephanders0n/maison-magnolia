@@ -978,3 +978,25 @@ body.brand-page.mmLightbox-open{
 /* Lightbox videos must always be visible */
 .mmLightbox video { opacity: 1 !important; }
 /* Hide native controls ONLY for inline feed videos (never for lightbox) */
+
+/* =========================================
+   HOTFIX — iPhone: Experts drawer must hit bottom
+   (override, safe-area + no vh dependence)
+   ========================================= */
+
+@media (max-width: 1100px){
+  body.brand-page .brand-people{
+    /* Pin to viewport instead of relying on vh/dvh */
+    top: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+
+    /* Fallbacks (harmless if supported) */
+    min-height: 100vh !important;
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
+
+    /* Keep your existing padding, but make it safe-area aware */
+    padding-bottom: max(28px, env(safe-area-inset-bottom)) !important;
+  }
+}
