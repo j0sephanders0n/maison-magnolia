@@ -29,6 +29,142 @@ document.addEventListener("DOMContentLoaded", () => {
     container.insertBefore(mask, track);
     mask.appendChild(track);
   })();
+  // ============================================================
+  // PROJECTS: HYDRATE <source data-src> -> src (but do NOT autoplay-manage)
+  // Needed because mm-media.js now ignores #projects to prevent iOS crashes.
+  // ============================================================
+  (function hydrateProjectsSources(){
+    const projects = document.getElementById("projects");
+    if (!projects) return;
+
+    const vids = Array.from(projects.querySelectorAll("video"));
+    if (!vids.length) return;
+
+    // Use mm-media's hydrator if available (keeps base router behavior)
+    const hydrate = window.MM_MEDIA && window.MM_MEDIA.hydrateVideoSources
+      ? window.MM_MEDIA.hydrateVideoSources
+      : null;
+
+    vids.forEach((v) => {
+      if (!v) return;
+
+      if (hydrate) {
+        hydrate(v);
+        return;
+      }
+
+      // Fallback: manual attach (no base routing)
+      const sources = Array.from(v.querySelectorAll("source[data-src]"));
+      sources.forEach((s) => {
+        if (!s.getAttribute("src")) {
+          s.setAttribute("src", s.getAttribute("data-src"));
+        }
+      });
+      try { v.load(); } catch (_) {}
+    });
+  })();
+
+
+  // ============================================================
+  // PROJECTS: AUTOPLAY (visibility-based) — without mm-media control
+  // - Ensures autoplay attributes are asserted for #projects videos
+  // - Plays when visible, pauses when not
+  // - Lightweight: does NOT call load() repeatedly (prevents iOS tab-kill)
+  // ============================================================
+  (function initProjectsAutoplay(){
+    const projects = document.getElementById("projects");
+    if (!projects) return;
+
+    const vids = Array.from(projects.querySelectorAll("video"));
+    if (!vids.length) return;
+
+    const isLightboxVideo = (v) => !!v.closest(".mmLightbox");
+
+    // Normalize attributes (matches your old "it just plays" behavior)
+    vids.forEach((v) => {
+      if (!v || isLightboxVideo(v)) return;
+
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.autoplay = true;
+
+      v.setAttribute("muted", "");
+      v.setAttribute("loop", "");
+      v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+      v.setAttribute("autoplay", "");
+
+      // keep lightweight unless another controller sets otherwise
+      if (!v.getAttribute("preload")) {
+        v.preload = "none";
+        v.setAttribute("preload", "none");
+      }
+    });
+
+    const safePlay = (v) => {
+      if (!v || isLightboxVideo(v)) return;
+      try {
+        v.muted = true;
+        v.playsInline = true;
+        v.autoplay = true;
+        v.loop = true;
+
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+        v.setAttribute("webkit-playsinline", "");
+        v.setAttribute("autoplay", "");
+        v.setAttribute("loop", "");
+
+        const p = v.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } catch (_) {}
+    };
+
+    const safePause = (v) => {
+      if (!v || isLightboxVideo(v)) return;
+      try { v.pause(); } catch (_) {}
+    };
+
+    // If no IO support, just try to play what's on screen after first gesture.
+    if (!("IntersectionObserver" in window)) {
+      const unlock = () => {
+        vids.forEach((v) => {
+          if (!v || isLightboxVideo(v)) return;
+          const r = v.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < window.innerHeight) safePlay(v);
+        });
+      };
+      window.addEventListener("touchstart", unlock, { once: true, passive: true });
+      window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+      return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) safePlay(e.target);
+        else safePause(e.target);
+      });
+    }, { root: null, rootMargin: "250px 0px", threshold: 0.2 });
+
+    vids.forEach((v) => {
+      if (!v || isLightboxVideo(v)) return;
+      io.observe(v);
+    });
+
+    // iOS/WebKit unlock
+    const unlock = () => {
+      vids.forEach((v) => {
+        if (!v || isLightboxVideo(v)) return;
+        const r = v.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) safePlay(v);
+      });
+    };
+    window.addEventListener("touchstart", unlock, { once: true, passive: true });
+    window.addEventListener("touchmove", unlock, { once: true, passive: true });
+    window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+  })();
+
 
   // ============================================================
   // INTRO ANIMATION (keeps your existing behavior, but smoother)

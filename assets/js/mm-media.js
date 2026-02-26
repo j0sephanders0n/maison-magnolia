@@ -170,37 +170,8 @@
     // Don’t touch lightbox videos (they can have controls/play UI)
     const isLightboxVideo = (v) => !!v.closest(".mmLightbox");
 
-    // Collaborations / TikTok section: when the SECTION becomes visible,
-    // hydrate ALL videos inside it (attach data-src -> src) so it loads cleanly.
-    // This does NOT change how videos are played/paused/unloaded elsewhere.
-    const projectsSection = document.getElementById("projects");
-
-    const hydrateProjectsVideos = () => {
-      if (!projectsSection) return;
-      const vids = Array.from(projectsSection.querySelectorAll("video"));
-      vids.forEach((v) => {
-        if (!v || isLightboxVideo(v)) return;
-        hydrateVideoSources(v);
-        try { v.load(); } catch (_) {}
-      });
-    };
-
-    // Observe the section (not individual videos) so we can bulk-hydrate once it comes into view.
-    // rootMargin loads a bit early as you approach the section.
-    if (projectsSection && "IntersectionObserver" in window) {
-      const ioProjects = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            hydrateProjectsVideos();
-          }
-        });
-      }, { root: null, rootMargin: "600px 0px", threshold: 0.01 });
-
-      ioProjects.observe(projectsSection);
-    } else {
-      // Fallback: no IO support, just hydrate immediately.
-      hydrateProjectsVideos();
-    }
+    // Skip the Collaborations/Projects section here — it is managed by main.js
+    const isProjectsVideo = (v) => !!v.closest("#projects");
 
     // Your requirement: NO play button unless lightbox.
     // That means: no controls on inline videos, ever.
@@ -236,7 +207,10 @@
       v.addEventListener("loadedmetadata", markReady, { once: true });
 };
 
-    allVideos.forEach(normalizeInlineVideo);
+    allVideos.forEach((v) => {
+      if (isProjectsVideo(v)) return;
+      normalizeInlineVideo(v);
+    });
 
     // ------------------------------------------------------------
     // SAFE PLAY / PAUSE
@@ -244,7 +218,7 @@
     // - Avoids "black until tap" by waiting for data and retrying
     // ------------------------------------------------------------
     const safePlay = (v) => {
-      if (!v || isLightboxVideo(v)) return;
+      if (!v || isLightboxVideo(v) || isProjectsVideo(v)) return;
 
       try {
         // Re-assert autoplay rules (iOS WebKit is picky)
@@ -306,26 +280,26 @@
     };
 
     const safePause = (v) => {
-      if (!v || isLightboxVideo(v)) return;
+      if (!v || isLightboxVideo(v) || isProjectsVideo(v)) return;
       try { v.pause(); } catch (_) {}
       try { v.classList.remove("is-playing"); } catch (_) {}
     };
 
     const ensureAttached = (v) => {
-      if (!v || isLightboxVideo(v)) return;
+      if (!v || isLightboxVideo(v) || isProjectsVideo(v)) return;
       hydrateVideoSources(v);
     };
 
 const unloadIfFar = (v) => {
-  if (!v || isLightboxVideo(v)) return;
-  if (v.dataset.mmNoUnload === "1") return; // 🔒 keep Projects loaded
+  if (!v || isLightboxVideo(v) || isProjectsVideo(v)) return;
+  if (v.dataset.mmNoUnload === "1") return; // protected video: never unload
   safePause(v);
   detachVideoSources(v);
 };
 
     // Which videos do we manage?
     // Everything except lightbox.
-    const managed = allVideos.filter((v) => !isLightboxVideo(v));
+    const managed = allVideos.filter((v) => !isLightboxVideo(v) && !isProjectsVideo(v));
     if (!managed.length) return;
 
     // Attach sources early to avoid black flashes while scrolling

@@ -5118,3 +5118,19 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     padding-bottom: calc(clamp(150px, 22vh, 240px) + 24px) !important;
   }
 }
+
+/* =========================================
+   PROJECTS (MOBILE): allow page vertical scroll on video
+   - Horizontal swipes still move the row
+   ========================================= */
+@media (max-width: 520px) {
+  /* The horizontal scroller */
+  #projects .video-track {
+    touch-action: pan-y !important; /* allow vertical page scroll */
+  }
+
+  /* Videos themselves should not "eat" vertical scroll */
+  #projects .slide video {
+    touch-action: pan-y !important;
+  }
+}
