@@ -5190,3 +5190,33 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     pointer-events: none;
   }
 }
+
+/* =========================================
+   PROJECTS (MOBILE): Stream iframe polish
+   - Fill container (no black bars)
+   - Match video border radius
+   ========================================= */
+@media (max-width: 520px) {
+  #projects .slide iframe.mm-project-stream {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    /* THIS removes black bars */
+    object-fit: cover;
+
+    /* Match your existing video rounding */
+    border-radius: 10px;
+
+    /* Keep scroll behavior sane */
+    pointer-events: none;
+  }
+
+  /* Ensure parent clips correctly */
+  #projects .slide {
+    overflow: hidden;
+    border-radius: 10px;
+  }
+}

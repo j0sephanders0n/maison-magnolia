@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const iframe = document.createElement("iframe");
     iframe.className = "mm-project-stream";
-    iframe.src = src;
+    iframe.src = src + "&autoplay=true";
     iframe.loading = "lazy";
     iframe.allow = "autoplay; encrypted-media; picture-in-picture";
     iframe.allowFullscreen = true;
