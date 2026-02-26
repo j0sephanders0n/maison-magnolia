@@ -5167,3 +5167,26 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     height: auto !important;
   }
 }
+
+/* =========================================
+   PROJECTS (MOBILE ONLY): Cloudflare Stream iframe fits screen window
+   ========================================= */
+@media (max-width: 520px){
+  #projects .slide iframe.mm-project-stream{
+    position: absolute;
+
+    top: var(--screen-top);
+    right: var(--screen-right);
+    bottom: var(--screen-bottom);
+    left: var(--screen-left);
+
+    width: calc(100% - (var(--screen-left) + var(--screen-right)));
+    height: calc(100% - (var(--screen-top) + var(--screen-bottom)));
+
+    border: 0;
+    display: block;
+
+    /* Doesn’t hijack scroll/taps; <a> remains clickable */
+    pointer-events: none;
+  }
+}

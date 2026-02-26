@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => window.scrollTo(0, 0), 0);
 
   // ============================================================
+  // GLOBAL: MOBILE DETECT (used for Projects-only Stream swap)
+  // ============================================================
+  const MM_IS_MOBILE = window.matchMedia("(max-width: 520px)").matches;
+
+
+  // ============================================================
   // PROJECTS: Wrap .video-track in a mask layer (AE-style matte)
   // - Masks ONLY videos + black backing
   // - Keeps phone SVG overlay visible above it
@@ -36,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
   (function hydrateProjectsSources(){
     const projects = document.getElementById("projects");
     if (!projects) return;
+    if (MM_IS_MOBILE) return; // mobile uses Stream iframes instead of <video>
+    if (MM_IS_MOBILE) return; // mobile uses Stream iframes instead of <video>
 
     const vids = Array.from(projects.querySelectorAll("video"));
     if (!vids.length) return;
@@ -63,6 +71,92 @@ document.addEventListener("DOMContentLoaded", () => {
       try { v.load(); } catch (_) {}
     });
   })();
+
+
+// ============================================================
+// PROJECTS (MOBILE ONLY): Replace <video> with Cloudflare Stream <iframe>
+// - Scope: ONLY #projects, ONLY <=520px
+// - Leaves desktop/iPad behavior untouched
+// - iframe pointer-events disabled so vertical scroll + link tap still work
+// ============================================================
+(function initProjectsStreamMobile(){
+  if (!MM_IS_MOBILE) return;
+
+  const projects = document.getElementById("projects");
+  if (!projects) return;
+
+  // Map overlay-title text -> Stream iframe src
+  // (Uses your provided Stream UIDs; cleaned params for stability.)
+  const STREAM = {
+    "BOSS": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/a6fdac5e0e9383dcbcd8084041e12c9e/iframe?muted=true&loop=true&controls=false",
+    "PRADA BEAUTY": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/d073143daf19b4c26140c67206323bf6/iframe?muted=true&loop=true&controls=false",
+    "HUGO": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/67e1740cf05a2d117ba3d6467dad565f/iframe?muted=true&loop=true&controls=false",
+    "SANDRO": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/75043d494a95dd24a0514b99ae490fa9/iframe?muted=true&loop=true&controls=false",
+    "BALMAIN": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/462900da7b972e0ad311e87306c5f627/iframe?muted=true&loop=true&controls=false",
+    "NIKE JORDAN": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/d1509e3424d2092ea90df3d2275a86b9/iframe?muted=true&loop=true&controls=false",
+    "SPENCE": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/d00625c17ce305d02bab4d80254d51c2/iframe?muted=true&loop=true&controls=false",
+    "DAVID YURMAN": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/f9479589839b68d3529e3c72df8c858c/iframe?muted=true&loop=true&controls=false",
+    "MARC JACOBS": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/28d8f0bf0ae210d3b3052148211c8e1a/iframe?muted=true&loop=true&controls=false",
+    "MOSCHINO": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/7a7c2f9060a71e933b583b407c2c9ad4/iframe?muted=true&loop=true&controls=false",
+    "LOUIS VUITTON": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/06cb160a0ccc48db0a83ce61c09fbd31/iframe?muted=true&loop=true&controls=false",
+    "AMI": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/238d0ea6ca71b114d4778f8b04d6df48/iframe?muted=true&loop=true&controls=false",
+    "MESHKI": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/050c58009b466de9193719249a273bb8/iframe?muted=true&loop=true&controls=false",
+    "MARKS AND SPENCER": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/ef7cccd01ba353aa692f368fd161b973/iframe?muted=true&loop=true&controls=false",
+    "GIVENCHY": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/0aa65e104e99346f00a2b42f5c0e8cb8/iframe?muted=true&loop=true&controls=false",
+    "ASOS": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/131682473c06ce7723d45ab09f6d15f5/iframe?muted=true&loop=true&controls=false",
+    "RENT THE RUNWAY": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/0390e92240176258263953b1c483e55d/iframe?muted=true&loop=true&controls=false",
+    "JIMMYCHOO": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/7b7b14d634ab43de3bb43eaf0fb34b8d/iframe?muted=true&loop=true&controls=false",
+    "BMW": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/1dc780411d3c8c11d137f193156fffac/iframe?muted=true&loop=true&controls=false",
+    "RABANNE": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/1f46ff94f750650b155582168cc2ef2c/iframe?muted=true&loop=true&controls=false",
+    "VERONICA BEARD": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/7fffc0e8b2f747e39b296e71d3e4e653/iframe?muted=true&loop=true&controls=false",
+    "PANDORA": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/4bbda47550ec67be1ff9f272d5352556/iframe?muted=true&loop=true&controls=false",
+    "MIUMIU": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/914fa804bdf91fcf88f3a92cefcecb4f/iframe?muted=true&loop=true&controls=false",
+    "AMIRI": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/e36f4112cfe01630a34d82bd47aedec3/iframe?muted=true&loop=true&controls=false",
+    "BREITLING": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/929c3e2fbb037e16e3a7c7c1a2f6984a/iframe?muted=true&loop=true&controls=false",
+    "TUMI": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/c4b8dfd95422ac177c93fd0c2cbcb71c/iframe?muted=true&loop=true&controls=false",
+    "TORY BURCH": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/375745214d1b1c53ef9cf1df09014f3e/iframe?muted=true&loop=true&controls=false",
+    "LORO PIANA": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/c1b41fab506ab39b91108a1d8c80428a/iframe?muted=true&loop=true&controls=false",
+    "PRADA": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/3fe8ff87e362d39d579065591df3f040/iframe?muted=true&loop=true&controls=false",
+    "H & M": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/17dfc6deaef693b14613011ac248c72b/iframe?muted=true&loop=true&controls=false",
+    "MICHAEL KORS": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/c9490320bdba4959838c2f77f7cf6f7c/iframe?muted=true&loop=true&controls=false",
+    "HERMES": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/8d40940579ee259e6826bd5f7dd718a7/iframe?muted=true&loop=true&controls=false",
+    "GOOGLE PIXLE": "https://customer-s2q8ja8z5hc4bkqr.cloudflarestream.com/efd46d5408e442dc7038442c78224dbb/iframe?muted=true&loop=true&controls=false"
+  };
+
+  const slides = Array.from(projects.querySelectorAll("a.slide"));
+  slides.forEach((slide) => {
+    // Identify which stream to use via existing overlay title text.
+    const titleEl = slide.querySelector(".overlay-title");
+    const label = (titleEl?.textContent || "").trim().toUpperCase();
+    const src = STREAM[label];
+    if (!src) return;
+
+    if (slide.querySelector("iframe.mm-project-stream")) return;
+
+    // Hide the original <video> (and keep it inert on mobile).
+    const v = slide.querySelector("video");
+    if (v) {
+      try { v.pause(); } catch (_) {}
+      v.style.display = "none";
+      v.preload = "none";
+      v.setAttribute("preload", "none");
+    }
+
+    const iframe = document.createElement("iframe");
+    iframe.className = "mm-project-stream";
+    iframe.src = src;
+    iframe.loading = "lazy";
+    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+    iframe.allowFullscreen = true;
+
+    // Critical: do not steal scroll gestures or taps; the <a> remains clickable.
+    iframe.style.pointerEvents = "none";
+
+    const overlay = slide.querySelector(".overlay");
+    if (overlay) slide.insertBefore(iframe, overlay);
+    else slide.appendChild(iframe);
+  });
+})();
 
 
   // ============================================================
