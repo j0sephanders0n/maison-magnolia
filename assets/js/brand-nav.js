@@ -431,7 +431,7 @@ expertsTab.innerHTML = "<span>Experts</span>";
     if (list) {
       list.style.overflowY = "auto";
       list.style.webkitOverflowScrolling = "touch";
-      list.style.maxHeight = "calc(100vh - 140px)";
+      list.style.maxHeight = "calc(100% - 140px)";
     }
   };
 

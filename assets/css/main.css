@@ -5134,3 +5134,36 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     touch-action: pan-y !important;
   }
 }
+
+/* =========================================
+   FIX — iPhone/iPad Safari: Experts drawer must truly hit bottom
+   Uses top/bottom pinning (no vh/dvh dependence)
+   Paste at VERY BOTTOM of brand-nav.css
+   ========================================= */
+
+@media (max-width: 1100px){
+  body.brand-page .brand-people{
+    top: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+    min-height: 100% !important;
+
+    /* keep existing look, just make bottom safe-area correct */
+    padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* the list should size off the panel itself, not viewport units */
+  body.brand-page .brand-people .brand-people-list{
+    max-height: none !important;
+    height: auto !important;
+  }
+}
+
+/* iPhone-specific rule in your file sets top:-24px + 100dvh — override that */
+@media (max-width: 640px){
+  body.brand-page .brand-people{
+    top: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+  }
+}
