@@ -67,9 +67,8 @@ document.body.classList.add("intro-done");
   const bar = document.getElementById("contactBar");
   if (!bar) return;
 
-  const THRESHOLD_PX = 24;     // base threshold
-  const SHOW_LATER_PX = +16;   // negative = show later (try -16 / -24 / -32)
-
+const THRESHOLD_PX = 2;      // tiny tolerance for rounding
+const SHOW_LATER_PX = 0;     // keep 0 so it triggers at the true end
   // Create / reuse a sentinel that sits at the *real* end of the page
   let sentinel = document.getElementById("contactBarSentinel");
   if (!sentinel) {
@@ -133,17 +132,15 @@ document.body.classList.add("intro-done");
 
     // We want "later", so we *don't* add barH here.
     // Using a negative SHOW_LATER_PX makes the sentinel need to be closer to the viewport bottom.
-    const bottomMargin = THRESHOLD_PX + SHOW_LATER_PX;
-
-    io = new IntersectionObserver(
-      (entries) => setVisible(entries[0]?.isIntersecting),
-      {
-        root: null,
-        threshold: 0,
-        rootMargin: `0px 0px ${bottomMargin}px 0px`
-      }
-    );
-
+io = new IntersectionObserver(
+  (entries) => setVisible(entries[0]?.isIntersecting),
+  {
+    root: null,
+    threshold: 0,
+    // True-bottom: no early margin. Sentinel must actually hit the viewport.
+    rootMargin: `0px 0px 0px 0px`
+  }
+);
     io.observe(sentinel);
   }
 

@@ -863,7 +863,7 @@ text-align: center;
 #team{
   grid-row: 7;
   padding-top: 320px;
-  padding-bottom: 320px;
+  padding-bottom: calc(clamp(140px, 20vh, 220px) + env(safe-area-inset-bottom, 0px));
 
   /* leave this if you liked how it triggers */
   scroll-margin-top: -100px;
@@ -895,12 +895,6 @@ text-align: center;
   color: rgba(10,10,10,.78);
 }
 
-
-#team{
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-}
 
 #team .team-wrap{
   width: min(1100px, 92vw);
@@ -5105,5 +5099,22 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     transition: none !important;
     transform: none !important;
     opacity: 1 !important;
+  }
+}
+
+/* =========================================
+   HOTFIX — Index: make "receipt" the true bottom
+   Reduce excess end padding; keep just enough space
+   so last content isn't hidden behind the fixed bar.
+   ========================================= */
+
+#team{
+  /* Replace the huge 320px runway with "receipt-height + a little air" */
+  padding-bottom: calc(clamp(150px, 22vh, 240px) + 36px) !important;
+}
+
+@media (max-width: 700px){
+  #team{
+    padding-bottom: calc(clamp(150px, 22vh, 240px) + 24px) !important;
   }
 }
