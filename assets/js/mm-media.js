@@ -398,32 +398,6 @@ const unloadIfFar = (v) => {
   } else {
     initGlobalVideoAutoplay();
   }
-/* =========================================================
-   OVERRIDE: PROJECTS VIDEOS ALWAYS LOADED (NO LAZY DETACH)
-   ========================================================= */
-
-(function keepProjectsVideosLoaded(){
-  const projects = document.getElementById("projects");
-  if (!projects) return;
-
-  const vids = Array.from(projects.querySelectorAll("video"));
-
-  vids.forEach((v) => {
-    // Force eager loading
-    v.preload = "auto";
-    v.setAttribute("preload", "auto");
-
-    // Ensure sources are attached immediately
-    if (window.MM_MEDIA?.hydrateVideoSources) {
-      window.MM_MEDIA.hydrateVideoSources(v);
-    }
-
-    try { v.load(); } catch (_) {}
-
-    // Mark as protected so global unload logic ignores it
-    v.dataset.mmNoUnload = "1";
-  });
-})();
   // Expose API
   window.MM_MEDIA = {
     BASE,

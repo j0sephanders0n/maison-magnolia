@@ -322,10 +322,11 @@ const setCaptionClampAndMore = (slide, isActive) => {
       io.observe(root);
     }
 
-    applyLightDefaults();
-    loadAllWhenNear();
+applyLightDefaults();
 
-    return { warmStart };
+// Let mm-media.js handle source attach + play/pause + unload.
+// Do NOT preload/load everything for Projects here (mobile will crash).
+return { warmStart: null };
   })();
 
   // ============================================================
@@ -343,7 +344,6 @@ const setCaptionClampAndMore = (slide, isActive) => {
     history.replaceState({}, "", clean);
 
     // no intro animation, safe to warm immediately
-    if (projectsPreload?.warmStart) projectsPreload.warmStart();
   } else {
     const full = "MAISON MAGNOLIA";
     const secondMIndex = full.indexOf("MAGNOLIA");
@@ -351,7 +351,6 @@ const setCaptionClampAndMore = (slide, isActive) => {
 
     if (!logoText || !logoBtn || !header) {
       revealInstant();
-      if (projectsPreload?.warmStart) projectsPreload.warmStart();
     } else {
       const chars = Array.from(full);
       logoText.textContent = "";
@@ -460,7 +459,6 @@ const setCaptionClampAndMore = (slide, isActive) => {
               logoBtn.classList.add("is-home");
               document.body.classList.add("intro-done");
               // ✅ warm projects AFTER intro is done (prevents glitch)
-              if (projectsPreload?.warmStart) projectsPreload.warmStart();
             }, moveDuration);
           }, introDelayMs);
         });
