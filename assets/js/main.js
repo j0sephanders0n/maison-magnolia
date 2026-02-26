@@ -1,3 +1,15 @@
+// =========================================
+// iOS / WebKit FIX: kill bfcache stale restores
+// - Applies to Safari + Chrome on iOS
+// - Does NOT affect Cloudflare caching
+// - Reloads ONLY when restored from memory
+// =========================================
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   // ============================================================
   // ALWAYS START AT TOP ON REFRESH
