@@ -135,6 +135,9 @@
       }
     });
 
+    if (changed) {
+      try { videoEl.load(); } catch (_) {}
+    }
     return changed;
   }
 
@@ -152,6 +155,9 @@
       changed = true;
     });
 
+    if (changed) {
+      try { videoEl.load(); } catch (_) {}
+    }
   }
 
   // ---------------------------------------------
@@ -287,13 +293,8 @@
 const unloadIfFar = (v) => {
   if (!v || isLightboxVideo(v) || isProjectsVideo(v)) return;
   if (v.dataset.mmNoUnload === "1") return; // protected video: never unload
-
   safePause(v);
   detachVideoSources(v);
-
-  // allow future re-load after a detach
-  delete v.dataset.mmLoadedOnce;
-  delete v.dataset.mmLoading;
 };
 
     // Which videos do we manage?
