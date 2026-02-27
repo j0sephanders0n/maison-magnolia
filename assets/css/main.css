@@ -5220,3 +5220,16 @@ body.bioModal-open #siteHeader .nav a[href="#team"]{
     border-radius: 10px;
   }
 }
+
+/* =========================================================
+   iPad Portrait ONLY – Fix Experts / Team spacing
+   ========================================================= */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+
+  #team{
+    padding-top: 160px !important;
+    padding-bottom: 120px !important;
+  }
+
+}
