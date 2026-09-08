@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet">
+  <title>Maison Magnolia User Manual</title>
+  <meta name="description" content="Maison Magnolia website user manual.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/maison-magnolia-m.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/manual.css">
+  <script src="assets/js/manual.js" defer></script>
+</head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<body>
+  <a class="skip" href="#manual">Skip to manual</a>
+
+  <header class="site-header">
+    <a class="manual-brand" href="#top" aria-label="Maison Magnolia user manual home">
+      <img src="assets/img/maison-magnolia-m.svg" alt="">
+      <span>Maison Magnolia</span>
+    </a>
+
+    <nav class="manual-nav" aria-label="Manual sections">
+      <a href="#internet">Internet</a>
+      <a href="#homepage">Homepage</a>
+      <a href="#repository">Files</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#media">Media</a>
+      <a href="#responsive">Devices</a>
+      <a href="#publish">Publish</a>
+      <a href="#resources">Resources</a>
+    </nav>
+
+    <span class="private-label">User manual</span>
+  </header>
+
+
+  <main id="manual">
+    <section class="manual-intro" id="top">
+      <p class="eyebrow">Maison Magnolia user manual</p>
+      <h1>An overview of how to maintain the Maison Magnolia website.</h1>
+      <p>Text, links, names, experts, and media can be updated inside the existing templates. Contact a coder for changes to layout, navigation, interactions, video loading, or caching.</p>
+      <div class="manual-key">
+        <span><i class="key-dot safe"></i>Routine update</span>
+        <span><i class="key-dot care"></i>Use the template exactly</span>
+        <span><i class="key-dot coder"></i>Coder</span>
+      </div>
+    </section>
+
+    <div class="map-line" aria-hidden="true"></div>
+
+    <section class="map-section wide" id="internet">
+      <header class="section-head">
+        <div>
+          <span class="section-number">01</span>
+          <h2>Internet + hosting</h2>
+          <p>Your computer edits the site. GitHub stores the shared code. Cloudflare publishes it close to visitors.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/watch?v=RI9np1LWzqw" target="_blank" rel="noopener" aria-label="Watch an internet and Cloudflare lesson on YouTube">▶</a>
+      </header>
+
+      <div class="internet-flow">
+        <article class="flow-box">
+          <div class="computer-icon">&gt;_</div>
+          <b>Your computer</b>
+          <span>VS Code edits the local files.</span>
+        </article>
+        <i class="arrow">→</i>
+        <article class="flow-box">
+          <img src="assets/img/github.svg" alt="GitHub">
+          <b>GitHub</b>
+          <span>Shared code, branches, history.</span>
+        </article>
+        <i class="arrow">→</i>
+        <article class="flow-box">
+          <img class="cloudflare-logo" src="assets/img/cloudflare.svg" alt="Cloudflare">
+          <b>Cloudflare Pages</b>
+          <span>Publishes HTML, CSS, and JavaScript.</span>
+        </article>
+        <i class="arrow">→</i>
+        <article class="flow-box">
+          <div class="server-icon"><i></i><i></i><i></i></div>
+          <b>Data centers</b>
+          <span>Nearby copies load faster and add protection.</span>
+        </article>
+        <i class="arrow">→</i>
+        <article class="flow-box">
+          <div class="device-icon"><i></i><i></i><i></i></div>
+          <b>Visitors</b>
+          <span>Desktop, tablet, and phone.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="map-section wide homepage-section" id="homepage">
+      <header class="section-head">
+        <div>
+          <span class="section-number">02</span>
+          <h2>Homepage structure</h2>
+          <p>This coded preview shows the order and basic shape of the live homepage without loading the public site inside the guide.</p>
+          <a class="section-link" href="https://maisonmagnolia.com/" target="_blank" rel="noopener">Open the live homepage ↗</a>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=html+one+page+website+anchor+links+tutorial" target="_blank" rel="noopener" aria-label="Watch a one-page HTML lesson on YouTube">▶</a>
+      </header>
+
+      <div class="coded-homepage" data-site-preview>
+        <nav class="preview-labels" aria-label="Homepage preview sections">
+          <button type="button" data-preview-target="preview-landing" class="is-active"><span>01</span><b>Landing</b></button>
+          <button type="button" data-preview-target="preview-introduction"><span>02</span><b>Introduction</b></button>
+          <button type="button" data-preview-target="preview-explore"><span>03</span><b>Explore</b></button>
+          <button type="button" data-preview-target="preview-about"><span>04</span><b>About</b></button>
+          <button type="button" data-preview-target="preview-collaborations"><span>05</span><b>Collaborations</b></button>
+          <button type="button" data-preview-target="preview-experts"><span>06</span><b>Experts</b></button>
+          <button type="button" data-preview-target="preview-contact"><span>07</span><b>Contact</b></button>
+        </nav>
+
+        <div class="site-preview-window" tabindex="0" aria-label="Scrollable coded preview of the Maison Magnolia homepage">
+          <div class="preview-current">
+            <span>Currently viewing</span>
+            <b data-preview-current>Landing</b>
+          </div>
+
+          <section class="mini-site-section mini-landing" id="preview-landing" data-preview-label="Landing">
+            <div class="mini-topline"><b>MAISON MAGNOLIA</b><span>◎</span></div>
+            <div class="mini-nav">Intro&nbsp;&nbsp;&nbsp; Explore&nbsp;&nbsp;&nbsp; About&nbsp;&nbsp;&nbsp; Collaborations&nbsp;&nbsp;&nbsp; Experts</div>
+            <div class="mini-mm">MM</div>
+          </section>
+
+          <section class="mini-site-section mini-intro" id="preview-introduction" data-preview-label="Introduction">
+            <span class="mini-label">INTRODUCTION</span>
+            <p>Maison Magnolia creates social-first creative systems, campaigns, and visual worlds.</p>
+            <p><mark>Highlighted phrases</mark> use the Maison Magnolia green.</p>
+            <small>CONTACT LINK</small>
+          </section>
+
+          <section class="mini-site-section mini-explore" id="preview-explore" data-preview-label="Explore">
+            <span class="mini-label">EXPLORE</span>
+            <div class="mini-video-grid">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </section>
+
+          <section class="mini-site-section mini-about" id="preview-about" data-preview-label="About">
+            <p>Everything is on the menu.</p>
+            <div class="mini-three">
+              <article><b>01</b><span>CURATION</span><small>Short description text.</small></article>
+              <article><b>02</b><span>DIRECTION</span><small>Short description text.</small></article>
+              <article><b>03</b><span>EXECUTION</span><small>Short description text.</small></article>
+            </div>
+          </section>
+
+          <section class="mini-site-section mini-collaborations" id="preview-collaborations" data-preview-label="Collaborations">
+            <div class="mini-phone"><div></div><small>BRAND</small></div>
+            <div class="mini-brand-list">
+              <b>ASOS</b><b>AMI</b><b>BALMAIN</b><b>BOSS</b><b>GIVENCHY</b><b>HUGO</b><b>MIU MIU</b><b>PANDORA</b><b>PRADA</b><b>RABANNE</b><b>TUMI</b>
+            </div>
+          </section>
+
+          <section class="mini-site-section mini-experts" id="preview-experts" data-preview-label="Experts">
+            <span class="mini-label">EXPERTS</span>
+            <p><b>Frannie Petok</b> &nbsp; FOUNDER · CREATIVE</p>
+            <p><b>Expert name</b> &nbsp; ROLE · @HANDLE</p>
+            <p><b>Expert name</b> &nbsp; ROLE · @HANDLE</p>
+            <p><b>Expert name</b> &nbsp; ROLE · @HANDLE</p>
+          </section>
+
+          <section class="mini-site-section mini-contact" id="preview-contact" data-preview-label="Contact">
+            <b>MAISON MAGNOLIA PARIS</b>
+            <span>ADDRESS</span>
+            <span>CONTACT EMAIL</span>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section" id="repository">
+      <header class="section-head">
+        <div>
+          <span class="section-number">03</span>
+          <h2>Repository map</h2>
+          <p>The colors connect each file in the folder tree to its role in the file map.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=website+folder+structure+html+css+javascript+beginner" target="_blank" rel="noopener" aria-label="Watch a website folder structure lesson on YouTube">▶</a>
+      </header>
+
+      <div class="repo-key">
+        <span class="repo-home">Homepage</span>
+        <span class="repo-brand">Brand pages</span>
+        <span class="repo-shared">Shared media</span>
+        <span class="repo-core">Core assets</span>
+      </div>
+
+      <div class="repo-layout">
+        <pre class="folder-tree"><code>maison-magnolia/
+├── <span class="tree-home">index.html</span>
+├── <span class="tree-brand">projects/</span>
+│   ├── <span class="tree-brand">ami.html</span>
+│   ├── <span class="tree-brand">pandora.html</span>
+│   └── <span class="tree-brand">other brand pages</span>
+├── assets/
+│   ├── css/
+│   │   ├── <span class="tree-home">main.css</span>
+│   │   └── <span class="tree-brand">brand-nav.css</span>
+│   ├── js/
+│   │   ├── <span class="tree-home">main.js</span>
+│   │   ├── <span class="tree-shared">mm-media.js</span>
+│   │   └── <span class="tree-brand">brand-nav.js</span>
+│   └── <span class="tree-core">img/</span>
+├── <span class="tree-core">favicon.svg</span>
+├── <span class="tree-core">favicon.ico</span>
+└── <span class="tree-core">apple-touch-icon.png</span></code></pre>
+
+        <div class="file-map correlated-file-map">
+          <article class="file-card-home">
+            <span class="status safe">Homepage</span>
+            <b>index.html</b>
+            <p>Homepage text, section order, links, Stream iframe URLs, names, and expert information.</p>
+          </article>
+          <article class="file-card-brand">
+            <span class="status care">Brand pages</span>
+            <b>projects/*.html</b>
+            <p>Project sections, media tiles, project names, links, and experts.</p>
+          </article>
+          <article class="file-card-home">
+            <span class="status safe">Homepage</span>
+            <b>main.css + main.js</b>
+            <p>Homepage styling and interactions. Content edits should not require changes here.</p>
+          </article>
+          <article class="file-card-brand">
+            <span class="status care">Brand pages</span>
+            <b>brand-nav.css + brand-nav.js</b>
+            <p>Brand-page layout, navigation, experts, and lightbox behavior.</p>
+          </article>
+          <article class="file-card-shared">
+            <span class="status shared">Shared</span>
+            <b>mm-media.js</b>
+            <p>Lazy-loads media across the site. Do not change during routine updates.</p>
+          </article>
+          <article class="file-card-core">
+            <span class="status core">Assets</span>
+            <b>assets/img + favicons</b>
+            <p>Interface graphics, phone frames, icons, and browser icons.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section wide" id="workflow">
+      <header class="section-head">
+        <div>
+          <span class="section-number">04</span>
+          <h2>Workflow</h2>
+          <p>Install the tools once. Use a separate branch for each update, then push the branch to GitHub for review.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=github+desktop+clone+branch+commit+push+beginner" target="_blank" rel="noopener" aria-label="Watch a GitHub workflow lesson on YouTube">▶</a>
+      </header>
+
+      <div class="install-grid">
+        <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">
+          <span>Required for terminal commands</span><b>Install Git ↗</b>
+        </a>
+        <a href="https://desktop.github.com/download/" target="_blank" rel="noopener">
+          <span>Visual Git workflow</span><b>Install GitHub Desktop ↗</b>
+        </a>
+        <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener">
+          <span>Edit the website files</span><b>Install VS Code ↗</b>
+        </a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" rel="noopener">
+          <span>Preview the site locally</span><b>Install Live Server ↗</b>
+        </a>
+      </div>
+
+      <div class="steps">
+        <article><span>1</span><b>Accept invite</b><p>Open the GitHub invitation and join the repository.</p></article>
+        <i>→</i>
+        <article><span>2</span><b>Clone</b><p>Download the repository to the computer.</p></article>
+        <i>→</i>
+        <article><span>3</span><b>Branch</b><p>Create a branch for the update.</p></article>
+        <i>→</i>
+        <article><span>4</span><b>Edit + preview</b><p>Work in VS Code and preview with Live Server.</p></article>
+        <i>→</i>
+        <article><span>5</span><b>Commit + push</b><p>Save the update and send the branch to GitHub.</p></article>
+        <i>→</i>
+        <article><span>6</span><b>Merge</b><p>Approve the branch and publish it.</p></article>
+      </div>
+
+      <div class="tool-strip">
+        <article>
+          <img src="assets/img/vscode.svg" alt="Visual Studio Code">
+          <div>
+            <b>VS Code shortcuts</b>
+            <span><kbd>Ctrl/Cmd + F</kbd> find in the open file · <kbd>Ctrl/Cmd + Shift + F</kbd> search the repository · View → Terminal opens the terminal.</span>
+          </div>
+        </article>
+        <article>
+          <img src="assets/img/github.svg" alt="GitHub">
+          <div>
+            <b><a href="https://docs.github.com/articles/inviting-collaborators-to-a-personal-repository" target="_blank" rel="noopener">Add another user ↗</a></b>
+            <span>Repository → Settings → Collaborators → Add people</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="command-groups">
+        <section>
+          <header><span>First setup</span><b>Clone the repository</b></header>
+          <div class="command-row"><code>git clone https://github.com/OWNER/REPOSITORY.git</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>cd REPOSITORY</code><button type="button" data-copy-command>Copy</button></div>
+        </section>
+
+        <section>
+          <header><span>Each update</span><b>Create and push a branch</b></header>
+          <div class="command-row"><code>git pull origin main</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>git checkout -b describe-the-update</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>git status</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>git add .</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>git commit -m "Describe the update"</code><button type="button" data-copy-command>Copy</button></div>
+          <div class="command-row"><code>git push -u origin describe-the-update</code><button type="button" data-copy-command>Copy</button></div>
+        </section>
+      </div>
+
+      <p class="command-note">Replace <code>OWNER/REPOSITORY</code> with the repository address and replace <code>describe-the-update</code> with a short branch name such as <code>add-pandora-media</code>.</p>
+    </section>
+
+    <section class="map-section wide media-section" id="media">
+      <header class="section-head">
+        <div>
+          <span class="section-number">05</span>
+          <h2>Uploading media</h2>
+          <p>Homepage videos and brand-gallery videos are hosted differently.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=cloudflare+r2+stream+upload+video+tutorial" target="_blank" rel="noopener" aria-label="Watch a Cloudflare media upload lesson on YouTube">▶</a>
+      </header>
+
+      <div class="media-compare">
+        <article>
+          <div class="service-title">
+            <img class="cloudflare-logo" src="assets/img/cloudflare.svg" alt="Cloudflare">
+            <div><span>Homepage</span><b>Cloudflare Stream</b></div>
+          </div>
+          <p>Use Stream for homepage gallery tiles and selected mobile collaboration videos.</p>
+          <ol>
+            <li>Upload the video to Stream.</li>
+            <li>Copy the iframe URL.</li>
+            <li>Replace the existing iframe URL in <code>index.html</code>.</li>
+            <li>Keep the existing iframe attributes.</li>
+          </ol>
+          <details>
+            <summary>Code pattern</summary>
+            <pre><code>&lt;iframe
+  src="STREAM_IFRAME_URL"
+  loading="lazy"
+  allow="autoplay; encrypted-media; picture-in-picture"&gt;
+&lt;/iframe&gt;</code></pre>
+          </details>
+        </article>
+
+        <article>
+          <div class="service-title">
+            <img class="cloudflare-logo" src="assets/img/cloudflare.svg" alt="Cloudflare">
+            <div><span>Brand galleries</span><b>R2 / media.maisonmagnolia.com</b></div>
+          </div>
+          <p>Use R2-hosted files inside the existing brand-page tile structure. The media loader attaches sources only when needed.</p>
+          <ol>
+            <li>Upload the file into the correct brand/project folder.</li>
+            <li>Copy the public file URL.</li>
+            <li>Paste it into an existing image or video tile.</li>
+            <li>Keep <code>data-src</code>, classes, and aspect-ratio class.</li>
+          </ol>
+          <details>
+            <summary>Code pattern</summary>
+            <pre><code>&lt;div class="brand-tile r-9-16"&gt;
+  &lt;video muted loop playsinline preload="none"&gt;
+    &lt;source data-src="R2_FILE_URL" type="video/webm"&gt;
+  &lt;/video&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </article>
+      </div>
+
+
+      <section class="handbrake-map" aria-labelledby="handbrake-title">
+        <header class="mini-head">
+          <div>
+            <span>HandBrake setup</span>
+            <h3 id="handbrake-title">Create the web preset</h3>
+            <p>They will not already have this preset. Enter the settings below, then save it as <code>CORRECT FOR WEB WITH AUDIO</code>.</p>
+          </div>
+          <a class="play-link" href="https://www.youtube.com/results?search_query=handbrake+create+custom+preset+VP9+WebM" target="_blank" rel="noopener" aria-label="Watch a HandBrake custom preset lesson on YouTube">▶</a>
+        </header>
+
+        <div class="compression-route preset-route">
+          <article><span>1</span><b>Open Source</b><p>Select one finished video so every HandBrake tab becomes available.</p></article>
+          <i>→</i>
+          <article><span>2</span><b>Enter settings</b><p>Copy the Summary, Dimensions, Filters, Video, Audio, Subtitles, and Chapters settings below.</p></article>
+          <i>→</i>
+          <article><span>3</span><b>Save New Preset</b><p>Name it <code>CORRECT FOR WEB WITH AUDIO</code>.</p></article>
+          <i>→</i>
+          <article><span>4</span><b>Encode</b><p>Choose a clear <code>.webm</code> filename and click Start Encode.</p></article>
+          <i>→</i>
+          <article><span>5</span><b>Upload to R2</b><p>Upload the finished WebM and copy its public URL.</p></article>
+        </div>
+
+        <div class="handbrake-settings">
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-01-summary.png" target="_blank">
+              <img src="assets/img/handbrake-01-summary.png" alt="HandBrake Summary settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Summary</span>
+              <h4>Container and track summary</h4>
+              <dl>
+                <dt>Format</dt><dd>WebM</dd>
+                <dt>Passthru Common Metadata</dt><dd>Checked</dd>
+                <dt>Expected video summary</dt><dd>VP9 · Same as source FPS · VFR</dd>
+                <dt>Expected audio summary</dt><dd>Opus · Stereo</dd>
+                <dt>Subtitles summary</dt><dd>Foreign Audio Scan · Burned</dd>
+                <dt>Chapter markers</dt><dd>Included</dd>
+              </dl>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-02-dimensions.png" target="_blank">
+              <img src="assets/img/handbrake-02-dimensions.png" alt="HandBrake Dimensions settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Dimensions</span>
+              <h4>Keep the source shape</h4>
+              <dl>
+                <dt>Flip Horizontal</dt><dd>Unchecked</dd>
+                <dt>Rotation</dt><dd>0</dd>
+                <dt>Cropping</dt><dd>Custom</dd>
+                <dt>Crop Top / Bottom / Left / Right</dt><dd>0 / 0 / 0 / 0</dd>
+                <dt>Resolution Limit</dt><dd>None</dd>
+                <dt>Anamorphic</dt><dd>None</dd>
+                <dt>Pixel Aspect</dt><dd>1 : 1</dd>
+                <dt>Optimal Size</dt><dd>Checked</dd>
+                <dt>Allow Upscaling</dt><dd>Unchecked</dd>
+                <dt>Borders Fill</dt><dd>None</dd>
+                <dt>Border Top / Bottom / Left / Right</dt><dd>0 / 0 / 0 / 0</dd>
+              </dl>
+              <p class="setting-note">The screenshot shows a 1080 × 1920 vertical source. Do not force every video to that size; preserve the source aspect ratio and do not upscale it.</p>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-03-filters.png" target="_blank">
+              <img src="assets/img/handbrake-03-filters.png" alt="HandBrake Filters settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Filters</span>
+              <h4>Use only Decomb</h4>
+              <dl>
+                <dt>Detelecine</dt><dd>Off</dd>
+                <dt>Interlace Detection</dt><dd>Default</dd>
+                <dt>Deinterlace</dt><dd>Decomb</dd>
+                <dt>Decomb Preset</dt><dd>Default</dd>
+                <dt>Denoise</dt><dd>Off</dd>
+                <dt>Chroma Smooth</dt><dd>Off</dd>
+                <dt>Sharpen</dt><dd>Off</dd>
+                <dt>Deblock</dt><dd>Off</dd>
+                <dt>Colourspace</dt><dd>Off</dd>
+                <dt>Grayscale</dt><dd>Unchecked</dd>
+              </dl>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-04-video.png" target="_blank">
+              <img src="assets/img/handbrake-04-video.png" alt="HandBrake Video settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Video</span>
+              <h4>VP9 WebM compression</h4>
+              <dl>
+                <dt>Video Encoder</dt><dd>VP9</dd>
+                <dt>Framerate (FPS)</dt><dd>Same as source</dd>
+                <dt>Framerate mode</dt><dd>Variable Framerate</dd>
+                <dt>Quality mode</dt><dd>Constant Quality</dd>
+                <dt>CQ value</dt><dd>34</dd>
+                <dt>Multi-Pass Encoding</dt><dd>Checked</dd>
+                <dt>Encoder Preset</dt><dd>Slow</dd>
+                <dt>Encoder Tune</dt><dd>None</dd>
+                <dt>Advanced Options</dt><dd>Leave blank</dd>
+              </dl>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-05-audio.png" target="_blank">
+              <img src="assets/img/handbrake-05-audio.png" alt="HandBrake Audio settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Audio</span>
+              <h4>Keep web audio</h4>
+              <dl>
+                <dt>Source</dt><dd>Use the main source audio track</dd>
+                <dt>Codec</dt><dd>Opus</dd>
+                <dt>Quality control</dt><dd>Bitrate</dd>
+                <dt>Bitrate</dt><dd>160 kbps</dd>
+                <dt>Mixdown</dt><dd>Stereo</dd>
+                <dt>Samplerate</dt><dd>Auto</dd>
+                <dt>Gain</dt><dd>0</dd>
+                <dt>DRC</dt><dd>0</dd>
+              </dl>
+              <p class="setting-note">The exact source-track name and original bitrate will change from video to video. The output settings above should remain the same.</p>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-06-subtitles.png" target="_blank">
+              <img src="assets/img/handbrake-06-subtitles.png" alt="HandBrake Subtitles settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Subtitles</span>
+              <h4>Foreign audio scan</h4>
+              <dl>
+                <dt>Track</dt><dd>Foreign Audio Scan</dd>
+                <dt>Forced Only</dt><dd>Checked</dd>
+                <dt>Burn In</dt><dd>Checked</dd>
+                <dt>Default</dt><dd>Unchecked</dd>
+                <dt>Name</dt><dd>Leave blank</dd>
+              </dl>
+            </div>
+          </article>
+
+          <article class="setting-card">
+            <a class="setting-shot" href="assets/img/handbrake-07-chapters.png" target="_blank">
+              <img src="assets/img/handbrake-07-chapters.png" alt="HandBrake Chapters settings">
+              <span>Open screenshot</span>
+            </a>
+            <div>
+              <span class="setting-tab">Chapters</span>
+              <h4>Keep chapter markers</h4>
+              <dl>
+                <dt>Create chapter markers</dt><dd>Checked</dd>
+                <dt>Chapter name</dt><dd>Leave the default name</dd>
+              </dl>
+              <p class="setting-note">The duration shown in the screenshot belongs only to that example video.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="save-preset-box">
+          <span>Final step</span>
+          <div>
+            <h4>Save the custom preset</h4>
+            <ol>
+              <li>Click <b>Save New Preset</b> near the preset menu.</li>
+              <li>Name it <code>CORRECT FOR WEB WITH AUDIO</code>.</li>
+              <li>Save it. It will now appear in the Presets menu for future videos.</li>
+              <li>Before every encode, confirm the source dimensions and output filename.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="plain-note handbrake-note">
+          <b>Use this preset for:</b>
+          <span>Brand-gallery videos uploaded directly to Cloudflare R2. Encode the finished video as WebM, upload it to the correct R2 folder, copy its public <code>media.maisonmagnolia.com</code> URL, and paste that URL into the existing brand-page video tile.</span>
+        </div>
+      </section>
+
+      <div class="plain-note">
+        <b>Why they are different:</b>
+        <span>Stream handles playback for selected high-visibility videos. Brand pages use lazy-loaded R2 files so a phone does not download every gallery video at once.</span>
+      </div>
+    </section>
+
+    <section class="map-section" id="brands">
+      <header class="section-head">
+        <div>
+          <span class="section-number">06</span>
+          <h2>Brand pages + experts</h2>
+          <p>Duplicate an existing brand page. Keep the same wrappers, classes, and matching section IDs.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=duplicate+html+page+edit+json+beginner" target="_blank" rel="noopener" aria-label="Watch an HTML and JSON lesson on YouTube">▶</a>
+      </header>
+
+      <div class="brand-flow">
+        <article><span>1</span><p>Duplicate a working brand file.</p></article>
+        <i>↓</i>
+        <article><span>2</span><p>Rename the file and page title.</p></article>
+        <i>↓</i>
+        <article><span>3</span><p>Change project links and matching anchor IDs.</p></article>
+        <i>↓</i>
+        <article><span>4</span><p>Paste media into existing tile patterns.</p></article>
+        <i>↓</i>
+        <article><span>5</span><p>Add experts inside <code>#mmBrandData</code>.</p></article>
+        <i>↓</i>
+        <article><span>6</span><p>Add the brand to the <code>BRANDS</code> list.</p></article>
+      </div>
+
+      <details>
+        <summary>Experts JSON pattern</summary>
+        <pre><code>{
+  "sections": {
+    "project-section-id": [
+      { "name": "Expert name", "meta": "Role · @handle" }
+    ]
+  }
+}</code></pre>
+      </details>
+    </section>
+
+    <section class="map-section" id="responsive">
+      <header class="section-head">
+        <div>
+          <span class="section-number">07</span>
+          <h2>Media queries</h2>
+          <p>The current CSS already changes the layout for desktop, tablet, and phone.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=css+media+queries+responsive+design+beginner" target="_blank" rel="noopener" aria-label="Watch a CSS media query lesson on YouTube">▶</a>
+      </header>
+
+      <div class="device-map">
+        <article><div class="desktop-shape"></div><b>Desktop</b><span>Full layout</span></article>
+        <i>→</i>
+        <article><div class="tablet-shape"></div><b>Tablet</b><span>Adjusted spacing and columns</span></article>
+        <i>→</i>
+        <article><div class="phone-shape"></div><b>Phone</b><span>Stacked and touch-friendly</span></article>
+      </div>
+
+      <div class="safe-grid">
+        <article>
+          <span class="status safe">Still responsive</span>
+          <p>Text edits, names, links, media swaps, reordered tiles, copied project sections.</p>
+        </article>
+        <article>
+          <span class="status coder">Coder required</span>
+          <p>New layouts, new navigation, new interactions, new columns, changed video-loading logic.</p>
+        </article>
+      </div>
+
+      <details>
+        <summary>Media query pattern</summary>
+        <pre><code>@media (max-width: 900px) {
+  /* tablet rules */
+}
+
+@media (max-width: 520px) {
+  /* phone rules */
+}</code></pre>
+      </details>
+    </section>
+
+    <section class="map-section" id="design">
+      <header class="section-head">
+        <div>
+          <span class="section-number">08</span>
+          <h2>Design system</h2>
+          <p>These values come from the current site styles.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=css+variables+fonts+colors+beginner" target="_blank" rel="noopener" aria-label="Watch a CSS design-system lesson on YouTube">▶</a>
+      </header>
+
+      <div class="swatches">
+        <article><i style="--swatch:#19a84b"></i><b>Green</b><code>#19a84b</code></article>
+        <article><i style="--swatch:#e864ba"></i><b>Pink <small>inverted green</small></b><code>#e864ba</code></article>
+        <article><i style="--swatch:#ffffff"></i><b>White</b><code>#ffffff</code></article>
+        <article><i style="--swatch:#0a0a0a"></i><b>Text</b><code>#0a0a0a</code></article>
+      </div>
+
+      <div class="type-sample">
+        <span>Font</span>
+        <b>Montserrat</b>
+        <p>400 regular · 600 medium · 800 bold</p>
+        <code>font-family: "Montserrat", system-ui, sans-serif;</code>
+      </div>
+    </section>
+
+    <section class="map-section wide" id="publish">
+      <header class="section-head">
+        <div>
+          <span class="section-number">09</span>
+          <h2>Test + publish + maintenance</h2>
+          <p>Preview every update locally before pushing it to GitHub.</p>
+        </div>
+        <a class="play-link" href="https://www.youtube.com/results?search_query=cloudflare+pages+github+deploy+tutorial" target="_blank" rel="noopener" aria-label="Watch a Cloudflare Pages deployment lesson on YouTube">▶</a>
+      </header>
+
+      <div class="publish-flow">
+        <article>
+          <b>1. Preview</b>
+          <span><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" rel="noopener">Open with Live Server ↗</a></span>
+        </article>
+        <i>→</i>
+        <article><b>2. Test</b><span>Desktop, tablet, and phone.</span></article>
+        <i>→</i>
+        <article><b>3. Check</b><span>Links, videos, spelling, and experts.</span></article>
+        <i>→</i>
+        <article><b>4. Push</b><span>Use the copyable commands in Workflow.</span></article>
+        <i>→</i>
+        <article><b>5. Merge</b><span>Cloudflare deploys the approved version.</span></article>
+      </div>
+
+      <div class="video-resource-callout">
+        <span>Video lesson</span>
+        <b>Install and use Live Server in VS Code</b>
+        <a href="https://www.youtube.com/watch?v=_Tl-6HeV0Rc" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+      </div>
+
+      <div class="maintenance-row single">
+        <article>
+          <span>Annual</span>
+          <b>Review and rewrite caching rules</b>
+          <p>This review is already scheduled. Leave the cache and media-loading architecture unchanged during routine content updates.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="map-section wide resources-section" id="resources">
+      <header class="section-head">
+        <div>
+          <span class="section-number">10</span>
+          <h2>Resources</h2>
+          <p>Official downloads, manuals, and beginner references used throughout this guide.</p>
+        </div>
+      </header>
+
+      <div class="resource-grid">
+        <article>
+          <img src="assets/img/w3schools.svg" alt="W3Schools">
+          <b>W3Schools</b>
+          <a href="https://www.w3schools.com/html/" target="_blank" rel="noopener">HTML manual ↗</a>
+          <a href="https://www.w3schools.com/css/" target="_blank" rel="noopener">CSS manual ↗</a>
+          <a href="https://www.w3schools.com/js/" target="_blank" rel="noopener">JavaScript manual ↗</a>
+        </article>
+
+        <article>
+          <img src="assets/img/vscode.svg" alt="Visual Studio Code">
+          <b>VS Code</b>
+          <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener">Download VS Code ↗</a>
+          <a href="https://code.visualstudio.com/docs" target="_blank" rel="noopener">VS Code manual ↗</a>
+          <a href="https://code.visualstudio.com/docs/terminal/getting-started" target="_blank" rel="noopener">Terminal manual ↗</a>
+          <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" rel="noopener">Live Server extension ↗</a>
+          <a href="https://www.youtube.com/watch?v=_Tl-6HeV0Rc" target="_blank" rel="noopener">Live Server video ↗</a>
+        </article>
+
+        <article>
+          <img src="assets/img/github.svg" alt="GitHub">
+          <b>Git + GitHub</b>
+          <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Download Git ↗</a>
+          <a href="https://desktop.github.com/download/" target="_blank" rel="noopener">Download GitHub Desktop ↗</a>
+          <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories" target="_blank" rel="noopener">Repository manual ↗</a>
+          <a href="https://docs.github.com/articles/cloning-a-repository" target="_blank" rel="noopener">Clone a repository ↗</a>
+          <a href="https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository" target="_blank" rel="noopener">Push commits ↗</a>
+          <a href="https://docs.github.com/articles/inviting-collaborators-to-a-personal-repository" target="_blank" rel="noopener">Add collaborators ↗</a>
+        </article>
+
+        <article>
+          <img class="resource-cloudflare" src="assets/img/cloudflare.svg" alt="Cloudflare">
+          <b>Cloudflare</b>
+          <a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">Pages manual ↗</a>
+          <a href="https://developers.cloudflare.com/pages/configuration/git-integration/" target="_blank" rel="noopener">Git integration ↗</a>
+          <a href="https://developers.cloudflare.com/r2/" target="_blank" rel="noopener">R2 manual ↗</a>
+          <a href="https://developers.cloudflare.com/stream/" target="_blank" rel="noopener">Stream manual ↗</a>
+        </article>
+
+        <article>
+          <div class="resource-wordmark">HB</div>
+          <b>HandBrake</b>
+          <a href="https://handbrake.fr/docs/en/latest/" target="_blank" rel="noopener">HandBrake manual ↗</a>
+          <a href="https://handbrake.fr/docs/en/latest/get-handbrake/download-and-install.html" target="_blank" rel="noopener">Download + install ↗</a>
+          <a href="https://handbrake.fr/docs/en/latest/introduction/quick-start.html" target="_blank" rel="noopener">Quick-start manual ↗</a>
+          <a href="https://handbrake.fr/docs/en/latest/technical/official-presets.html" target="_blank" rel="noopener">Preset reference ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <footer class="manual-footer">
+      <span>Maison Magnolia user manual</span>
+      <span>User manual · noindex</span>
+    </footer>
+  </main>
+</body>
+</html>
